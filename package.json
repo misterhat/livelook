@@ -1,0 +1,37 @@
+{
+  "name": "livelook",
+  "version": "0.0.0",
+  "description": "soulseek client in javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misterhat/livelook.git"
+  },
+  "keywords": [
+    "soulseek",
+    "slsk",
+    "p2p",
+    "mp3",
+    "client"
+  ],
+  "author": "Zorian Medwid <misterhat144@gmail.com>",
+  "license": "AGPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/misterhat/livelook/issues"
+  },
+  "homepage": "https://github.com/misterhat/livelook#readme",
+  "devDependencies": {
+    "tap": "^13.0.4"
+  },
+  "dependencies": {
+    "async": "^2.6.2",
+    "int64-buffer": "^0.99.1007",
+    "music-metadata": "^3.6.1",
+    "recursive-readdir": "^2.2.2",
+    "speedtest-net": "^1.5.1",
+    "stream-meter": "^1.0.4"
+  }
+}

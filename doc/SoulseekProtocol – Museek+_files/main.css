@@ -1,0 +1,172 @@
+/* Link styles */
+a:hover, a:link, a:active, a:visited {
+  color: #5785ed;
+}
+/* Link styles */
+
+
+/* Styles for the roadmap view */
+.milestone .info h2 em { 
+  color: #57c1ed; 
+}
+/* Styles for the roadmap view */
+
+
+/* Timeline */
+dt em {
+  color: #5785ed;
+}
+/* Timeline */
+
+
+/* Browser */
+h1 :link, h1 :visited {
+  color: #57c1ed;
+}
+/* Browser */
+
+
+/* Forms */
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover {
+   background: #57c1ed;
+}
+/* Forms */
+
+
+/* Left menu */
+#menu_left {
+  width: 135px;
+  position: absolute;
+  float: left;
+  top: 126px;
+  margin: 0px;
+  padding: 50px 10px 50px 10px;
+  color: #57c1ed;
+  border: black 1px solid;
+  border-top: none;
+  background-color: #f7f7f7;
+  z-index: 900;
+}
+#menu_left li {
+  font-weight: bold;
+}
+#menu_left a:link, a:visited {
+  color: #5785ed;
+}
+#menu_left ul li ul li {
+  font-weight: normal;
+}
+#menu_left ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#menu_left ul li {
+  margin: 0;
+  padding: 4px;
+}
+/* Left menu */
+
+
+/* Banner */
+#header {
+  padding: 0px;
+  margin: 10px 0px 0px 10px;
+}
+/* Banner */
+
+
+/* Search box */
+#search {
+  position: absolute;
+  top: 40px;
+  right: 15px;
+  margin: 0px;
+  padding: 0px;
+}
+/* Search box */
+
+
+/* Meta nav */
+#metanav {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+/* Meta nav */
+
+
+/* Main nav */
+#mainnav {
+  background: #f7f7f7;
+  position: absolute;
+  top: 100px;
+  right: 2%px;
+  width: 98%;
+  margin: 0px;
+  height: 25px;
+  padding: 0px;
+}
+#mainnav ul {
+  display: table;
+  float: right;
+  margin: 0px;
+  padding: 0px;
+} 
+#mainnav li {
+  display:table-cell;
+  margin: 0px;
+  padding: 0px;
+}
+#mainnav ul li a {
+  position: relative;
+  float: right;
+  height: 21px;
+  padding: 0px;
+  margin: 0px;
+}
+#mainnav .active :link, #mainnav .active :visited {
+  background: #57c1ed;
+}
+/* Main nav */
+
+
+/* Ctx nav */
+#ctxtnav {
+  margin-top: 7.0em;
+}
+/* Ctx nav */
+
+
+/* Main page */
+*>#content {
+  padding: 0;
+  margin: 15px 15px 0px 180px;
+  text-align: left;
+  min-height: 770px;
+}
+* html #content {
+  padding: 0;
+  margin: 15px 15px 0px 180px;
+  text-align: left;
+  height: 770px;
+}
+/* Main page */
+
+
+/* Need by Doxygen plugin */
+.tabs{
+  margin: 85px 0px 0px 0px;
+}
+/* Need by Doxygen plugin */
+
+
+/* NewsFlash Plugin */
+div.newsflash {
+  color: black;
+  background: #f7f7f7;
+  border: solid 2px #43eeff;
+}
+/* NewsFlash Plugin */

@@ -1,0 +1,2608 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" class="mozwebext"><head>
+    <title>
+      SoulseekProtocol – Museek+
+    </title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--[if IE]><script type="text/javascript">
+      if (/^#__msie303:/.test(window.location.hash))
+        window.location.replace(window.location.hash.replace(/^#__msie303:/, '#'));
+    </script><![endif]-->
+          <link rel="search" href="http://www.museek-plus.org/search">
+          <link rel="help" href="http://www.museek-plus.org/wiki/TracGuide">
+          <link rel="alternate" href="http://www.museek-plus.org/wiki/SoulseekProtocol?format=txt" type="text/x-trac-wiki" title="Plain Text">
+          <link rel="start" href="http://www.museek-plus.org/wiki">
+          <link rel="stylesheet" href="SoulseekProtocol%20%E2%80%93%20Museek+_files/trac.css" type="text/css">
+          <link rel="stylesheet" href="SoulseekProtocol%20%E2%80%93%20Museek+_files/wiki.css" type="text/css">
+          <link rel="icon" href="http://www.museek-plus.org/chrome/site/museek.ico" type="image/x-icon">
+    <style id="trac-noscript" type="text/css">.trac-noscript { display: none !important }</style>
+      <link type="application/opensearchdescription+xml" rel="search" href="http://www.museek-plus.org/search/opensearch" title="Search Museek+">
+      <script type="text/javascript" charset="utf-8" src="SoulseekProtocol%20%E2%80%93%20Museek+_files/jquery.js"></script>
+      <script type="text/javascript" charset="utf-8" src="SoulseekProtocol%20%E2%80%93%20Museek+_files/babel.js"></script>
+      <script type="text/javascript" charset="utf-8" src="SoulseekProtocol%20%E2%80%93%20Museek+_files/trac.js"></script>
+      <script type="text/javascript" charset="utf-8" src="SoulseekProtocol%20%E2%80%93%20Museek+_files/search.js"></script>
+      <script type="text/javascript" charset="utf-8" src="SoulseekProtocol%20%E2%80%93%20Museek+_files/folding.js"></script>
+    <script type="text/javascript">
+      jQuery("#trac-noscript").remove();
+      jQuery(document).ready(function($) {
+        $(".trac-autofocus").focus();
+        $(".trac-target-new").attr("target", "_blank");
+        if ($.ui) { /* is jquery-ui added? */
+          $(".trac-datepicker:not([readonly])").prop("autocomplete", "off").datepicker();
+          $(".trac-datetimepicker:not([readonly])").prop("autocomplete", "off").datetimepicker();
+          $("#main").addClass("trac-nodatetimehint");
+        }
+        $(".trac-disable").disableSubmit(".trac-disable-determinant");
+        setTimeout(function() { $(".trac-scroll").scrollToTop() }, 1);
+        $(".trac-disable-on-submit").disableOnSubmit();
+      });
+    </script>
+    <script type="text/javascript">
+      jQuery(document).ready(function($) {
+        $("#content").find("h1,h2,h3,h4,h5,h6").addAnchor(_("Link to this section"));
+        $("#content").find(".wikianchor").each(function() {
+          $(this).addAnchor(babel.format(_("Link to #%(id)s"), {id: $(this).attr('id')}));
+        });
+        $(".foldable").enableFolding(true, true);
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="SoulseekProtocol%20%E2%80%93%20Museek+_files/main.css">
+  <style type="text/css">.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events: none; }
+</style><style type="text/css">.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style></head>
+  <body>
+    <div id="siteheader">
+<div id="menu_left">
+  <ul>
+    <li><a href="http://www.museek-plus.org/">Index</a></li>
+    <li><a href="http://www.museek-plus.org/wiki/DownloadMuseek">Get Museek+ !</a></li>
+    <li>Installation</li>
+      <ul>
+        <li><a href="http://www.museek-plus.org/wiki/MuseekOnDistros">-&gt; On your distro</a></li>
+        <li><a href="http://www.museek-plus.org/wiki/MuseekFromSources">-&gt; From sources</a></li>
+        <li><a href="http://www.museek-plus.org/wiki/GetSubversionMuseekPlus">-&gt; From SVN</a></li>
+      </ul>
+    <li>Screenshots</li>
+      <ul>
+        <li><a href="http://www.museek-plus.org/wiki/ScreenShotsMuseeq">-&gt; Museeq</a></li>
+        <li><a href="http://www.museek-plus.org/wiki/ScreenShotsMucous">-&gt; Mucous</a></li>
+      </ul>
+    <li><a href="http://www.museek-plus.org/wiki/MuseekPlusFrequentlyAskedQuestions">FAQ</a></li>
+    <li><a href="http://www.museek-plus.org/wiki/DevelopingMuseekPlus">Help Us</a></li>
+  </ul>
+</div>
+    </div>
+    <div id="banner">
+      <div id="header">
+        <a id="logo" href="http://github.com/eLvErDe/museek-plus"><img src="SoulseekProtocol%20%E2%80%93%20Museek+_files/museek_banner_github.png" alt="Trac" width="416" height="75"></a>
+      </div>
+      <form id="search" action="/search" method="get">
+        <div>
+          <label for="proj-search">Search:</label>
+          <input type="text" id="proj-search" name="q" size="18">
+          <input type="submit" value="Search">
+        </div>
+      </form>
+      <div id="metanav" class="nav">
+    <ul>
+      <li class="first"><a href="http://www.museek-plus.org/login">Login</a></li><li><a href="http://github.com/eLvErDe/museek-plus">GitHub</a></li><li class="last"><a href="http://www.museek-plus.org/prefs">Preferences</a></li>
+    </ul>
+  </div>
+    </div>
+    <div id="mainnav" class="nav">
+    <ul>
+      <li class="first active"><a href="http://www.museek-plus.org/wiki">Wiki</a></li><li><a href="http://www.museek-plus.org/timeline">Timeline</a></li><li><a href="http://www.museek-plus.org/roadmap">Roadmap</a></li><li><a href="http://www.museek-plus.org/report">View Tickets</a></li><li class="last"><a href="http://www.museek-plus.org/search">Search</a></li>
+    </ul>
+  </div>
+    <div id="main">
+      <div id="pagepath" class="noprint">
+  <a class="pathentry first" title="View WikiStart" href="http://www.museek-plus.org/wiki">wiki:</a><a class="pathentry" href="http://www.museek-plus.org/wiki/SoulseekProtocol" title="View SoulseekProtocol">SoulseekProtocol</a>
+</div>
+      <div id="ctxtnav" class="nav">
+        <h2>Context Navigation</h2>
+        <ul>
+          <li class="first"><a href="http://www.museek-plus.org/wiki/WikiStart">Start Page</a></li><li><a href="http://www.museek-plus.org/wiki/TitleIndex">Index</a></li><li class="last"><a href="http://www.museek-plus.org/wiki/SoulseekProtocol?action=history">History</a></li>
+        </ul>
+        <hr>
+      </div>
+    <div id="content" class="wiki">
+      <div class="wikipage searchable">
+        
+          <div id="wikipage" class="trac-content"><h1 id="TheSoulseekProtocol">The Soulseek Protocol</h1>
+<p>
+Return to <a href="http://www.museek-plus.org/wiki/DevelopingMuseekPlus">Developing Museek Plus</a> or to <a class="ext-link" href="http://www.nicotine-plus.org/wiki/DevelopingNicotinePlus"><span class="icon">​</span>Developing Nicotine Plus</a>
+</p>
+<h2 id="Packing">Packing</h2>
+<p>
+String
+</p>
+<table class="wiki">
+<tbody><tr><td> Length of String </td><td> String 
+</td></tr><tr><td> 4 Byte </td><td> String 
+</td></tr></tbody></table>
+<p>
+Integer (unsigned)
+</p>
+<table class="wiki">
+<tbody><tr><td> Number 
+</td></tr><tr><td> 4 Byte 
+</td></tr></tbody></table>
+<p>
+Large Integer (64bits for file sizes)
+</p>
+<table class="wiki">
+<tbody><tr><td> Number 
+</td></tr><tr><td> 8 Byte 
+</td></tr></tbody></table>
+<p>
+Bool
+</p>
+<table class="wiki">
+<tbody><tr><td> Character 
+</td></tr><tr><td> 1 Byte 
+</td></tr></tbody></table>
+<h1 id="ServerMessages">Server Messages</h1>
+<p>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerMessages">Server Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerMessages">Peer Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedMessages">Distributed Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
+</p>
+<table class="wiki">
+<tbody><tr><td> Send </td><td> Send to Server 
+</td></tr><tr><td> Receive </td><td> Receive from Server 
+</td></tr></tbody></table>
+<p>
+These messages are used by clients to interface with the server. 
+Internal Server messages are spooky and not understood, since the OSS 
+crowd doesn't have access to it's source code. If you want a Soulseek 
+server, check out <a class="ext-link" href="http://seeschloss.org/soulfind.html"><span class="icon">​</span>Soulfind</a>.
+ Soulfind is obviously not the exact same the official Soulseek server, 
+but it handles the protocol well enough (and can be modified).
+</p>
+<p>
+In museekd 0.1.13, these messages are sent and received in <a class="missing wiki">Museek/ServerConnection?</a>.cc and defined in <a class="missing wiki">Museek/ServerMessages?</a>.hh.
+Since museekd 0.2, they are defined in museekd/servermessages.h.
+</p>
+<p>
+In Nicotine, these messages are matched to their message number in slskproto.py in the <a class="missing wiki">SlskProtoThread?</a> function, defined in slskmessages.py and callbacks for the messages are set in pynicotine.py.
+</p>
+<h4 id="TheServerMessageformat">The Server Message format</h4>
+<table class="wiki">
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
+</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ... 
+</td></tr></tbody></table>
+<h4 id="MessageIndex">Message Index</h4>
+<table class="wiki">
+<tbody><tr><td>Code</td><td>Message
+</td></tr><tr><td> 1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1">Login</a> 
+</td></tr><tr><td> 2 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode2">Set Listen Port</a> 
+</td></tr><tr><td> 3 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode3">Get Peer Address</a>
+</td></tr><tr><td> 5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode5">Add User</a> 
+</td></tr><tr><td> 6 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode6">Unknown</a> 
+</td></tr><tr><td> 7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode7">Get Status</a> 
+</td></tr><tr><td> 13 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode13">Say in Chat Room</a> 
+</td></tr><tr><td> 14 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode14">Join Room</a> 
+</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode15">Leave Room</a> 
+</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode16">User Joined Room</a> 
+</td></tr><tr><td> 17 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode17">User Left Room</a> 
+</td></tr><tr><td> 18 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode18">Connect To Peer</a> 
+</td></tr><tr><td> 22 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode22">Private Messages</a> 
+</td></tr><tr><td> 23 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode23">Acknowledge Private Message</a> 
+</td></tr><tr><td> 26 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode26">File Search</a> 
+</td></tr><tr><td> 28 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode28">Set Online Status</a> 
+</td></tr><tr><td> 32 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode32">Ping</a> 
+</td></tr><tr><td> 34 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode34">Send Speed</a> 
+</td></tr><tr><td> 35 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode35">Shared Folders &amp; Files</a> 
+</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode36">Get User Stats</a> 
+</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode40">Queued Downloads</a> 
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode41">Kicked from Server</a> 
+</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode42">User Search</a> 
+</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode51">Interest Add</a> 
+</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode52">Interest Remove</a> 
+</td></tr><tr><td> 54 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode54">Get Recommendations</a> 
+</td></tr><tr><td> 56 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode56">Get Global Recommendations</a> 
+</td></tr><tr><td> 57 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode57">Get User Interests</a> 
+</td></tr><tr><td> 64 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode64">Room List</a> 
+</td></tr><tr><td> 65 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode65">Exact File Search</a> 
+</td></tr><tr><td> 66 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode66">Global/Admin Message</a> 
+</td></tr><tr><td> 69 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode69">Privileged Users</a> 
+</td></tr><tr><td> 71 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode71">Have No Parents</a> 
+</td></tr><tr><td> 73 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode73">Parent's IP</a> 
+</td></tr><tr><td> 83 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode83">ParentMinSpeed</a> 
+</td></tr><tr><td> 84 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode84">ParentSpeedRatio</a> 
+</td></tr><tr><td> 86 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode86">Parent Inactivity Timeout</a> 
+</td></tr><tr><td> 87 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode87">Search Inactivity Timeout</a> 
+</td></tr><tr><td> 88 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode88">Minimum Parents In Cache</a> 
+</td></tr><tr><td> 90 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode90">Distributed Alive Interval</a> 
+</td></tr><tr><td> 91 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode91">Add Privileged User</a> 
+</td></tr><tr><td> 92 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode92">Check Privileges</a> 
+</td></tr><tr><td> 93 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode93">Search Request</a> 
+</td></tr><tr><td> 100 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode100">Accept Children</a> 
+</td></tr><tr><td> 102 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode102">Net Info</a> 
+</td></tr><tr><td> 103 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode103">Wishlist Search</a> 
+</td></tr><tr><td> 104 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode104">Wishlist Interval</a> 
+</td></tr><tr><td> 110 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode110">Get Similar Users</a> 
+</td></tr><tr><td> 111 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode111">Get Item Recommendations</a> 
+</td></tr><tr><td> 112 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode112">Get Item Similar Users</a> 
+</td></tr><tr><td> 113 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode113">Room Tickers</a> 
+</td></tr><tr><td> 114 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode114">Room Ticker Add</a> 
+</td></tr><tr><td> 115 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode115">Room Ticker Remove</a> 
+</td></tr><tr><td> 116 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode116">Set Room Ticker</a> 
+</td></tr><tr><td> 117 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode117">Hated Interest Add</a> 
+</td></tr><tr><td> 118 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode118">Hated Interest Remove</a> 
+</td></tr><tr><td> 120 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode120">Room Search</a> 
+</td></tr><tr><td> 121 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode121">Send Upload Speed</a> 
+</td></tr><tr><td> 122 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode122">User Privileges</a> 
+</td></tr><tr><td> 123 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode123">Give Privileges</a> 
+</td></tr><tr><td> 124 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode124">Notify Privileges</a> 
+</td></tr><tr><td> 125 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode125">Acknowledge Notify Privileges</a> 
+</td></tr><tr><td> 126 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode126">Branch Level</a> 
+</td></tr><tr><td> 127 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode127">Branch Root</a> 
+</td></tr><tr><td> 129 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode129">Child Depth</a> 
+</td></tr><tr><td> 133 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode133">Private Room Users</a> 
+</td></tr><tr><td> 134 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode134">Private Room Add User</a> 
+</td></tr><tr><td> 135 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode135">Private Room Remove User</a> 
+</td></tr><tr><td> 136 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode136">Private Room Drop Membership</a> 
+</td></tr><tr><td> 137 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode137">Private Room Drop Ownership</a> 
+</td></tr><tr><td> 138 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode138">Private Room Unknown</a> 
+</td></tr><tr><td> 139 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode139">Private Room Added</a> 
+</td></tr><tr><td> 140 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode140">Private Room Removed</a> 
+</td></tr><tr><td> 141 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode141">Private Room Toggle</a> 
+</td></tr><tr><td> 142 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode142">New Password</a> 
+</td></tr><tr><td> 143 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode143">Private Room Add Operator</a> 
+</td></tr><tr><td> 144 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode144">Private Room Remove Operator</a> 
+</td></tr><tr><td> 145 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode145">Private Room Operator Added</a> 
+</td></tr><tr><td> 146 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode146">Private Room Operator Removed</a> 
+</td></tr><tr><td> 148 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode148">Private Room Owned</a> 
+</td></tr><tr><td> 149 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode149">Message Users</a> 
+</td></tr><tr><td> 150 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode150">Ask Public Chat</a> 
+</td></tr><tr><td> 151 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode151">Stop Public Chat</a> 
+</td></tr><tr><td> 152 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode152">Public Chat</a> 
+</td></tr></tbody></table>
+<table class="wiki">
+<tbody><tr><td> 1001 </td><td style="text-align: left"><a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1001">Cannot Connect</a> 
+</td></tr></tbody></table>
+<h3 id="ServerCode1">Server Code 1</h3>
+<p>
+<strong>Login</strong>
+</p>
+<h4 id="FunctionNames">Function Names</h4>
+<p>
+Museekd: SLogin
+<br>Nicotine: <strong>Login</strong>
+</p>
+<h4 id="Description">Description</h4>
+<p>
+Send your username, password, and client version.
+</p>
+<h5 id="SendingLoginExample">Sending Login Example</h5>
+<table class="wiki">
+<tbody><tr><td> Description </td><td> Message Length </td><td> Message Code </td><td> Username Length </td><td> Username </td><td> Password Length </td><td> Password 
+</td></tr><tr><td> Human </td><td> 72 </td><td> 1 </td><td> 8 </td><td> username </td><td> 8 </td><td> password 
+</td></tr><tr><td> Hex </td><td> 48 00 00 00 </td><td> 01 00 00 00 </td><td> 08 00 00 00 </td><td> 75 73 65 72 6e 61 6d 65 </td><td> 08 00 00 00 </td><td> 70 61 73 73 77 6f 72 64 
+</td></tr></tbody></table>
+<p>
+<em>Message, continued</em>
+</p>
+<table class="wiki">
+<tbody><tr><td> Description </td><td> Version </td><td> Length </td><td> Hash </td><td> Number 
+</td></tr><tr><td> Human </td><td> 181 </td><td> 32 </td><td> d51c9a7e9353746a6020f9602d452929 </td><td> 1 
+</td></tr><tr><td> Hex </td><td> b5 00 00 00 </td><td> 20 00 00 00 </td><td> 64 35 31 63 39 61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32 39 32 39 </td><td> 01 00 00 00 
+</td></tr></tbody></table>
+<p>
+<em>Message as a Hex Stream</em>
+<strong>48 00 00 00 01 00 00 00 08 00 00 00 75 73 65 72 6e 61 6d 65 08 
+00 00 00 70 61 73 73 77 6f 72 64 b5 00 00 00 20 00 00 00 64 35 31 63 39 
+61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32 
+39 32 39 01 00 00 00</strong>
+</p>
+<h4 id="DataOrder">Data Order</h4>
+<ul><li>Send Login
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">password</span> <strong>A non-empty string is required</strong>
+</li><li><strong>uint32</strong> <span class="underline">version number</span> <em>182</em> for Museek+ <em>181</em> for Nicotine+
+</li><li><strong>string</strong> <span class="underline">MD5 hex digest of concatenated username &amp; password</span>
+</li><li><strong>uint32</strong> <span class="underline">minor version</span> Minor version (0x13000000 for 157 ns 13e, 0x11000000 for 157 ns 13c)
+</li></ol></li></ul><ul><li>Receive Login Success
+<ol><li><strong>uchar</strong> <span class="underline">success</span> 1
+</li><li><strong>string</strong> <span class="underline">greet</span> A MOTD string
+</li><li><strong>uint32</strong> <span class="underline">Your IP Address</span>
+</li><li><strong>string</strong> <span class="underline">MD5 hex digest of the password string</span> <em>Windows Soulseek uses this hash to determine if it's connected to the official server</em>
+</li></ol></li></ul><ul><li>Receive Login Failure
+<ol><li><strong>uchar</strong> <span class="underline">failure</span> <em>0</em>
+</li><li><strong>string</strong> <span class="underline">reason</span> Almost always: <em>Bad Password</em>; sometimes it's a banned message or another error.
+</li></ol></li></ul><h3 id="ServerCode2">Server Code 2</h3>
+<p>
+<strong>Set Listen Port</strong>
+</p>
+<h4 id="FunctionNames1">Function Names</h4>
+<p>
+Museekd: SSetListenPort
+<br>Nicotine: <strong><a class="missing wiki">SetWaitPort?</a></strong>
+</p>
+<h4 id="Description1">Description</h4>
+<p>
+The port you listen for connections on (2234 by default)
+</p>
+<h4 id="DataOrder1">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>uint32</strong> <span class="underline">port</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode3">Server Code 3</h3>
+<p>
+<strong>Get Peer Address</strong>
+</p>
+<h4 id="FunctionNames2">Function Names</h4>
+<p>
+Museekd: SGetPeerAddress
+<br>Nicotine: <strong><a class="missing wiki">GetPeerAddress?</a></strong>
+</p>
+<h4 id="Description2">Description</h4>
+<p>
+A server for a user's IP Address and port
+</p>
+<h4 id="DataOrder2">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>ip</strong> <span class="underline">ip</span>
+</li><li><strong>int</strong> <span class="underline">port</span>
+</li></ol></li></ul><h3 id="ServerCode5">Server Code 5</h3>
+<p>
+<strong>Add User </strong>
+</p>
+<h4 id="FunctionNames3">Function Names</h4>
+<p>
+Museekd: SAddUser
+<br>Nicotine: <strong><a class="missing wiki">AddUser?</a></strong>
+</p>
+<h4 id="Description3">Description</h4>
+<p>
+Watch this user's status
+</p>
+<h4 id="DataOrder3">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>char</strong> <span class="underline">exists</span> <em>converted to Boolean</em>
+</li></ol><ul><li>If <span class="underline">exists</span> is 1/True (may not be implemented)
+<ol><li><strong>int</strong> <span class="underline">status</span> <em>0 == Offline, 1 == Away; 2 == Online</em>
+</li><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">downloadnum</span>
+</li><li><strong>int</strong> <span class="underline">files</span>
+</li><li><strong>int</strong> <span class="underline">dirs</span>
+</li><li><strong>string</strong> <span class="underline">Country Code</span> (may not be implemented)
+</li></ol></li></ul></li></ul><h3 id="ServerCode6">Server Code 6</h3>
+<p>
+<strong>Unknown</strong>
+</p>
+<h4 id="FunctionNames4">Function Names</h4>
+<p>
+Museekd: Not implemented
+<br>Nicotine: <strong>Not implemented</strong>
+</p>
+<h4 id="Description4">Description</h4>
+<p>
+Something to do with user status. Usually sent just after SAddUser
+</p>
+<h4 id="DataOrder4">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode7">Server Code 7</h3>
+<p>
+<strong>Get Status</strong>
+</p>
+<h4 id="FunctionNames5">Function Names</h4>
+<p>
+Museekd: SGetStatus
+<br>Nicotine: <strong><a class="missing wiki">GetUserStatus?</a></strong>
+</p>
+<h4 id="Description5">Description</h4>
+<h4 id="DataOrder5">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">status</span> <em>0 == Offline, 1 == Away; 2 == Online</em>
+</li><li><strong>bool</strong> <span class="underline">privileged</span>
+</li></ol></li></ul><h3 id="ServerCode13">Server Code 13</h3>
+<p>
+<strong>Say in Chat Room</strong>
+</p>
+<h4 id="FunctionNames6">Function Names</h4>
+<p>
+Museekd: SSayChatroom
+<br>Nicotine: <strong><a class="missing wiki">SayChatroom?</a></strong>
+</p>
+<h4 id="Description6">Description</h4>
+<h4 id="DataOrder6">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li></ul><h3 id="ServerCode14">Server Code 14</h3>
+<p>
+<strong>Join a Room</strong>
+</p>
+<h4 id="FunctionNames7">Function Names</h4>
+<p>
+Museekd: SJoinRoom
+<br>Nicotine: <strong><a class="missing wiki">JoinRoom?</a></strong>
+</p>
+<h4 id="Description7">Description</h4>
+<h4 id="DataOrder7">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><ul><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>int</strong> <span class="underline">number of users in room</span> <strong>For private rooms, also contain owner and operators</strong>
+</li><li>Iterate the <span class="underline">number of users</span> <strong>museekd uses a vector of strings</strong>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of userdata</span>
+</li><li>Iterate the <span class="underline">number of users</span> <strong>museekd uses a vector of userdata</strong>
+<ol><li><strong>int</strong> <span class="underline">status</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of userdata</span>
+</li><li>Iterate the userdata <strong>vector of userdata</strong> (and add unpacked data to <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#UserData">User Data</a>)
+<ol><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">downloadnum</span>
+</li><li><strong>int</strong> <span class="underline">files</span>
+</li><li><strong>int</strong> <span class="underline">dirs</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of slotsfree</span>
+</li><li>Iterate thru number of slotsfree
+<ol><li><strong>int</strong> <span class="underline">slotsfree</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of usercountries</span>
+</li><li>Iterate thru number of usercountries
+<ol><li><strong>string</strong> <span class="underline">countrycode</span> <strong>Uppercase country code</strong>
+</li></ol></li><li><strong>string</strong> <span class="underline">owner</span> <strong>If private room</strong>
+</li><li><strong>int</strong> <span class="underline">number of operators in room</span> <strong>If private room</strong>
+</li><li>Iterate the <span class="underline">number of operators</span> <strong>museekd uses a vector of strings</strong>
+<ol><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode15">Server Code 15</h3>
+<p>
+<strong>Leave Room</strong>
+</p>
+<h4 id="FunctionNames8">Function Names</h4>
+<p>
+Museekd: SLeaveRoom
+<br>Nicotine: <strong><a class="missing wiki">LeaveRoom?</a></strong>
+</p>
+<h4 id="Description8">Description</h4>
+<h4 id="DataOrder8">Data Order</h4>
+<ul><li>Send (leave room)
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li><li>Receive (left room)
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode16">Server Code 16</h3>
+<p>
+<strong>A User Joined a Room </strong>
+</p>
+<h4 id="FunctionNames9">Function Names</h4>
+<p>
+Museekd: SUserJoinedRoom
+<br>Nicotine: <strong><a class="missing wiki">UserJoinedRoom?</a></strong>
+</p>
+<h4 id="Description9">Description</h4>
+<h4 id="DataOrder9">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">status</span>
+</li><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">downloadnum</span>
+</li><li><strong>int</strong> <span class="underline">files</span>
+</li><li><strong>int</strong> <span class="underline">dirs</span>
+</li><li><strong>int</strong> <span class="underline">slotsfree</span>
+</li><li><strong>string</strong> <span class="underline">countrycode</span>_ <strong>Uppercase country code</strong>
+</li></ol></li></ul><h3 id="ServerCode17">Server Code 17</h3>
+<p>
+<strong>A User Left a Room</strong>
+</p>
+<h4 id="FunctionNames10">Function Names</h4>
+<p>
+Museekd: SUserLeftRoom
+<br>Nicotine: <strong><a class="missing wiki">UserLeftRoom?</a></strong>
+</p>
+<h4 id="Description10">Description</h4>
+<p>
+A user (not you) left a room you are in.
+</p>
+<h4 id="DataOrder10">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li></ul><h3 id="ServerCode18">Server Code 18</h3>
+<p>
+<strong>Connect To Peer</strong>
+</p>
+<h4 id="FunctionNames11">Function Names</h4>
+<p>
+Museekd: SConnectToPeer
+<br>Nicotine: <strong><a class="missing wiki">ConnectToPeer?</a></strong>
+</p>
+<h4 id="Description11">Description</h4>
+<p>
+A message you send to the server to notify a client that you want to connect to it, after direct connection has failed.
+See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerConnectionMessageOrder">Peer Connection Message Order</a>
+</p>
+<h4 id="DataOrder11">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>uint32</strong> <span class="underline">token</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">type</span> <em>Connection Type (P, F or D)</em>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">type</span> <em>Connection Type (P, F or D)</em>
+</li><li><strong>ip</strong> <span class="underline">ip</span>
+</li><li><strong>int</strong> <span class="underline">port</span>
+</li><li><strong>uint32</strong> <span class="underline">token</span> <em>Use this token for <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode0">Pierce Firewall</a></em>
+</li><li><strong>bool</strong> <span class="underline">privileged</span>
+</li></ol></li></ul><h3 id="ServerCode22">Server Code 22</h3>
+<p>
+<strong>Private Messages</strong>
+</p>
+<h4 id="FunctionNames12">Function Names</h4>
+<p>
+Museekd: SPrivateMessage
+<br>Nicotine: <strong><a class="missing wiki">MessageUser?</a></strong>
+</p>
+<h4 id="Description12">Description</h4>
+<h4 id="DataOrder12">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">ID</span>
+</li><li><strong>int</strong> <span class="underline">timestamp</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>string</strong> <span class="underline">message</span>
+</li><li><strong>bool</strong> <span class="underline">isAdmin</span> <strong>1 if sent by server, elsenot present</strong>
+</li></ol></li></ul><h3 id="ServerCode23">Server Code 23</h3>
+<p>
+<strong>Acknowledge Private Message</strong>
+</p>
+<h4 id="FunctionNames13">Function Names</h4>
+<p>
+Museekd: SAckPrivateMessage
+<br>Nicotine: <strong><a class="missing wiki">MessageAcked?</a></strong>
+</p>
+<h4 id="Description13">Description</h4>
+<p>
+Acknowledge that you received a Private message. If we do not send it, the server will keep sending the chat phrase to us.
+(Museekd also Reset timestamps to account for server-time bugginess)
+</p>
+<h4 id="DataOrder13">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">message ID</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode26">Server Code 26</h3>
+<p>
+<strong>File Search</strong>
+Museekd: SFileSearch
+<br>Nicotine: <strong><a class="missing wiki">FileSearch?</a></strong>
+</p>
+<h4 id="Description14">Description</h4>
+<p>
+The ticket is a random number generated by the client and used to track the search results.
+</p>
+<h4 id="DataOrder14">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">search query</span>
+</li></ol></li><li>Receive <em>search request from another user</em>
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">search query</span>
+</li></ol></li></ul><h3 id="ServerCode28">Server Code 28</h3>
+<p>
+<strong>Set Online Status</strong>
+</p>
+<h4 id="FunctionNames14">Function Names</h4>
+<p>
+Museekd: SSetStatus
+<br>Nicotine: <strong><a class="missing wiki">SetStatus?</a></strong>
+</p>
+<h4 id="Description15">Description</h4>
+<p>
+Status is a way to define whether you're available or busy. <em>1 = Away and 2 = Online</em>
+</p>
+<h4 id="DataOrder15">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">status</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode32">Server Code 32</h3>
+<p>
+<strong>Ping</strong>
+</p>
+<h4 id="FunctionNames15">Function Names</h4>
+<p>
+Museekd: SPing
+<br>Nicotine: <strong><a class="missing wiki">ServerPing?</a></strong>
+</p>
+<h4 id="Description16">Description</h4>
+<p>
+Test if server responds
+</p>
+<h4 id="DataOrder16">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="ServerCode34">Server Code 34</h3>
+<p>
+<strong>Send Speed</strong>
+</p>
+<h4 id="FunctionNames16">Function Names</h4>
+<p>
+Museekd: SSendSpeed
+<br>Nicotine: <strong><a class="missing wiki">SendSpeed?</a></strong>
+</p>
+<h4 id="Description17">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="DataOrder17">Data Order</h4>
+<ul><li>Send <em>average transfer speed</em>
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">speed</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode35">Server Code 35</h3>
+<p>
+<strong>Shared Folders &amp; Files</strong>
+</p>
+<h4 id="FunctionNames17">Function Names</h4>
+<p>
+Museekd: SSharedFoldersFiles
+<br>Nicotine: <strong><a class="missing wiki">SharedFoldersFiles?</a></strong>
+</p>
+<h4 id="Description18">Description</h4>
+<h4 id="DataOrder18">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">dirs</span>
+</li><li><strong>int</strong> <span class="underline">files</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode36">Server Code 36</h3>
+<p>
+<strong>Get User Stats</strong>
+Museekd: SGetUserStats
+<br>Nicotine: <strong><a class="missing wiki">GetUserStats?</a></strong>
+<strong>This is deprecated, see SAddUser.</strong>
+</p>
+<h4 id="DataOrder19">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">downloadnum</span>
+</li><li><strong>int</strong> <span class="underline">files</span>
+</li><li><strong>int</strong> <span class="underline">dirs</span>
+</li></ol></li></ul><h3 id="ServerCode40">Server Code 40</h3>
+<p>
+<strong>Queued Downloads</strong>
+</p>
+<h4 id="FunctionNames18">Function Names</h4>
+<p>
+Museekd: <strong>Not implemented</strong>
+Nicotine: <strong><a class="missing wiki">QueuedDownloads?</a></strong>
+</p>
+<h4 id="Description19">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="DataOrder20">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>bool</strong> <span class="underline">slotsfree</span> <em>Can immediately download</em>
+</li></ol></li></ul><h3 id="ServerCode41">Server Code 41</h3>
+<p>
+<strong>Kicked from Server</strong>
+</p>
+<h4 id="FunctionNames19">Function Names</h4>
+<p>
+Museekd: SKicked
+<br>Nicotine: <strong>Relogged</strong>
+</p>
+<h4 id="Description20">Description</h4>
+<p>
+You were disconnected (probably by another user with your name 
+connecting to the Server) so don't try to reconnect automatically.
+</p>
+<h4 id="DataOrder21">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li></ul><ul><li>Receive
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="ServerCode42">Server Code 42</h3>
+<p>
+<strong>User Search</strong>
+</p>
+<h4 id="FunctionNames20">Function Names</h4>
+<p>
+Museekd: SUserSearch
+<br>Nicotine: <strong><a class="missing wiki">UserSearch?</a></strong>
+</p>
+<h4 id="Description21">Description</h4>
+<p>
+Search a specific user's shares
+</p>
+<h4 id="DataOrder22">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">search query</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode51">Server Code 51</h3>
+<p>
+<strong>Add Liked Interest </strong>
+</p>
+<h4 id="FunctionNames21">Function Names</h4>
+<p>
+Museekd: SInterestAdd
+<br>Nicotine: <strong>AddThingILike</strong>
+</p>
+<h4 id="Description22">Description</h4>
+<h4 id="DataOrder23">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode52">Server Code 52</h3>
+<p>
+<strong>Remove Liked Interest </strong>
+</p>
+<h4 id="FunctionNames22">Function Names</h4>
+<p>
+Museekd: SInterestRemove
+<br>Nicotine: <strong>RemoveThingILike</strong>
+</p>
+<h4 id="Description23">Description</h4>
+<h4 id="DataOrder24">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode54">Server Code 54</h3>
+<p>
+<strong>Get Recommendations</strong>
+</p>
+<h4 id="FunctionNames23">Function Names</h4>
+<p>
+Museekd: SGetRecommendations
+<br>Nicotine: <strong>Recommendations</strong>
+</p>
+<h4 id="Description24">Description</h4>
+<p>
+List of recommendations and a number for each
+</p>
+<h4 id="DataOrder25">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of total recommendations</span>
+</li><li>Iterate for <span class="underline">number of total recommendations</span>
+<ol><li><strong>string</strong> <span class="underline">recommendation</span>
+</li><li><strong>int</strong> <span class="underline">number of recommendations this recommendation has</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of total unrecommendations</span>
+</li><li>Iterate for <span class="underline">number of total unrecommendations</span>
+<ol><li><strong>string</strong> <span class="underline">unrecommendation</span>
+</li><li><strong>int</strong> <span class="underline">number of unrecommendations this unrecommendation has (negative)</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode56">Server Code 56</h3>
+<p>
+<strong>Get Global Recommendations</strong>
+</p>
+<h4 id="FunctionNames24">Function Names</h4>
+<p>
+Museekd: SGetGlobalRecommendations
+<br>Nicotine: <strong><a class="missing wiki">GlobalRecommendations?</a></strong>
+</p>
+<h4 id="Description25">Description</h4>
+<p>
+List of recommendations and a number for each
+</p>
+<h4 id="DataOrder26">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of total recommendations</span>
+</li><li>Iterate for <span class="underline">number of total recommendations</span>
+<ol><li><strong>string</strong> <span class="underline">recommendation</span>
+</li><li><strong>int</strong> <span class="underline">number of recommendations this recommendation has</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of total unrecommendations</span>
+</li><li>Iterate for <span class="underline">number of total unrecommendations</span>
+<ol><li><strong>string</strong> <span class="underline">unrecommendation</span>
+</li><li><strong>int</strong> <span class="underline">number of unrecommendations this unrecommendation has (negative)</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode57">Server Code 57</h3>
+<p>
+<strong>Get User Interests</strong>
+</p>
+<h4 id="FunctionNames25">Function Names</h4>
+<p>
+Museekd:
+<br>Nicotine: <strong><a class="missing wiki">UserInterests?</a></strong>
+</p>
+<h4 id="Description26">Description</h4>
+<p>
+Get a User's Liked and Hated Interests
+</p>
+<h4 id="DataOrder27">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">number of liked interests</span>
+</li><li>Iterate for <span class="underline">number of liked interests</span>
+<ol><li><strong>string</strong> <span class="underline">interest</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of hated interests</span>
+</li><li>Iterate for <span class="underline">number of hated interests</span>
+<ol><li><strong>string</strong> <span class="underline">interest</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode64">Server Code 64</h3>
+<p>
+<strong>Room List</strong>
+</p>
+<h4 id="FunctionNames26">Function Names</h4>
+<p>
+Museekd: SRoomList
+<br>Nicotine: <strong><a class="missing wiki">RoomList?</a></strong>
+</p>
+<h4 id="Description27">Description</h4>
+<p>
+List of rooms and the number of users in them. Soulseek has a room size 
+requirement of about 50 users when first connecting. Refreshing the list
+ will download all rooms.
+</p>
+<h4 id="DataOrder28">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of rooms</span>
+</li><li>Iterate for <span class="underline">number of rooms</span>
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of rooms</span>
+</li><li>Iterate for <span class="underline">number of rooms</span>
+<ol><li><strong>int</strong> <span class="underline">number of users in room</span>
+</li></ol></li></ol></li></ul><ol><li><strong>int</strong> <span class="underline">number of owned private rooms</span>
+</li><li>Iterate for <span class="underline">number of owned private rooms</span>
+<ol><li><strong>string</strong> <span class="underline">owned private room</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of owned private rooms</span>
+</li><li>Iterate for <span class="underline">number of owned private rooms</span>
+<ol><li><strong>int</strong> <span class="underline">number of users in owned private room</span>
+</li></ol></li></ol><ol><li><strong>int</strong> <span class="underline">number of private rooms (except owned)</span>
+</li><li>Iterate for <span class="underline">number of private rooms (except owned)</span>
+<ol><li><strong>string</strong> <span class="underline">private room</span>
+</li></ol></li><li><strong>int</strong> <span class="underline">number of private rooms (except owned)</span>
+</li><li>Iterate for <span class="underline">number of private rooms (except owned)</span>
+<ol><li><strong>int</strong> <span class="underline">number of users in private rooms (except owned)</span>
+</li></ol></li></ol><ol><li><strong>int</strong> <span class="underline">number of operated private rooms</span>
+</li><li>Iterate for <span class="underline">number of operated private rooms</span>
+<ol><li><strong>string</strong> <span class="underline">operated private room</span>
+</li></ol></li></ol><h3 id="ServerCode65">Server Code 65</h3>
+<p>
+<strong>Exact File Search</strong>
+</p>
+<h4 id="FunctionNames27">Function Names</h4>
+<p>
+Museekd: SExactFileSearch
+<br>Nicotine: <strong><a class="missing wiki">ExactFileSearch?</a></strong>
+</p>
+<h4 id="Description28">Description</h4>
+<p>
+SEEMS BROKEN (no results even with official client)
+</p>
+<h4 id="DataOrder29">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>uint32</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>string</strong> <span class="underline">path</span>
+</li><li><strong>off_t</strong> <span class="underline">filesize</span>
+</li><li><strong>uint32</strong> <span class="underline">checkum</span>
+</li></ol></li></ul><h3 id="ServerCode66">Server Code 66</h3>
+<p>
+<strong>Global / Admin Message</strong>
+</p>
+<h4 id="FunctionNames28">Function Names</h4>
+<p>
+Museekd: SGlobalMessage
+<br>Nicotine: <strong><a class="missing wiki">AdminMessage?</a></strong>
+</p>
+<h4 id="Description29">Description</h4>
+<p>
+Admins send this message to all users
+</p>
+<h4 id="DataOrder30">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li></ul><h3 id="ServerCode69">Server Code 69</h3>
+<p>
+<strong>Privileged Users</strong>
+</p>
+<h4 id="FunctionNames29">Function Names</h4>
+<p>
+Museekd: SPrivilegedUsers
+<br>Nicotine: <strong><a class="missing wiki">PrivilegedUsers?</a></strong>
+</p>
+<h4 id="Description30">Description</h4>
+<p>
+List of privileged users
+</p>
+<h4 id="DataOrder31">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate <span class="underline">number of users</span>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode71">Server Code 71</h3>
+<p>
+<strong>Have No Parents</strong>
+</p>
+<h4 id="FunctionNames30">Function Names</h4>
+<p>
+Museekd: SHaveNoParents
+<br>Nicotine: <strong><a class="missing wiki">HaveNoParent?</a></strong>
+</p>
+<h4 id="Description31">Description</h4>
+<h4 id="DataOrder32">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>bool</strong> <span class="underline">have_parents</span> (is a boolean internal to museekd)
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode73">Server Code 73</h3>
+<p>
+<strong>Parent's IP</strong>
+</p>
+<h4 id="FunctionNames31">Function Names</h4>
+<p>
+Museekd: SParentIP
+</p>
+<h4 id="Description32">Description</h4>
+<p>
+Send our parent's IP to the server
+</p>
+<h4 id="DataOrder33">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>ip</strong> <span class="underline">ip</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode83">Server Code 83</h3>
+<p>
+<strong><a class="missing wiki">ParentMinSpeed?</a></strong>
+</p>
+<h4 id="Description33">Description</h4>
+<p>
+Unknown Purpose
+</p>
+<h4 id="DataOrder34">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode84">Server Code 84</h3>
+<p>
+<strong><a class="missing wiki">ParentSpeedRatio?</a><em>
+</em></strong></p>
+<h4 id="Description34">Description</h4>
+<p>
+Unknown Purpose.
+</p>
+<h4 id="DataOrder35">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode86">Server Code 86</h3>
+<p>
+<strong>Parent Inactivity Timeout</strong>
+</p>
+<h4 id="Description35">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="FunctionNames32">Function Names</h4>
+<p>
+Museekd: SParentInactivityTimeout
+<br>Nicotine: <strong><a class="missing wiki">ParentInactivityTimeout?</a></strong>
+</p>
+<h4 id="Description36">Description</h4>
+<h4 id="DataOrder36">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode87">Server Code 87</h3>
+<p>
+<strong>Search Inactivity Timeout</strong>
+</p>
+<h4 id="Description37">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="FunctionNames33">Function Names</h4>
+<p>
+Museekd: SSearchInactivityTimeout
+<br>Nicotine: <strong><a class="missing wiki">SearchInactivityTimeout?</a></strong>
+</p>
+<h4 id="Description38">Description</h4>
+<h4 id="DataOrder37">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode88">Server Code 88</h3>
+<p>
+<strong>Minimum Parents In Cache</strong>
+</p>
+<h4 id="Description39">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="FunctionNames34">Function Names</h4>
+<p>
+Museekd: SMinParentsInCache
+<br>Nicotine: <strong><a class="missing wiki">MinParentsInCache?</a></strong>
+</p>
+<h4 id="Description40">Description</h4>
+<h4 id="DataOrder38">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode90">Server Code 90</h3>
+<p>
+<strong>Distributed Alive Interval</strong>
+</p>
+<h4 id="Description41">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="FunctionNames35">Function Names</h4>
+<p>
+Museekd: SDistribAliveInterval
+<br>Nicotine: <strong><a class="missing wiki">DistribAliveInterval?</a></strong>
+</p>
+<h4 id="Description42">Description</h4>
+<h4 id="DataOrder39">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number</span>
+</li></ol></li></ul><h3 id="ServerCode91">Server Code 91</h3>
+<p>
+<strong>Add Privileged User</strong>
+</p>
+<h4 id="FunctionNames36">Function Names</h4>
+<p>
+Museekd: SAddPrivileged
+<br>Nicotine: <strong><a class="missing wiki">AddToPrivileged?</a></strong>
+</p>
+<h4 id="Description43">Description</h4>
+<p>
+Add a new privileged user to your list of global privileged users
+</p>
+<h4 id="DataOrder40">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ul><h3 id="ServerCode92">Server Code 92</h3>
+<p>
+<strong>Check Privileges</strong>
+</p>
+<h4 id="FunctionNames37">Function Names</h4>
+<p>
+Museekd: SCheckPrivileges
+<br>Nicotine: <a class="missing wiki">CheckPrivileges?</a>
+</p>
+<h4 id="Description44">Description</h4>
+<h4 id="DataOrder41">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">time_left</span>
+</li></ol></li></ul><h3 id="ServerCode93">Server Code 93</h3>
+<p>
+<strong>Search Request</strong>
+</p>
+<h4 id="Description45">Description</h4>
+<p>
+The server sends us search requests from other users
+</p>
+<h4 id="FunctionNames38">Function Names</h4>
+<p>
+Museekd: SSearchRequest
+</p>
+<h4 id="DataOrder42">Data Order</h4>
+<ul><li>Send
+<ul><li>No Message
+</li></ul></li><li>Receive
+<ol><li><strong>uint8</strong> <span class="underline">distributed code (DSearchRequest)</span>
+</li><li><strong>int</strong> <span class="underline">unknown</span>
+</li><li><strong>string</strong> <span class="underline">username</span>
+</li><li><strong>int</strong> <span class="underline">token</span>
+</li><li><strong>string</strong> <span class="underline">query</span>
+</li></ol></li></ul><h3 id="ServerCode100">Server Code 100</h3>
+<p>
+<strong>Accept Children</strong>
+</p>
+<h4 id="Description46">Description</h4>
+<p>
+Tell the server if we want to have some children
+</p>
+<h4 id="FunctionNames39">Function Names</h4>
+<p>
+Museekd: SAcceptChildren
+</p>
+<h4 id="DataOrder43">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>bool</strong> <span class="underline">accept</span>
+</li></ol></li><li>Receive
+<ul><li>No Message
+</li></ul></li></ul><h3 id="ServerCode102">Server Code 102</h3>
+<p>
+<strong>Net Info</strong>
+</p>
+<h4 id="Description47">Description</h4>
+<h4 id="FunctionNames40">Function Names</h4>
+<p>
+Museekd: SNetInfo
+<br>Nicotine: <strong><a class="missing wiki">NetInfo?</a></strong>
+</p>
+<h4 id="DataOrder44">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive <em>list of search parents</em>
+<ol><li><strong>int</strong> <span class="underline">number of parents</span>
+</li><li>Iterate for <span class="underline">number of parents</span>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>IP</strong> <span class="underline">IP address</span>
+</li><li><strong>int</strong> <span class="underline">port</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode103">Server Code 103</h3>
+<p>
+<strong>Wishlist Search</strong>
+</p>
+<h4 id="FunctionNames41">Function Names</h4>
+<p>
+Museekd: SWishlistSearch
+<br>Nicotine: <strong><a class="missing wiki">WishlistSearch?</a></strong>
+</p>
+<h4 id="Description48">Description</h4>
+<h4 id="DataOrder45">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">search query</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode104">Server Code 104</h3>
+<p>
+<strong>Wishlist Interval</strong>
+</p>
+<h4 id="FunctionNames42">Function Names</h4>
+<p>
+Museekd: SWishlistInterval
+<br>Nicotine: <strong><a class="missing wiki">WishlistInterval?</a></strong>
+</p>
+<h4 id="Description49">Description</h4>
+<h4 id="DataOrder46">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">interval</span>
+</li></ol></li></ul><h3 id="ServerCode110">Server Code 110</h3>
+<p>
+<strong>Get Similar Users</strong>
+</p>
+<h4 id="FunctionNames43">Function Names</h4>
+<p>
+Museekd: SGetSimilarUsers
+<br>Nicotine: <strong><a class="missing wiki">SimilarUsers?</a></strong>
+</p>
+<h4 id="Description50">Description</h4>
+<h4 id="DataOrder47">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate for <span class="underline">number of user</span>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>int</strong> <span class="underline">status</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode111">Server Code 111</h3>
+<p>
+<strong>Get Item Recommendations</strong>
+</p>
+<h4 id="FunctionNames44">Function Names</h4>
+<p>
+Museekd: SGetItemRecommendations
+<br>Nicotine: <strong><a class="missing wiki">ItemRecommendations?</a></strong>
+</p>
+<h4 id="Description51">Description</h4>
+<h4 id="DataOrder48">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li><li><strong>int</strong> <span class="underline">number of recommendations</span><span class="underline">
+</span></li><li>Iterate for <span class="underline">number of recommendations</span><span class="underline">
+</span><ol><li><strong>string</strong> <span class="underline">recommendation</span>
+</li><li><strong>int</strong> <span class="underline">number of recommendations for this recommendation (can be negative)</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode112">Server Code 112</h3>
+<p>
+<strong>Get Item Similar Users</strong>
+</p>
+<h4 id="FunctionNames45">Function Names</h4>
+<p>
+Museekd: SGetItemSimilarUsers
+<br>Nicotine: <strong><a class="missing wiki">ItemSimilarUsers?</a></strong>
+</p>
+<h4 id="Description52">Description</h4>
+<h4 id="DataOrder49">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate for <span class="underline">number of user</span>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>int</strong> 0
+</li></ol></li></ol></li></ul><h3 id="ServerCode113">Server Code 113</h3>
+<p>
+<strong>Room Tickers</strong>
+</p>
+<h4 id="FunctionNames46">Function Names</h4>
+<p>
+Museekd: SRoomTickers
+<br>Nicotine: <strong><a class="missing wiki">RoomTickerState?</a></strong>
+</p>
+<h4 id="Description53">Description</h4>
+<h4 id="DataOrder50">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate for <span class="underline">number of user</span>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>string</strong> <span class="underline">tickers</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode114">Server Code 114</h3>
+<p>
+<strong>Room Ticker Add</strong>
+</p>
+<h4 id="FunctionNames47">Function Names</h4>
+<p>
+Museekd: SRoomTickerAdd
+<br>Nicotine: <strong><a class="missing wiki">RoomTickerAdd?</a></strong>
+</p>
+<h4 id="Description54">Description</h4>
+<h4 id="DataOrder51">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>string</strong> <span class="underline">ticker</span>
+</li></ol></li></ul><h3 id="ServerCode115">Server Code 115</h3>
+<p>
+<strong>Room Ticker Remove</strong>
+</p>
+<h4 id="FunctionNames48">Function Names</h4>
+<p>
+Museekd: SRoomTickerRemove
+<br>Nicotine: <strong><a class="missing wiki">RoomTickerRemove?</a></strong>
+</p>
+<h4 id="Description55">Description</h4>
+<h4 id="DataOrder52">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ul><h3 id="ServerCode116">Server Code 116</h3>
+<p>
+<strong>Set Room Ticker</strong>
+</p>
+<h4 id="FunctionNames49">Function Names</h4>
+<p>
+Museekd: SSetRoomTicker
+<br>Nicotine: <strong><a class="missing wiki">RoomTickerSet?</a></strong>
+</p>
+<h4 id="Description56">Description</h4>
+<h4 id="DataOrder53">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">ticker</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode117">Server Code 117</h3>
+<p>
+<strong>Add Hated Interest</strong>
+</p>
+<h4 id="FunctionNames50">Function Names</h4>
+<p>
+Museekd: SInterestHatedAdd
+<br>Nicotine: <strong>AddThingIHate</strong>
+</p>
+<h4 id="Description57">Description</h4>
+<h4 id="DataOrder54">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode118">Server Code 118</h3>
+<p>
+<strong>Remove Hated Interest</strong>
+</p>
+<h4 id="FunctionNames51">Function Names</h4>
+<p>
+Museekd: SInterestHatedRemove
+<br>Nicotine: <strong>RemoveThingIHate</strong>
+</p>
+<h4 id="Description58">Description</h4>
+<h4 id="DataOrder55">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">item</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode120">Server Code 120</h3>
+<p>
+<strong>Room Search</strong>
+</p>
+<h4 id="FunctionNames52">Function Names</h4>
+<p>
+Museekd: SRoomSearch
+<br>Nicotine: <strong><a class="missing wiki">RoomSearch?</a></strong>
+</p>
+<h4 id="Description59">Description</h4>
+<h4 id="DataOrder56">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">search query</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode121">Server Code 121</h3>
+<p>
+<strong>Send Upload Speed</strong>
+</p>
+<h4 id="FunctionNames53">Function Names</h4>
+<p>
+Museekd: <strong>SSendUploadSpeed</strong>
+<br>Nicotine: <strong><a class="missing wiki">SendUploadSpeed?</a></strong>
+</p>
+<h4 id="Description60">Description</h4>
+<h4 id="DataOrder57">Data Order</h4>
+<ul><li>Send <em>average upload transfer speed</em>
+<ol><li><strong>int</strong> <span class="underline">speed</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode122">Server Code 122</h3>
+<p>
+<strong>A user's Soulseek Privileges</strong>
+</p>
+<h4 id="FunctionNames54">Function Names</h4>
+<p>
+Museekd: <strong>SUserPrivileges</strong>
+<br>Nicotine: <strong>Not implemented</strong>
+</p>
+<h4 id="Description61">Description</h4>
+<h4 id="DataOrder58">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>char</strong> <span class="underline">privileged</span> (boolean internal to museekd)
+</li></ol></li></ul><h3 id="ServerCode123">Server Code 123</h3>
+<p>
+<strong>Give Soulseek Privileges to user</strong>
+</p>
+<h4 id="FunctionNames55">Function Names</h4>
+<p>
+Museekd: SGivePrivileges
+<br>Nicotine: <strong><a class="missing wiki">GivePrivileges?</a></strong>
+</p>
+<h4 id="Description62">Description</h4>
+<h4 id="DataOrder59">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>int</strong> <span class="underline">days</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode124">Server Code 124</h3>
+<p>
+<strong>Server sends us a Notification about our privileges</strong>
+</p>
+<h4 id="FunctionNames56">Function Names</h4>
+<p>
+<br>Nicotine: <strong><a class="missing wiki">NotifyPrivileges?</a></strong>
+</p>
+<h4 id="Description63">Description</h4>
+<h4 id="DataOrder60">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">token</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode125">Server Code 125</h3>
+<p>
+<strong>Acknowledge Privilege Notification</strong>
+</p>
+<h4 id="FunctionNames57">Function Names</h4>
+<p>
+<br>Nicotine: <strong><a class="missing wiki">AckNotifyPrivileges?</a></strong>
+</p>
+<h4 id="Description64">Description</h4>
+<h4 id="DataOrder61">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">token</span>
+</li></ol></li></ul><h3 id="ServerCode126">Server Code 126</h3>
+<p>
+<strong>Branch Level</strong>
+</p>
+<h4 id="Description65">Description</h4>
+<p>
+Tell the server what is our position in our branch (xth generation)
+</p>
+<h4 id="FunctionNames58">Function Names</h4>
+<p>
+Museekd: <strong>SBranchLevel</strong>
+</p>
+<h4 id="DataOrder62">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">branch_level</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode127">Server Code 127</h3>
+<p>
+<strong>Branch Root</strong>
+</p>
+<h4 id="Description66">Description</h4>
+<p>
+Tell the server the username of the root of the branch we're in
+</p>
+<h4 id="FunctionNames59">Function Names</h4>
+<p>
+Museekd: <strong>SBranchRoot</strong>
+</p>
+<h4 id="DataOrder63">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">branch_root</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode129">Server Code 129</h3>
+<p>
+<strong>Child depth</strong>
+</p>
+<h4 id="Description67">Description</h4>
+<p>
+Tell the server the maximum number of generation of children we have.
+</p>
+<h4 id="FunctionNames60">Function Names</h4>
+<p>
+Museekd: <strong>SChildDepth</strong>
+</p>
+<h4 id="DataOrder64">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">child_depth</span>
+</li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="ServerCode133">Server Code 133</h3>
+<p>
+<strong>Private Room Users that we can (dis)op/dismember</strong>
+</p>
+<h4 id="Description68">Description</h4>
+<p>
+We get this when we've created a private room
+</p>
+<h4 id="FunctionNames61">Function Names</h4>
+<p>
+Museekd: SPrivRoomAlterableMembers<br>
+Nicotine: <a class="missing wiki">PrivateRoomUsers?</a>
+</p>
+<h4 id="DataOrder65">Data Order</h4>
+<ul><li>Send
+<ol><li><em>No Message</em>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate for <span class="underline">number of users</span>
+<ol><li><strong>string</strong> <span class="underline">users</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode134">Server Code 134</h3>
+<p>
+<strong>Private Room Add User</strong>
+</p>
+<h4 id="Description69">Description</h4>
+<p>
+We get / receive this when we add a user to a private room.
+</p>
+<h4 id="FunctionNames62">Function Names</h4>
+<p>
+Museekd: SPrivRoomAddUser<br>
+Nicotine: <a class="missing wiki">PrivateRoomAddUser?</a>
+</p>
+<h4 id="DataOrder66">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ul><h3 id="ServerCode135">Server Code 135</h3>
+<p>
+<strong>Private Room Remove User</strong>
+</p>
+<h4 id="Description70">Description</h4>
+<p>
+We get / send this when we remove a user from a private room
+</p>
+<h4 id="FunctionNames63">Function Names</h4>
+<p>
+Museekd: SPrivRoomRemoveUser<br>
+Nicotine: <a class="missing wiki">PrivateRoomRemoveUser?</a>
+</p>
+<h4 id="DataOrder67">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ul><h3 id="ServerCode136">Server Code 136</h3>
+<p>
+<strong>Private Room Drop Membership</strong>
+</p>
+<h4 id="Description71">Description</h4>
+<p>
+We do this to remove our own membership of a private room.
+</p>
+<h4 id="FunctionNames64">Function Names</h4>
+<p>
+Museekd: SPrivRoomDismember<br>
+Nicotine: <a class="missing wiki">PrivateRoomDismember?</a>
+</p>
+<h4 id="DataOrder68">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li><li>Not received
+</li></ul><h3 id="ServerCode137">Server Code 137</h3>
+<p>
+<strong>Private Room Drop Ownership</strong>
+</p>
+<h4 id="Description72">Description</h4>
+<p>
+We do this to stop owning a private room.
+</p>
+<h4 id="FunctionNames65">Function Names</h4>
+<p>
+Museekd: SPrivRoomDisown<br>
+Nicotine: <a class="missing wiki">PrivateRoomDisown?</a>
+</p>
+<h4 id="DataOrder69">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li><li>Not received
+</li></ul><h3 id="ServerCode138">Server Code 138</h3>
+<p>
+<strong>Private Room Unknown</strong>
+</p>
+<h4 id="Description73">Description</h4>
+<p>
+Undocumented
+</p>
+<h4 id="FunctionNames66">Function Names</h4>
+<p>
+Museekd: SPrivRoomUnknown138<br>
+Nicotine: <a class="missing wiki">PrivateRoomSomething?</a>
+</p>
+<h4 id="DataOrder70">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode139">Server Code 139</h3>
+<p>
+<strong>Private Room Added</strong>
+</p>
+<h4 id="Description74">Description</h4>
+<p>
+We receive this when we are added to a private room.
+</p>
+<h4 id="FunctionNames67">Function Names</h4>
+<p>
+Museekd: SPrivRoomAdded<br>
+Nicotine: <a class="missing wiki">PrivateRoomAdded?</a>
+</p>
+<h4 id="DataOrder71">Data Order</h4>
+<ul><li>Not sent
+</li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode140">Server Code 140</h3>
+<p>
+<strong>Private Room Removed</strong>
+</p>
+<h4 id="Description75">Description</h4>
+<p>
+We receive this when we are removed from a private room.
+</p>
+<h4 id="FunctionNames68">Function Names</h4>
+<p>
+Museekd: SPrivRoomRemoved<br>
+Nicotine: <a class="missing wiki">PrivateRoomRemoved?</a>
+</p>
+<h4 id="DataOrder72">Data Order</h4>
+<ul><li>Not sent
+</li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode141">Server Code 141</h3>
+<p>
+<strong>Private Room Toggle</strong>
+</p>
+<h4 id="Description76">Description</h4>
+<p>
+We send this when we want to enable or disable invitations to private rooms
+</p>
+<h4 id="FunctionNames69">Function Names</h4>
+<p>
+Museekd: SPrivRoomToggle<br>
+Nicotine: <a class="missing wiki">PrivateRoomToggle?</a>
+</p>
+<h4 id="DataOrder73">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>bool</strong> <span class="underline">enable</span>
+</li></ol></li><li>Receive
+<ol><li><strong>bool</strong> <span class="underline">enable</span>
+</li></ol></li></ul><h3 id="ServerCode142">Server Code 142</h3>
+<p>
+<strong>New Password</strong>
+</p>
+<h4 id="Description77">Description</h4>
+<p>
+Send the new password. Server sent it back to confirm.
+</p>
+<h4 id="FunctionNames70">Function Names</h4>
+<p>
+Museekd: SNewPassword<br>
+Nicotine: Unimplemented
+</p>
+<h4 id="DataOrder74">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">pass</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">pass</span>
+</li></ol></li></ul><h3 id="ServerCode143">Server Code 143</h3>
+<p>
+<strong>Private Room Add Operator</strong>
+</p>
+<h4 id="Description78">Description</h4>
+<p>
+We send this to add private room operator abilities to a user
+</p>
+<h4 id="FunctionNames71">Function Names</h4>
+<p>
+Museekd: SPrivRoomAddOperator<br>
+Nicotine: <a class="missing wiki">PrivateRoomAddOperator?</a>
+</p>
+<h4 id="DataOrder75">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li></ul><h3 id="ServerCode144">Server Code 144</h3>
+<p>
+<strong>Private Room Remove Operator</strong>
+</p>
+<h4 id="Description79">Description</h4>
+<p>
+We send this to remove privateroom operator abilities from a user
+</p>
+<h4 id="FunctionNames72">Function Names</h4>
+<p>
+Museekd: SPrivRoomRemoveOperator<br>
+Nicotine: <a class="missing wiki">PrivateRoomRemoveOperator?</a>
+</p>
+<h4 id="DataOrder76">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li></ul><h3 id="ServerCode145">Server Code 145</h3>
+<p>
+<strong>Private Room Operator Added</strong>
+</p>
+<h4 id="Description80">Description</h4>
+<blockquote>
+<p>
+We receive this when given private room operator abilities
+</p>
+</blockquote>
+<h4 id="FunctionNames73">Function Names</h4>
+<p>
+Museekd: SPrivRoomOperatorAdded<br>
+Nicotine: <a class="missing wiki">PrivateRoomOperatorAdded?</a>
+</p>
+<h4 id="DataOrder77">Data Order</h4>
+<ul><li>Not sent
+</li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode146">Server Code 146</h3>
+<p>
+<strong>Private Room Operator Removed</strong>
+</p>
+<h4 id="Description81">Description</h4>
+<p>
+We receive this when privateroom operator abilities are removed
+</p>
+<h4 id="FunctionNames74">Function Names</h4>
+<p>
+Museekd: SPrivRoomOperatorRemoved<br>
+Nicotine: <a class="missing wiki">PrivateRoomOperatorRemoved?</a>
+</p>
+<h4 id="DataOrder78">Data Order</h4>
+<ul><li>Not sent
+</li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li></ol></li></ul><h3 id="ServerCode148">Server Code 148</h3>
+<p>
+<strong>Private Room Operators</strong>
+</p>
+<h4 id="Description82">Description</h4>
+<p>
+List of operators of a specific room, that we can disop.
+</p>
+<h4 id="FunctionNames75">Function Names</h4>
+<p>
+Museekd: SPrivRoomAlterableOperators<br>
+Nicotine: <a class="missing wiki">PrivateRoomOwned?</a>
+</p>
+<h4 id="DataOrder79">Data Order</h4>
+<ul><li>Not sent
+</li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>int</strong> <span class="underline">number of operators in room</span>
+</li><li>Iterate the <span class="underline">number of operators</span> <strong>museekd uses a vector of strings</strong>
+<ol><li><strong>string</strong> <span class="underline">operator</span>
+</li></ol></li></ol></li></ul><h3 id="ServerCode149">Server Code 149</h3>
+<p>
+<strong>Message Users</strong>
+</p>
+<h4 id="Description83">Description</h4>
+<p>
+Sends a broadcast private message to the given list of users.
+</p>
+<h4 id="FunctionNames76">Function Names</h4>
+<p>
+Museekd: SMessageUsers<br>
+Nicotine: Unimplemented
+</p>
+<h4 id="DataOrder80">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">number of users</span>
+</li><li>Iterate the <span class="underline">number of users</span> <strong>museekd uses a vector of strings</strong>
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li></ul><h3 id="ServerCode150">Server Code 150</h3>
+<p>
+<strong>Ask Public Chat</strong>
+</p>
+<h4 id="Description84">Description</h4>
+<p>
+Ask the server to send us public chat.
+</p>
+<h4 id="FunctionNames77">Function Names</h4>
+<p>
+Museekd: SAskPublicChat<br>
+Nicotine: Unimplemented
+</p>
+<h4 id="DataOrder81">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="ServerCode151">Server Code 151</h3>
+<p>
+<strong>Stop Public Chat</strong>
+</p>
+<h4 id="Description85">Description</h4>
+<p>
+Ask the server to stop sending us public chat.
+</p>
+<h4 id="FunctionNames78">Function Names</h4>
+<p>
+Museekd: SStopPublicChat<br>
+Nicotine: Unimplemented
+</p>
+<h4 id="DataOrder82">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="ServerCode152">Server Code 152</h3>
+<p>
+<strong>Private Chat</strong>
+</p>
+<h4 id="Description86">Description</h4>
+<p>
+Public chat sent by the server (ie every single line written in every public room).
+</p>
+<h4 id="FunctionNames79">Function Names</h4>
+<p>
+Museekd: SPublicChat<br>
+Nicotine: Unimplemented
+</p>
+<h4 id="DataOrder83">Data Order</h4>
+<ul><li>Receive
+<ol><li><strong>string</strong> <span class="underline">room</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>string</strong> <span class="underline">message</span>
+</li></ol></li></ul><h3 id="ServerCode1001">Server Code 1001</h3>
+<p>
+<strong>Cannot Connect</strong>
+</p>
+<h4 id="FunctionNames80">Function Names</h4>
+<p>
+Museekd: <strong>SCannotConnect</strong>
+<br>Nicotine: <strong><a class="missing wiki">CantConnectToPeer?</a></strong>
+</p>
+<h4 id="Description87">Description</h4>
+<p>
+See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerConnectionMessageOrder">Peer Connection Message Order</a>
+</p>
+<h4 id="DataOrder84">Data Order</h4>
+<ul><li>Send <em>to the Server if we cannot connect to a peer.</em>
+<ol><li><strong>int</strong> <span class="underline">token</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li><li>Receive <em>this response means we are both firewalled or otherwise unable to connect to each other.</em>
+<ol><li><strong>int</strong> <span class="underline">token</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li></ol></li></ul><h1 id="PeerMessages">Peer Messages</h1>
+<p>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerMessages">Server Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerMessages">Peer Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedMessages">Distributed Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
+</p>
+<table class="wiki">
+<tbody><tr><td> Send </td><td> Send to Peer 
+</td></tr><tr><td> Receive </td><td> Receive from Peer 
+</td></tr></tbody></table>
+<p>
+In museekd 0.1.13, these messages are sent and received in <a class="missing wiki">Museek/PeerConnection?</a>.cc and defined in <a class="missing wiki">Museek/PeerMessages?</a>.hh.
+Since museekd 0.2, they are defined in museekd/peermessages.h.
+</p>
+<h4 id="ThePeerInitMessageformat">The Peer Init Message format</h4>
+<table class="wiki">
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
+</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ... 
+</td></tr></tbody></table>
+<h4 id="PeerInitMessageIndex">Peer Init Message Index</h4>
+<table class="wiki">
+<tbody><tr><td> Code </td><td> Message 
+</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode0">Pierce Firewall</a> 
+</td></tr><tr><td>  1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode1">Peer Init</a> 
+</td></tr></tbody></table>
+<h3 id="PeerConnectionMessageOrder">Peer Connection Message Order</h3>
+<ol><li>User A sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode1">Peer Init</a> to User B (Fails: socket cannot connect)
+</li><li>User A sends <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode18">ConnectToPeer</a> to the Server with a unique token
+</li><li>The Server sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode18">ConnectToPeer</a> response to User B with the same token
+</li><li>User B sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode0">Pierce Firewall</a> to User A with the same token (if this fails connections are doomed)
+</li><li>User B sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1001">Cannot Connect</a> to the Server
+</li><li>The Server sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1001">Cannot Connect</a> response to User A
+</li></ol><h3 id="PeerCode0">Peer Code 0</h3>
+<p>
+<strong>Pierce Firewall</strong>
+</p>
+<h4 id="FunctionNames81">Function Names</h4>
+<h4 id="Description88">Description</h4>
+<p>
+See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerConnectionMessageOrder">Peer Connection Message Order</a>
+</p>
+<h4 id="DataOrder85">Data Order</h4>
+<ul><li>Send
+<ul><li><strong>uint32</strong> <span class="underline">token</span> <em>Unique Number</em>
+</li></ul></li><li>Receive
+<ul><li><strong>uint32</strong> <span class="underline">token</span> <em>Unique Number</em>
+</li></ul></li></ul><h3 id="PeerCode1">Peer Code 1</h3>
+<p>
+<strong>Peer Init</strong>
+</p>
+<h4 id="FunctionNames82">Function Names</h4>
+<h4 id="Description89">Description</h4>
+<p>
+See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerConnectionMessageOrder">Peer Connection Message Order</a>
+</p>
+<h4 id="DataOrder86">Data Order</h4>
+<ul><li>Send
+<ul><li><strong>string</strong> <span class="underline">user</span> <em>Local Username</em>
+</li><li><strong>string</strong> <span class="underline">type</span> <em>Connection Type (P, F or D)</em>
+</li><li><strong>uint32</strong> <span class="underline">token</span> <em>Unique Number</em>
+</li></ul></li><li>Receive
+<ul><li><strong>string</strong> <span class="underline">user</span> <em>Remote Username</em>
+</li><li><strong>string</strong> <span class="underline">type</span> <em>Connection Type (P, F or D)</em>
+</li><li><strong>uint32</strong> <span class="underline">token</span> <em>Unique Number</em>
+</li></ul></li></ul><h4 id="TheMessageformat">The Message format</h4>
+<table class="wiki">
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
+</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ... 
+</td></tr></tbody></table>
+<h4 id="MessageIndex1">Message Index</h4>
+<table class="wiki">
+<tbody><tr><td> Code </td><td> Message 
+</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode4">Shares Request</a> 
+</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode5">Shares Reply</a> 
+</td></tr><tr><td>  8 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode8">Search Request</a> 
+</td></tr><tr><td>  9 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode9">Search Reply</a> 
+</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode15">Info Request </a> 
+</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode16">Info Reply </a> 
+</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode36">Folder Contents Request</a> 
+</td></tr><tr><td> 37 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode37">Folder Contents Reply </a> 
+</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode40">Transfer Request </a> 
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41a">Upload Reply </a> 
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41b">Download Reply </a> 
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41c">Transfer Reply </a> 
+</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode42">Upload Placehold</a> 
+</td></tr><tr><td> 43 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode43">Queue Download </a> 
+</td></tr><tr><td> 44 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode44">Upload Queue Notification </a> 
+</td></tr><tr><td> 46 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode46">Upload Failed </a> 
+</td></tr><tr><td> 50 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode50">Queue Failed </a> 
+</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode51">Place In Queue Request </a> 
+</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode52">Upload Queue Notification </a> 
+</td></tr></tbody></table>
+<h3 id="PeerCode4">Peer Code 4</h3>
+<p>
+<strong>Shares Request</strong>
+</p>
+<h4 id="FunctionNames83">Function Names</h4>
+<p>
+Museekd: PSharesRequest
+<br>Nicotine: <strong><a class="missing wiki">GetShareFileList?</a></strong>
+</p>
+<h4 id="Description90">Description</h4>
+<h4 id="DataOrder87">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="PeerCode5">Peer Code 5</h3>
+<p>
+<strong>Shares Reply</strong>
+</p>
+<h4 id="FunctionNames84">Function Names</h4>
+<p>
+Museekd: PSharesReply
+<br>Nicotine: <strong><a class="missing wiki">SharedFileList?</a></strong>
+</p>
+<h4 id="Description91">Description</h4>
+<h4 id="DataOrder88">Data Order</h4>
+<ul><li>Send <em>shares database</em>
+<ol><li>Iterate thru shares database
+<ol><li><strong>data</strong>
+</li></ol></li></ol></li><li>Receive <em>shares database</em>
+<ol><li>decompress
+</li><li><strong>int</strong> <span class="underline">number of directories</span>
+</li><li>Iterate <span class="underline">number of directories</span>
+<ol><li><strong>string</strong> <span class="underline">directory</span>
+</li><li><strong>int</strong> <span class="underline">number of files</span>
+</li><li>Iterate <span class="underline">number of files</span>
+<ol><li><strong>char</strong> ??? (unused)
+</li><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>off_t</strong> <span class="underline">size</span> <em>File size</em>
+</li><li><strong>string</strong> <span class="underline">ext</span> <em>Extentsion</em>
+</li><li><strong>int</strong> <span class="underline">number of attributes</span>
+</li><li>Iterate <span class="underline">number of attributes</span>
+<ol><li><strong>int</strong> <span class="underline">place in attributes</span> (unused by museekd)
+</li><li><strong>int</strong> <span class="underline">attribute</span>
+</li></ol></li></ol></li></ol></li></ol></li></ul><h3 id="PeerCode8">Peer Code 8</h3>
+<p>
+<strong>Search Request</strong>
+Museekd: PSearchRequest
+<br>Nicotine: <strong><a class="missing wiki">FileSearchRequest?</a></strong>
+</p>
+<h4 id="Description92">Description</h4>
+<h4 id="DataOrder89">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">query</span>
+</li></ol></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">query</span>
+</li></ol></li></ul><h3 id="PeerCode9">Peer Code 9</h3>
+<p>
+<strong>Search Reply</strong>
+</p>
+<h4 id="FunctionNames85">Function Names</h4>
+<p>
+Museekd: PSearchReply
+<br>Nicotine: <strong><a class="missing wiki">FileSearchResult?</a></strong>
+</p>
+<h4 id="Description93">Description</h4>
+<h4 id="DataOrder90">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>int</strong> <span class="underline">results size</span> <em>number of results</em>
+</li><li>Iterate for number of results
+<ol><li><strong>uchar</strong> 1
+</li><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>int</strong> <span class="underline">size</span>
+</li><li><strong>string</strong> <span class="underline">ext</span>
+</li><li><strong>int</strong> <span class="underline">attribute size</span>
+</li><li>Iterate <span class="underline">number of attributes</span>
+<ol><li><strong>int</strong> <span class="underline">place in attributes</span>
+</li><li><strong>int</strong> <span class="underline">attribute</span>
+</li></ol></li></ol></li><li><strong>bool</strong> <span class="underline">slotfree</span>
+</li><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">queue length</span>
+</li></ol></li><li>Receive
+<ol><li>decompress
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>int</strong> <span class="underline">results size</span> <span class="underline">number of results</span>
+</li><li>Iterate for <span class="underline">number of results</span>
+museekd pop buffer
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>off_t</strong> <span class="underline">size</span>
+</li><li><strong>string</strong> <span class="underline">ext</span>
+</li><li><strong>int</strong> <span class="underline">number of attributes</span>
+</li><li>Iterate <span class="underline">number of attributes</span>
+<ol><li><strong>int</strong> <span class="underline">place in attributes</span>
+</li><li><strong>int</strong> <span class="underline">attribute</span>
+</li></ol></li></ol></li><li><strong>bool</strong> <span class="underline">slotfree</span>
+</li><li><strong>int</strong> <span class="underline">avgspeed</span>
+</li><li><strong>off_t</strong> <span class="underline">queue length</span>
+</li></ol></li></ul><h3 id="PeerCode15">Peer Code 15</h3>
+<p>
+<strong>Info Request</strong>
+</p>
+<h4 id="FunctionNames86">Function Names</h4>
+<p>
+Museekd: PInfoRequest
+<br>Nicotine: <strong><a class="missing wiki">UserInfoRequest?</a></strong>
+</p>
+<h4 id="Description94">Description</h4>
+<h4 id="DataOrder91">Data Order</h4>
+<ul><li>Send
+<ul><li>Empty Message
+</li></ul></li><li>Receive
+<ul><li>Empty Message
+</li></ul></li></ul><h3 id="PeerCode16">Peer Code 16</h3>
+<p>
+<strong>Info Reply</strong>
+</p>
+<h4 id="FunctionNames87">Function Names</h4>
+<p>
+Museekd: PInfoReply
+<br>Nicotine: <strong><a class="missing wiki">UserInfoReply?</a></strong>
+</p>
+<h4 id="Description95">Description</h4>
+<h4 id="DataOrder92">Data Order</h4>
+<ul><li>Send description, picture, totalupl, queuesize, slotfree
+<ol><li><strong>string</strong> <span class="underline">description</span>
+</li><li>Check contents of <span class="underline">picture</span>
+<ul><li>If <span class="underline">picture</span> is not empty
+<ol><li><strong>bool</strong> <span class="underline">has_picture</span> 1
+</li><li><strong>string</strong> <span class="underline">picture</span>
+</li></ol></li><li>If <span class="underline">picture</span> is empty
+<ol><li><strong>bool</strong> <span class="underline">has_picture</span> 0
+</li></ol></li></ul></li><li><strong>uint</strong> <span class="underline">totalupl</span>
+</li><li><strong>uint</strong> <span class="underline">queuesize</span>
+</li><li><strong>bool</strong> <span class="underline">slotsfree</span> <em>Can immediately upload</em>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">description</span>
+</li><li><strong>char</strong> <span class="underline">has_picture</span>
+</li><li>Check contents of <span class="underline">has_picture</span>
+<ol><li>If <span class="underline">has_picture</span> is not empty
+<ol><li><strong>string</strong> <span class="underline">picture</span>
+</li></ol></li></ol></li><li><strong>int</strong> <span class="underline">totalupl</span>
+</li><li><strong>int</strong> <span class="underline">queuesize</span>
+</li><li><strong>bool</strong> <span class="underline">slotsfree</span> <em>Can immediately download</em>
+</li></ol></li></ul><h3 id="PeerCode36">Peer Code 36</h3>
+<p>
+<strong>Folder Contents Request</strong>
+</p>
+<h4 id="FunctionNames88">Function Names</h4>
+<p>
+Museekd: PFolderContentsRequest
+<br>Nicotine: <strong><a class="missing wiki">FolderContentsRequest?</a></strong>
+</p>
+<h4 id="Description96">Description</h4>
+<h4 id="DataOrder93">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">number of files in directory</span>
+</li><li>Iterate <span class="underline">number of files in directory</span>
+<ol><li><strong>string</strong> <span class="underline">file</span>
+</li></ol></li></ol></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">number of files in directory</span>
+</li><li>Iterate <span class="underline">number of files in directory</span>
+<ol><li><strong>string</strong> <span class="underline">file</span>
+</li></ol></li></ol></li></ul><h3 id="PeerCode37">Peer Code 37</h3>
+<p>
+<strong>Folder Contents Reply</strong>
+</p>
+<h4 id="FunctionNames89">Function Names</h4>
+<p>
+Museekd: PFolderContentsReply
+<br>Nicotine: <strong><a class="missing wiki">FolderContentsResponse?</a></strong>
+</p>
+<h4 id="Description97">Description</h4>
+<h4 id="DataOrder94">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">number of folders</span>
+</li><li>Iterate for <span class="underline">number of folders</span>
+<ol><li><strong>string</strong> <span class="underline">dir</span>
+</li><li><strong>int</strong> <span class="underline">number of files</span>
+</li><li>Iterate <span class="underline">number of files</span>
+<ol><li><strong>char</strong> <span class="underline">true</span>
+</li><li><strong>string</strong> <span class="underline">file</span>
+</li><li><strong>off_t</strong> <span class="underline">size</span>
+</li><li><strong>string</strong> <span class="underline">ext</span> Extension
+</li><li><strong>int</strong> <span class="underline">number of attributes</span>
+<ol><li><strong>int</strong> <span class="underline">attribute number</span>
+</li><li><strong>int</strong> <span class="underline">attribute</span>
+</li></ol></li></ol></li></ol></li></ol></li><li>Receive
+<ol><li>decompress
+</li><li><strong>int</strong> <span class="underline">number of folders</span>
+</li><li>Iterate for <span class="underline">number of folders</span>
+<ol><li><strong>string</strong> <span class="underline">dir</span>
+</li><li><strong>int</strong> <span class="underline">number of files</span>
+</li><li>Iterate <span class="underline">number of files</span>
+<ol><li><strong>char</strong> <span class="underline">???</span> (unused)
+</li><li><strong>string</strong> <span class="underline">file</span>
+</li><li><strong>off_t</strong> <span class="underline">size</span>
+</li><li><strong>string</strong> <span class="underline">ext</span> Extension
+</li><li><strong>int</strong> <span class="underline">number of attributes</span>
+<ol><li><strong>int</strong> <span class="underline">attribute number</span>
+</li><li><strong>int</strong> <span class="underline">attribute</span>
+</li></ol></li></ol></li></ol></li></ol></li></ul><h3 id="PeerCode40">Peer Code 40</h3>
+<p>
+<strong>Transfer Request</strong>
+</p>
+<h4 id="FunctionNames90">Function Names</h4>
+<p>
+Museekd: PTransferRequest
+<br>Nicotine: <strong><a class="missing wiki">TransferRequest?</a></strong>
+</p>
+<h4 id="Description98">Description</h4>
+<h4 id="DataOrder95">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>int</strong> <span class="underline">direction</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">filename</span>
+</li><li>Check contents of <span class="underline">direction</span>
+<ul><li><strong>off_t</strong> <span class="underline">filesize</span> <em>if direction == 1</em>
+</li></ul></li></ol></li><li>Receive
+<ol><li><strong>int</strong> <span class="underline">direction</span>
+</li><li><strong>int</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">filename</span>
+</li><li>Check contents of <span class="underline">direction</span>
+<ul><li><strong>off_t</strong> <span class="underline">filesize</span> <em>if direction == 1</em>
+</li></ul></li></ol></li></ul><h3 id="PeerCode41a">Peer Code 41 a</h3>
+<p>
+<strong>Upload Reply</strong>
+</p>
+<h4 id="FunctionNames91">Function Names</h4>
+<p>
+Museekd: PUploadReply
+<br>Nicotine: <strong><a class="missing wiki">TransferResponse?</a></strong>
+</p>
+<h4 id="Description99">Description</h4>
+<h4 id="DataOrder96">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">ticket</span>
+</li><li><strong>uchar</strong> <span class="underline">allowed</span>
+</li><li>Check contents of <span class="underline">allowed</span>
+<ul><li><strong>off_t</strong> <span class="underline">filesize</span> <em>if allowed == 1</em>
+</li><li><strong>string</strong> <span class="underline">reason</span> <em>if allowed == 0</em>
+</li></ul></li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="PeerCode41b">Peer Code 41 b</h3>
+<p>
+<strong>Download Reply</strong>
+</p>
+<h4 id="FunctionNames92">Function Names</h4>
+<p>
+Museekd: PDownloadReply
+<br>Nicotine: <strong><a class="missing wiki">TransferResponse?</a></strong>
+</p>
+<h4 id="Description100">Description</h4>
+<h4 id="DataOrder97">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">ticket</span>
+</li><li><strong>uchar</strong> <span class="underline">allowed</span>
+</li><li>Check contents of <span class="underline">allowed</span>
+<ul><li><strong>string</strong> <span class="underline">reason</span> <em>if allowed == 0</em>
+</li></ul></li></ol></li><li>Receive
+<ul><li><em>No Message</em>
+</li></ul></li></ul><h3 id="PeerCode41c">Peer Code 41 c</h3>
+<p>
+<strong>Transfer Reply</strong>
+</p>
+<h4 id="FunctionNames93">Function Names</h4>
+<p>
+Museekd: PTransferReply
+<br>Nicotine: <strong><a class="missing wiki">TransferResponse?</a></strong>
+</p>
+<h4 id="Description101">Description</h4>
+<h4 id="DataOrder98">Data Order</h4>
+<ul><li>Send
+<ul><li><em>No Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">ticket</span>
+</li><li><strong>char</strong> <span class="underline">allowed</span> == 1
+</li><li>Check contents of <span class="underline">allowed</span>
+<ul><li><strong>off_t</strong> <span class="underline">filesize</span> <em>if allowed == 1</em>
+</li><li><strong>string</strong> <span class="underline">reason</span> <em>if allowed == 0</em>
+</li></ul></li></ol></li></ul><h3 id="PeerCode42">Peer Code 42</h3>
+<p>
+<strong>Upload Placehold</strong>
+</p>
+<h4 id="FunctionNames94">Function Names</h4>
+<p>
+Museekd: PUploadPlacehold
+<br>Nicotine: <strong><a class="missing wiki">PlaceholdUpload?</a></strong>
+</p>
+<h4 id="Description102">Description</h4>
+<p>
+<strong>DEPRECIATED</strong>
+</p>
+<h4 id="DataOrder99">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li></ul><h3 id="PeerCode43">Peer Code 43</h3>
+<p>
+<strong>Queue Upload or Download</strong>
+</p>
+<h4 id="FunctionNames95">Function Names</h4>
+<p>
+Museekd: PQueueDownload
+<br>Nicotine: <strong><a class="missing wiki">QueueUpload?</a></strong>
+</p>
+<h4 id="Description103">Description</h4>
+<h4 id="DataOrder100">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li></ul><h3 id="PeerCode44">Peer Code 44</h3>
+<p>
+<strong>Place In Queue Reply</strong>
+Museekd: PPlaceInQueueReply
+<a class="missing wiki">[BR?</a>Nicotine: <strong><a class="missing wiki">PlaceInQueue?</a></strong>
+</p>
+<h4 id="Description104">Description</h4>
+<h4 id="DataOrder101">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>string</strong> <span class="underline">place</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>string</strong> <span class="underline">place</span>
+</li></ol></li></ul><h3 id="PeerCode46">Peer Code 46</h3>
+<p>
+<strong>Upload Failed</strong>
+</p>
+<h4 id="FunctionNames96">Function Names</h4>
+<p>
+Museekd: PUploadFailed
+<br>Nicotine: <strong><a class="missing wiki">UploadFailed?</a></strong>
+</p>
+<h4 id="Description105">Description</h4>
+<h4 id="DataOrder102">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li></ul><h3 id="PeerCode50">Peer Code 50</h3>
+<p>
+<strong>Queue Failed</strong>
+</p>
+<h4 id="FunctionNames97">Function Names</h4>
+<p>
+Museekd: PQueueFailed
+<br>Nicotine: <strong><a class="missing wiki">QueueFailed?</a></strong>
+</p>
+<h4 id="Description106">Description</h4>
+<h4 id="DataOrder103">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>string</strong> <span class="underline">reason</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li><li><strong>string</strong> <span class="underline">reason</span>
+</li></ol></li></ul><h3 id="PeerCode51">Peer Code 51</h3>
+<p>
+<strong>Place In Queue Request</strong>
+</p>
+<h4 id="FunctionNames98">Function Names</h4>
+<p>
+Museekd: PPlaceInQueueRequest
+<br>Nicotine: <strong><a class="missing wiki">PlaceInQueueRequest?</a></strong>
+</p>
+<h4 id="Description107">Description</h4>
+<h4 id="DataOrder104">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">filename</span>
+</li></ol></li></ul><h3 id="PeerCode52">Peer Code 52</h3>
+<p>
+<strong>Upload Queue Notification</strong>
+</p>
+<h4 id="FunctionNames99">Function Names</h4>
+<p>
+Museekd: PUploadQueueNotification
+<br>Nicotine: <strong>Not implemented</strong>
+</p>
+<h4 id="Description108">Description</h4>
+<h4 id="DataOrder105">Data Order</h4>
+<ul><li>Send
+<ul><li><em>Empty Message</em>
+</li></ul></li><li>Receive
+<ul><li><em>Empty Message</em>
+</li></ul></li></ul><h2 id="DistributedMessages">Distributed Messages</h2>
+<p>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerMessages">Server Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerMessages">Peer Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedMessages">Distributed Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
+</p>
+<table class="wiki">
+<tbody><tr><td> Send </td><td> Send to Node 
+</td></tr><tr><td> Receive </td><td> Receive from Node 
+</td></tr></tbody></table>
+<p>
+In museekd 0.1.13, these messages are sent and received in <a class="missing wiki">Museek/DistribConnection?</a>.cc and defined in <a class="missing wiki">Museek/DistribMessages?</a>.hh.
+Since museekd 0.2, they are defined in museekd/distributedmessages.h.
+</p>
+<h4 id="TheMessageformat1">The Message format</h4>
+<table class="wiki">
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
+</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ... 
+</td></tr></tbody></table>
+<h4 id="MessageIndex2">Message Index</h4>
+<table class="wiki">
+<tbody><tr><td> Code </td><td> Message 
+</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode0">Ping</a> 
+</td></tr><tr><td>  3 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode3">Search Request</a> 
+</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode4">Branch Level</a> 
+</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode5">Branch Root</a> 
+</td></tr><tr><td>  7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode7">Child Depth</a> 
+</td></tr></tbody></table>
+<h3 id="DistributedCode0">Distributed Code 0</h3>
+<p>
+<strong>Ping</strong>
+</p>
+<h4 id="Description109">Description</h4>
+<p>
+Send it every 60 sec.
+</p>
+<h4 id="FunctionNames100">Function Names</h4>
+<p>
+Museekd: <strong>DPing</strong>
+<br>Nicotine: <strong><a class="missing wiki">DistribAlive?</a></strong>
+</p>
+<h4 id="DataOrder106">Data Order</h4>
+<ul><li>Send
+<ul><li><em>Empty Message</em>
+</li></ul></li><li>Receive
+<ol><li><strong>uint32</strong> <span class="underline">unknown</span>
+</li></ol></li></ul><h3 id="DistributedCode3">Distributed Code 3</h3>
+<p>
+<strong>Search Request</strong>
+</p>
+<h4 id="Description110">Description</h4>
+<p>
+Transmit the search requests to our children. (Search requests are sent 
+to us by the server using SSearchRequest if we're a branch root, or by 
+our parent using DSearchRequest)
+</p>
+<h4 id="FunctionNames101">Function Names</h4>
+<p>
+Museekd: <strong>DSearchRequest</strong>
+<br>Nicotine: <strong><a class="missing wiki">DistribSearch?</a></strong>
+</p>
+<h4 id="DataOrder107">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>uint32</strong> <span class="underline">unknown</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>uint32</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">query</span>
+</li></ol></li><li>Receive
+<ol><li><strong>uint32</strong> <span class="underline">unknown</span>
+</li><li><strong>string</strong> <span class="underline">user</span>
+</li><li><strong>uint32</strong> <span class="underline">ticket</span>
+</li><li><strong>string</strong> <span class="underline">query</span>
+</li></ol></li></ul><h3 id="DistributedCode4">Distributed Code 4</h3>
+<p>
+<strong>Branch Level</strong>
+</p>
+<h4 id="Description111">Description</h4>
+<p>
+See SBranchLevel
+</p>
+<h4 id="FunctionNames102">Function Names</h4>
+<p>
+Museekd: <strong>DBranchLevel</strong>
+<br>Nicotine: <strong><a class="missing wiki">DistribUnknown?</a></strong>
+</p>
+<h4 id="DataOrder108">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>uint32</strong> <span class="underline">branch_level</span>
+</li></ol></li><li>Receive
+<ol><li><strong>uint32</strong> <span class="underline">branch_level</span>
+</li></ol></li></ul><h3 id="DistributedCode5">Distributed Code 5</h3>
+<p>
+<strong>Branch Root</strong>
+</p>
+<h4 id="Description112">Description</h4>
+<p>
+See SBranchRoot
+</p>
+<h4 id="FunctionNames103">Function Names</h4>
+<p>
+Museekd: <strong>DBranchRoot</strong>
+</p>
+<h4 id="DataOrder109">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>string</strong> <span class="underline">branch_root</span>
+</li></ol></li><li>Receive
+<ol><li><strong>string</strong> <span class="underline">branch_root</span>
+</li></ol></li></ul><h3 id="DistributedCode7">Distributed Code 7</h3>
+<p>
+<strong>Branch Level</strong>
+</p>
+<h4 id="Description113">Description</h4>
+<p>
+See SChildDepth
+</p>
+<h4 id="FunctionNames104">Function Names</h4>
+<p>
+Museekd: <strong>DChildDepth</strong>
+</p>
+<h4 id="DataOrder110">Data Order</h4>
+<ul><li>Send
+<ol><li><strong>uint32</strong> <span class="underline">child_depth</span>
+</li></ol></li><li>Receive
+<ol><li><strong>uint32</strong> <span class="underline">child_depth</span>
+</li></ol></li></ul><h2 id="MuseekDataTypes">Museek Data Types</h2>
+<p>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerMessages">Server Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerMessages">Peer Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedMessages">Distributed Messages</a>
+<a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
+</p>
+<h3 id="StringMap">StringMap</h3>
+<ul><li>std::map&lt;std::string, std::string&gt;
+</li></ul><h3 id="StringList">StringList</h3>
+<ul><li>std::vector&lt;std::string&gt;
+</li></ul><h3 id="WStringList">WStringList</h3>
+<ul><li>std::vector&lt;std::wstring&gt; WStringList
+</li></ul><h3 id="WTickers">WTickers</h3>
+<ul><li>std::map&lt;std::string, std::wstring&gt;
+</li></ul><h3 id="RecommendationsSimilarUsersRoomList">Recommendations, SimilarUsers, RoomList</h3>
+<ul><li>std::map&lt;std::string, uint32&gt;
+</li></ul><h3 id="NetInfo">NetInfo</h3>
+<ul><li>std::map&lt;std::string, std::pair&lt;std::string, uint32&gt; &gt;
+</li></ul><h3 id="UserData">UserData</h3>
+<ol><li><strong>uint32</strong> <span class="underline">status</span> <em>Online Status</em>
+</li><li><strong>uint32</strong> <span class="underline">avgspeed</span> <em>Average Speed</em>
+</li><li><strong>uint32</strong> <span class="underline">downloadnum</span> <em>Number of downloaded files</em>
+</li><li><strong>uint32</strong> <span class="underline">files</span> <em>Files shared</em>
+</li><li><strong>uint32</strong> <span class="underline">dirs</span> <em>Directories shared</em>
+</li><li><strong>bool</strong> <span class="underline">slotsfree</span> <em>Slots free</em>
+</li></ol><h3 id="RoomData">RoomData</h3>
+<ul><li>std::map&lt;std::string, UserData&gt;
+</li></ul><h3 id="Folder">Folder</h3>
+<ul><li>std::map&lt;std::string, FileEntry&gt;
+</li></ul><h3 id="Shares">Shares</h3>
+<ul><li>std::map&lt;std::string, Folder&gt;
+</li></ul><h3 id="WFolder">WFolder</h3>
+<ul><li>std::map&lt;std::wstring, FileEntry&gt;
+</li></ul><h3 id="Folders">Folders</h3>
+<ul><li>std::map&lt;std::string, Shares&gt;
+</li></ul><h3 id="WShares">WShares</h3>
+<ul><li>std::map&lt;std::wstring, WFolder&gt;
+</li></ul><h3 id="WFolders">WFolders</h3>
+<ul><li>std::map&lt;std::wstring, WShares&gt;
+</li></ul><h3 id="off_t">off_t</h3>
+<ul><li>Packed as a 64bit Integer
+</li></ul></div>
+          
+          <div class="trac-modifiedby">
+            <span><a href="http://www.museek-plus.org/wiki/SoulseekProtocol?action=diff&amp;version=59" title="Version 59 by lbponey">Last modified</a> <a class="timeline" href="http://www.museek-plus.org/timeline?from=2010-01-13T19%3A12%3A13%2B01%3A00&amp;precision=second" title="See timeline at 01/13/10 19:12:13">9 years ago</a></span>
+            <span class="trac-print">Last modified on 01/13/10 19:12:13</span>
+          </div>
+        
+        
+      </div>
+      
+
+    </div>
+    <div id="altlinks">
+      <h3>Download in other formats:</h3>
+      <ul>
+        <li class="last first">
+          <a rel="nofollow" href="http://www.museek-plus.org/wiki/SoulseekProtocol?format=txt">Plain Text</a>
+        </li>
+      </ul>
+    </div>
+    </div>
+    <div id="footer" xml:lang="en" lang="en"><hr>
+      <a id="tracpowered" href="http://trac.edgewall.org/"><img src="SoulseekProtocol%20%E2%80%93%20Museek+_files/trac_logo_mini.png" alt="Trac Powered" width="107" height="30"></a>
+      <p class="left">Powered by <a href="http://www.museek-plus.org/about"><strong>Trac 1.2</strong></a><br>
+        By <a href="http://www.edgewall.org/">Edgewall Software</a>.</p>
+      <p class="right">Visit the Trac open source project at<br><a href="http://trac.edgewall.com/">http://trac.edgewall.com/</a></p>
+    </div>
+    <div id="sitefooter">
+<!-- Google Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3734681-2");
+pageTracker._trackPageview();
+</script>
+<!-- Google Analytics End -->
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://hwraid.le-vert.net/piwik/";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "5"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
+    </div>
+  
+<iframe src="SoulseekProtocol%20%E2%80%93%20Museek+_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe></body></html>
