@@ -1,19 +1,25 @@
 const EventEmitter = require('events').EventEmitter;
-const net = require('net');
 const uploadSpeed = require('./lib/upload-speed');
+const Client = require('./lib/client');
 
 class LiveLook extends EventEmitter {
     constructor(args) {
+        super();
+
         this.username = args.username;
         this.password = args.password;
+        this.server = args.server || 'server.slsknet.org';
+        this.port = args.port || 2242;
+        this.waitPort = args.waitPort || 2234;
+        this.sharedFolders = args.sharedFolders;
 
-        this.shares = args.shares;
         this.shareList = {};
 
         // cache gzipped search results (?) and our shares
         this.cache = {};
 
-        this.server = net.Server();
+        // the connection to soulseek's server
+        this.client = new Client({ host: this.server, port: this.port });
     }
 
     refreshUploadSpeed() {
@@ -31,15 +37,48 @@ class LiveLook extends EventEmitter {
 
     }
 
-    init() {
-        refreshUploadSpeed();
+    init(done) {
+        this.refreshUploadSpeed();
+
+        let loginTimeout = setTimeout(() => {
+            done(new Error('timed out'));
+        }, 5000);
+
+        this.client.init(() => {
+            this.login();
+        });
+
+        this.client.once('login', res => {
+            clearTimeout(loginTimeout);
+
+            if (res.success) {
+                done();
+            } else {
+                done(new Error(res.reason));
+            }
+        });
     }
 
-    login() {
+    setWaitPort(port) {
+        if (port) {
+            this.port = port;
+        }
+
+        this.client.setWaitPort(this.port);
+    }
+
+    login(username, password) {
+        if (username) {
+            this.username = username;
+        }
+
+        if (password) {
+            this.password = password;
+        }
+
+        this.client.login(this.username, this.password);
+        this.setWaitPort();
     }
 }
 
-module.exports.connect = function (args, done) {
-    let livelook = new LiveLook(args);
-    livelook.connect(done);
-};
+module.exports = LiveLook;
