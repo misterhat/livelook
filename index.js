@@ -1,6 +1,8 @@
-const EventEmitter = require('events').EventEmitter;
-const uploadSpeed = require('./lib/upload-speed');
 const Client = require('./lib/client');
+const EventEmitter = require('events').EventEmitter;
+const async = require('async');
+const uploadSpeed = require('./lib/upload-speed');
+const buildList = require('./lib/build-list');
 
 class LiveLook extends EventEmitter {
     constructor(args) {
@@ -11,8 +13,10 @@ class LiveLook extends EventEmitter {
         this.server = args.server || 'server.slsknet.org';
         this.port = args.port || 2242;
         this.waitPort = args.waitPort || 2234;
-        this.sharedFolders = args.sharedFolders;
+        this.sharedFolder = args.sharedFolder;
+        this.description = args.description;
 
+        // the share list pojo
         this.shareList = {};
 
         // cache gzipped search results (?) and our shares
@@ -20,16 +24,26 @@ class LiveLook extends EventEmitter {
 
         // the connection to soulseek's server
         this.client = new Client({ host: this.server, port: this.port });
+
+        // are we sucessfully logged in?
+        this.loggedIn = false;
     }
 
-    refreshUploadSpeed() {
-        uploadSpeed((err, speed) => {
+    init(done) {
+        async.parallel([
+            done => buildList.shares(this.sharedFolder, [], done),
+            done => uploadSpeed(done)
+        ], (err, res) => {
             if (err) {
-                this.emit('error', err);
+                return done(err);
             }
 
-            this.uploadSpeed = speed;
-            this.emit('upload-speed', speed);
+            this.shareList = res[0];
+            this.uploadSpeed = res[1];
+
+            console.log(res);
+
+            this.client.init(done);
         });
     }
 
@@ -37,25 +51,23 @@ class LiveLook extends EventEmitter {
 
     }
 
-    init(done) {
-        this.refreshUploadSpeed();
+    login(done) {
+        if (!this.client.connected) {
+            console.log('called login before init, initting');
 
-        let loginTimeout = setTimeout(() => {
-            done(new Error('timed out'));
-        }, 5000);
+            this.init((err) => {
+                this.login(done);
+            });
 
-        this.client.init(() => {
-            this.login();
-        });
+            return;
+        }
+
+        this.client.send('login', this.username, this.password);
+        this.setWaitPort();
 
         this.client.once('login', res => {
-            clearTimeout(loginTimeout);
-
-            if (res.success) {
-                done();
-            } else {
-                done(new Error(res.reason));
-            }
+            this.loggedIn = res.success;
+            done(null, res);
         });
     }
 
@@ -64,20 +76,12 @@ class LiveLook extends EventEmitter {
             this.port = port;
         }
 
-        this.client.setWaitPort(this.port);
+        this.client.send('setWaitPort', this.port);
     }
 
-    login(username, password) {
-        if (username) {
-            this.username = username;
-        }
-
-        if (password) {
-            this.password = password;
-        }
-
-        this.client.login(this.username, this.password);
-        this.setWaitPort();
+    refreshUploadSpeed() {
+        this.uploadSpeed = speed;
+        this.client.send('setUploadSpeed', speed);
     }
 }
 
