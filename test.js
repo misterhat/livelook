@@ -2,7 +2,7 @@ const LiveLook = require('./');
 
 let livelook = new LiveLook({
     username: 'toadtripler',
-    password: 'toadtriiiiiplerrr',
+    password: 'will triple toads',
     sharedFolder: './mp3s',
     description: 'not responsible for toad-related mutations',
     autojoin: [ 'nicotine' ]
@@ -31,7 +31,8 @@ livelook.login((err, res) => {
     });
 
     setTimeout(() => {
-        livelook.fileSearch('the grouch');
+        //livelook.fileSearch('the grouch');
+        //console.log(livelook.tickers);
     }, 5000);
 
     /*let res = livelook.search('kurt vile', 5000);

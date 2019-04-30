@@ -1,10 +1,11 @@
 const Client = require('./lib/client');
 const EventEmitter = require('events').EventEmitter;
+const PeerServer = require('./lib/peer-server');
 const async = require('async');
 const buildList = require('./lib/build-list');
 const clientHandlers = require('./lib/client-handlers');
-const cloneDeep = require('clone-deep');
 const makeToken = require('./lib/make-token');
+const pkg = require('./package');
 const uploadSpeed = require('./lib/upload-speed');
 
 class LiveLook extends EventEmitter {
@@ -17,14 +18,16 @@ class LiveLook extends EventEmitter {
         this.port = args.port || 2242;
         this.waitPort = args.waitPort || 2234;
         this.sharedFolder = args.sharedFolder;
-        this.status = 2;
-        this.description = args.description;
-
+        this.description = args.description || pkg.homepage;
         this.autojoin = args.autojoin || [];
+        this.maxPeers = args.maxPeers || 100;
 
         if (!Array.isArray(this.autojoin)) {
             this.autojoin = [ this.autojoin ];
         }
+
+        // our online status (1 away, 2 online)
+        this.status = 2;
 
         // the share list pojo
         this.shareList = {};
@@ -34,7 +37,12 @@ class LiveLook extends EventEmitter {
         this.peers = {};
 
         // which rooms we're in
+        // { room: [ { users }, ... ] }
         this.rooms = {};
+
+        // ticker messages!
+        // { room: { user: ticker } }
+        this.tickers = {};
 
         // cache gzipped search results (?) and our shares
         this.cache = {};
@@ -43,17 +51,31 @@ class LiveLook extends EventEmitter {
         this.client = new Client({ host: this.server, port: this.port });
         clientHandlers(this, this.client);
 
+        // our server to accept peer connections
+        this.peerServer = new PeerServer({
+            port: this.waitPort,
+            maxPeers: this.maxPeers
+        });
+
+        this.peerServer.on('waitPort', waitPort => this.setWaitPort(waitPort));
+
         // are we sucessfully logged in?
         this.loggedIn = false;
     }
 
     init(done) {
-        this.refreshShareList((err) => {
+        this.refreshShareList(err => {
             if (err) {
                 return done(err);
             }
 
-            this.client.init(done);
+            this.client.init(err => {
+                if (err) {
+                    return done(err);
+                }
+
+                done();
+            });
         });
     }
 
@@ -82,8 +104,6 @@ class LiveLook extends EventEmitter {
 
     login(done) {
         if (!this.client.connected) {
-            console.log('called login before init, initting');
-
             this.init((err) => {
                 this.login(done);
             });
@@ -92,35 +112,36 @@ class LiveLook extends EventEmitter {
         }
 
         this.client.send('login', this.username, this.password);
-        this.setWaitPort();
 
         this.client.once('login', res => {
             this.loggedIn = res.success;
 
-            if (this.loggedIn) {
-                this.refreshShareCount();
-                this.refreshUploadSpeed();
-
-                if (this.autojoin.length) {
-                    async.each(
-                        this.autojoin,
-                        (room, done) => this.joinRoom(room, done),
-                        err => done(err, res)
-                    );
-                    return;
-                }
+            if (!this.loggedIn) {
+                return done(null, res);
             }
 
-            done(null, res);
+            this.peerServer.init(err => {
+                if (err) {
+                    this.emit('error', err);
+                    return done(err);
+                }
+
+                this.refreshShareCount();
+                this.refreshUploadSpeed();
+                this.autojoin.forEach(room => this.joinRoom(room));
+
+                done(null, res);
+            });
         });
     }
 
     setWaitPort(port) {
         if (port) {
-            this.port = port;
+            this.waitPort = port;
         }
 
-        this.client.send('setWaitPort', this.port);
+        console.log('sending wait port', this.waitPort);
+        this.client.send('setWaitPort', this.waitPort);
     }
 
     sayChatroom(room, message) {
@@ -131,20 +152,7 @@ class LiveLook extends EventEmitter {
         this.client.send('leaveChatroom', room);
     }
 
-    joinRoom(room, done) {
-        done = done || (() => {});
-
-        let joinTimeout = setTimeout(() => {
-            let err = new Error(`timed out joining room ${room}`);
-            this.emit('error', err);
-            done(err);
-        }, 5000);
-
-        this.client.once('joinRoom', res => {
-            clearTimeout(joinTimeout);
-            done(null, res);
-        });
-
+    joinRoom(room) {
         this.client.send('joinRoom', room);
     }
 
