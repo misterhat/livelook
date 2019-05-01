@@ -111,8 +111,6 @@ class LiveLook extends EventEmitter {
             return;
         }
 
-        this.client.send('login', this.username, this.password);
-
         this.client.once('login', res => {
             this.loggedIn = res.success;
 
@@ -133,6 +131,8 @@ class LiveLook extends EventEmitter {
                 done(null, res);
             });
         });
+
+        this.client.send('login', this.username, this.password);
     }
 
     setWaitPort(port) {
@@ -140,7 +140,6 @@ class LiveLook extends EventEmitter {
             this.waitPort = port;
         }
 
-        console.log('sending wait port', this.waitPort);
         this.client.send('setWaitPort', this.waitPort);
     }
 
