@@ -6,6 +6,8 @@ client written in javascript. supports
 [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol),
 chat rooms, messages, browsing users, searching, downloading and uploading.
 
+---
+
 ## example
 ```javascript
 const LiveLook = require('./');
@@ -17,7 +19,7 @@ let livelook = new LiveLook({
     autojoin: [ 'nicotine' ]
 });
 
-livelook.on('error, console.error);
+livelook.on('error', console.error);
 
 livelook.login((err, res) => {
     if (err || !res.success) {
@@ -92,9 +94,9 @@ re-calculate our upload speed from [speedtest.net](https://www.speedtest.net/).
 
 ## see also
 
-    * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
-    * [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
-    * [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
+* [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
+* [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
+* [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
 
 ## license
 Copyright (C) 2019  Zorian Medwid
