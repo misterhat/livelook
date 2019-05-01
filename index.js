@@ -21,6 +21,7 @@ class LiveLook extends EventEmitter {
         this.description = args.description || pkg.homepage;
         this.autojoin = args.autojoin || [];
         this.maxPeers = args.maxPeers || 100;
+        this.uploadSlots = args.uploadSlots || 2;
 
         if (!Array.isArray(this.autojoin)) {
             this.autojoin = [ this.autojoin ];
@@ -57,6 +58,7 @@ class LiveLook extends EventEmitter {
             maxPeers: this.maxPeers
         });
 
+        this.peerServer.on('error', err => this.emit('error', err));
         this.peerServer.on('waitPort', waitPort => this.setWaitPort(waitPort));
 
         // are we sucessfully logged in?
