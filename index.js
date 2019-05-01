@@ -37,6 +37,9 @@ class LiveLook extends EventEmitter {
         //this.knownUsers = {};
         this.peers = {};
 
+        // { ticket: }
+        this.uploads = {};
+
         // which rooms we're in
         // { room: [ { users }, ... ] }
         this.rooms = {};
