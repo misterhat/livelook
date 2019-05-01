@@ -6,7 +6,7 @@ client written in javascript. supports
 [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol),
 chat rooms, messages, browsing users, searching, downloading and uploading.
 
-<div style="clear: both;">&nbsp;</div>
+<div style="clear: both;">&nbsp;</div><br><br>
 
 ## example
 ```javascript
