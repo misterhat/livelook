@@ -36,6 +36,8 @@
     "network": "^0.4.1",
     "recursive-readdir": "^2.2.2",
     "speedtest-net": "^1.5.1",
-    "stream-meter": "^1.0.4"
+    "stream-meter": "^1.0.4",
+    "stream-throttle": "^0.1.3",
+    "tmp": "^0.1.0"
   }
 }

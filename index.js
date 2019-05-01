@@ -7,6 +7,9 @@ const clientHandlers = require('./lib/client-handlers');
 const makeToken = require('./lib/make-token');
 const pkg = require('./package');
 const uploadSpeed = require('./lib/upload-speed');
+const tmp = require('tmp');
+
+tmp.setGracefulCleanup();
 
 class LiveLook extends EventEmitter {
     constructor(args) {
@@ -18,10 +21,17 @@ class LiveLook extends EventEmitter {
         this.port = args.port || 2242;
         this.waitPort = args.waitPort || 2234;
         this.sharedFolder = args.sharedFolder;
+        this.downloadFolder = args.downloadFolder;
         this.description = args.description || pkg.homepage;
         this.autojoin = args.autojoin || [];
         this.maxPeers = args.maxPeers || 100;
         this.uploadSlots = args.uploadSlots || 2;
+        this.uploadThrottle = args.uploadThrottle || 56 * 1024;
+        this.downloadThrottle = args.downloadThrottle || 56 * 1024;
+
+        if (!this.downloadFolder) {
+            this.downloadFolder = tmp.dirSync({ prefix: 'livelook-' }).name;
+        }
 
         if (!Array.isArray(this.autojoin)) {
             this.autojoin = [ this.autojoin ];
@@ -87,9 +97,7 @@ class LiveLook extends EventEmitter {
     // initialize our sharelist (object defining directories and files to share)
     // can be called before we log in or any time after to refresh
     refreshShareList(done) {
-        if (!done) {
-            done = forceRebuild;
-        }
+        done = done || (() => {});
 
         buildList.shares(this.sharedFolder, (err, shareList) => {
             if (err) {
@@ -123,15 +131,19 @@ class LiveLook extends EventEmitter {
                 return done(null, res);
             }
 
+            this.refreshShareCount();
+            this.refreshUploadSpeed();
+            this.autojoin.forEach(room => this.joinRoom(room));
+
+            if (this.peerServer.connected) {
+                return done(null, res);
+            }
+
             this.peerServer.init(err => {
                 if (err) {
                     this.emit('error', err);
                     return done(err);
                 }
-
-                this.refreshShareCount();
-                this.refreshUploadSpeed();
-                this.autojoin.forEach(room => this.joinRoom(room));
 
                 done(null, res);
             });
@@ -166,7 +178,11 @@ class LiveLook extends EventEmitter {
 
     setStatus(status) {
         if (status) {
-            this.status = status;
+            if (!isNaN(+status)) {
+                this.status = status;
+            } else {
+                this.status = status === 'online' ? 2 : 1;
+            }
         }
 
         this.client.send('setStatus', this.status);
@@ -193,14 +209,18 @@ class LiveLook extends EventEmitter {
         this.client.send('userSearch', username, token, query);
     }
 
-    refreshUploadSpeed() {
+    refreshUploadSpeed(done) {
+        done = done || (() => {});
+
         uploadSpeed((err, speed) => {
             if (err) {
                 this.emit('error', err);
+                return done(err);
             }
 
             this.uploadSpeed = speed;
             this.client.send('sendUploadSpeed', this.uploadSpeed);
+            done(null, speed);
         });
     }
 }

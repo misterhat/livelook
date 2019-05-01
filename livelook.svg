@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   viewBox="0 0 128 128"
+   version="1.1"
+   sodipodi:docname="livelook.svg"
+   width="128"
+   height="128"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <defs
+     id="defs893" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     id="namedview891"
+     showgrid="false"
+     inkscape:zoom="4.9331747"
+     inkscape:cx="82.357123"
+     inkscape:cy="43.712757"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <metadata
+     id="metadata888">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title />
+        <dc:date>2013-11-11T01:25:34</dc:date>
+        <dc:description>black-and-white stylized image of a human eye</dc:description>
+        <dc:source>https://openclipart.org/detail/188640/eye-by-sumitomohiko-188640</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>SumiTomohiko</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>eye</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="matrix(0.49999798,0,0,0.49998867,-145.13591,-167.32221)"
+     id="layer1-6">
+    <path
+       d="m 393.36,334.66 c -26.422,0 -52.849,10.027 -72.935,30.113 -40.172,40.171 -40.218,105.74 -0.046,145.91 35.217,35.216 89.911,39.558 129.94,13.03 l 60.918,60.916 c 8.0386,8.0384 20.97,8.0384 29.008,0 8.0387,-8.0384 8.0387,-20.969 0,-29.008 L 479.373,494.705 C 505.87,454.682 501.5,399.973 466.296,364.765 446.21,344.68 419.782,334.652 393.361,334.652 Z m -0.046,27.166 c 19.371,0.009 38.738,7.4275 53.596,22.285 29.716,29.715 29.762,77.521 0.046,107.24 -29.716,29.715 -77.523,29.715 -107.24,0 -29.716,-29.715 -29.716,-77.52 0,-107.24 14.858,-14.858 34.225,-22.295 53.596,-22.285 z m -54.656,99.224 c -68.66684,105.48603 -34.33342,52.74302 0,0 z"
+       style="color:#000000;text-indent:0;text-transform:none"
+       id="path3058-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccccccccccsccccccc" />
+  </g>
+  <g
+     id="g1004"
+     transform="matrix(0.02939189,0,0,-0.02939189,-63.582509,222.14039)"
+     style="fill:#000000;stroke:none" />
+  <g
+     label="Layer 1"
+     id="imagebot_3"
+     transform="matrix(1.1422523,0,0,1.1422523,-845.22428,-501.72163)">
+    <title
+       id="title1147">Layer 1</title>
+  </g>
+  <g
+     id="imagebot_6"
+     transform="matrix(0,-0.87758012,0.87759646,0,-461.23921,-882.73932)"
+     label="Layer 1">
+    <g
+       transform="matrix(0.45673199,0.05157913,-0.05157913,0.45673199,-481.54545,405.01454)"
+       id="imagebot_7">
+      <path
+         id="imagebot_10"
+         d="m -1242.5071,574.06022 -13.1343,-11.28879 c 15.0364,-17.49462 13.0437,-43.86625 -4.4509,-58.9027 l 11.2887,-13.13428 c 24.7486,21.27108 27.5675,58.57727 6.2965,83.32577 z"
+         inkscape:connector-curvature="0"
+         style="fill:#000000" />
+      <path
+         id="imagebot_9"
+         d="m -1233.2359,582.02876 c 25.672,-29.86887 22.2698,-74.8936 -7.5991,-100.56558 l 11.6208,-13.52059 c 37.3361,32.08998 41.5889,88.37089 9.4989,125.70698 z"
+         inkscape:connector-curvature="0"
+         style="fill:#000000" />
+      <path
+         d="m -1210.962,601.29742 c 30.3895,-26.72242 47.1901,-86.65185 -8.1849,-142.72942 l 11.6208,-13.52059 c 36.9825,33.50419 66.2163,106.84665 10.0847,167.87082 z"
+         id="imagebot_8"
+         inkscape:connector-curvature="0"
+         style="fill:#000000" />
+    </g>
+  </g>
+</svg>
