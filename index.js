@@ -73,7 +73,7 @@ class LiveLook extends EventEmitter {
         });
 
         // the connection to soulseek's server
-        this.client = new Client({ host: this.server, port: this.port });
+        this.client = new Client({ ip: this.server, port: this.port });
         clientHandlers(this, this.client);
 
         // our server to accept peer connections
