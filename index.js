@@ -1,13 +1,14 @@
 const Client = require('./lib/client');
 const EventEmitter = require('events').EventEmitter;
 const PeerServer = require('./lib/peer-server');
+const ThrottleGroup = require('stream-throttle').ThrottleGroup;
 const async = require('async');
 const buildList = require('./lib/build-list');
 const clientHandlers = require('./lib/client-handlers');
 const makeToken = require('./lib/make-token');
 const pkg = require('./package');
-const uploadSpeed = require('./lib/upload-speed');
 const tmp = require('tmp');
+const uploadSpeed = require('./lib/upload-speed');
 
 tmp.setGracefulCleanup();
 
@@ -48,7 +49,11 @@ class LiveLook extends EventEmitter {
         this.peers = {};
 
         // { ticket: }
+        // TODO rename these
         this.uploads = {};
+        this.downloads = {};
+
+        this.queueUploads = [];
 
         // which rooms we're in
         // { room: [ { users }, ... ] }
@@ -60,6 +65,12 @@ class LiveLook extends EventEmitter {
 
         // cache gzipped search results (?) and our shares
         this.cache = {};
+
+        // TODO add ability to change the rate later
+        this.uploadThrottler = new ThrottleGroup({ rate: this.uploadThrottle });
+        this.downloadThrottler = new ThrottleGroup({
+            rate: this.downloadThrottle
+        });
 
         // the connection to soulseek's server
         this.client = new Client({ host: this.server, port: this.port });

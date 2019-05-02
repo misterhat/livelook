@@ -36,6 +36,9 @@ livelook.login((err, res) => {
     });
 });
 ```
+## install
+
+	$ npm install --save livelook
 
 ## api
 ### new LiveLook(args)
@@ -87,10 +90,6 @@ set our online/away status.
 
 ### livelook.refreshUploadSpeed([done])
 re-calculate our upload speed from [speedtest.net](https://www.speedtest.net/).
-
-## install
-
-	$ npm install --save livelook
 
 ## see also
 
