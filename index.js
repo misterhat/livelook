@@ -4,7 +4,6 @@ const PeerServer = require('./lib/peer/server');
 const ThrottleGroup = require('stream-throttle').ThrottleGroup;
 const async = require('async');
 const buildList = require('./lib/build-list');
-const clientHandlers = require('./lib/client/handlers');
 const makeToken = require('./lib/make-token');
 const pkg = require('./package');
 const tmp = require('tmp');
@@ -74,7 +73,7 @@ class LiveLook extends EventEmitter {
 
         // the connection to soulseek's server
         this.client = new Client({ ip: this.server, port: this.port });
-        clientHandlers(this, this.client);
+        this.client.attachHandlers(this);
 
         // our server to accept peer connections
         this.peerServer = new PeerServer({
