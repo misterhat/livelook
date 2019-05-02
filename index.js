@@ -52,7 +52,7 @@ class LiveLook extends EventEmitter {
         this.uploads = {};
         this.downloads = {};
 
-        this.queueUploads = [];
+        this.uploadQueue = [];
 
         // which rooms we're in
         // { room: [ { users }, ... ] }
