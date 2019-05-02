@@ -233,6 +233,23 @@ class LiveLook extends EventEmitter {
             done(null, speed);
         });
     }
+
+    // when a peer asks us for a transfer, check our toUpload and toDownload
+    // for it it
+    getTransfer(token) {
+        let uploadFile = this.uploads[token];
+        let downloadFile = this.downloads[token];
+        let transfer = uploadFile ? uploadFile : downloadFile;
+
+        if (!transfer) {
+            let err = new Error('attempted file transfer without request. ' +
+                `token: ${token}`);
+            this.emit('error', err);
+            return null;
+        }
+
+        return transfer;
+    }
 }
 
 module.exports = LiveLook;
