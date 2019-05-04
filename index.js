@@ -1,6 +1,6 @@
 const Client = require('./lib/client');
 const EventEmitter = require('events').EventEmitter;
-const PeerServer = require('./lib/peer/server');
+const PeerServer = require('./lib/peer-server');
 const ThrottleGroup = require('stream-throttle').ThrottleGroup;
 const async = require('async');
 const buildList = require('./lib/build-list');
