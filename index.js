@@ -5,6 +5,7 @@ const ThrottleGroup = require('stream-throttle').ThrottleGroup;
 const async = require('async');
 const buildList = require('./lib/build-list');
 const makeToken = require('./lib/make-token');
+const path = require('path');
 const pkg = require('./package');
 const tmp = require('tmp');
 const uploadSpeed = require('./lib/upload-speed');
@@ -249,6 +250,51 @@ class LiveLook extends EventEmitter {
         }
 
         return transfer;
+    }
+
+    getSharedFile(filePath) {
+        let file = filePath.replace(/\\/g, '/');
+        let dir = path.dirname(file);
+        let basename = path.basename(file);
+
+        let mappedDir = this.shareList[dir];
+        mappedDir = mappedDir ? mappedDir.map(file => file.file) : [];
+        let filePos = mappedDir.indexOf(basename);
+
+        if (filePos === -1) {
+            return null;
+        }
+
+        return this.shareList[dir][filePos];
+    }
+
+    isUploading(upload) {
+        for (let token of Object.keys(this.uploads)) {
+            let c = this.uploads[token];
+            let isSending = c.peer.ip === upload.peer.ip &&
+                c.file.file === upload.file.file && c.dir === upload.dir;
+
+            if (isSending) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    getUploadQueuePos(upload) {
+        for (let i = 0; i < this.uploadQueue.length; i += 1) {
+            let toUpload = this.uploadQueue[i];
+            let isQueued = toUpload.peer.ip === upload.peer.ip &&
+                toUpload.file.file === upload.file.file &&
+                toUpload.dir === upload.dir;
+
+            if (isQueued) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
 
