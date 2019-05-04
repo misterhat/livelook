@@ -79,7 +79,7 @@ class LiveLook extends EventEmitter {
         this.peerServer = new PeerServer({
             port: this.waitPort,
             maxPeers: this.maxPeers
-        });
+        }, this);
 
         this.peerServer.on('error', err => this.emit('error', err));
         this.peerServer.on('waitPort', waitPort => this.setWaitPort(waitPort));
