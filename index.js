@@ -454,6 +454,7 @@ class LiveLook extends EventEmitter {
     }
 
     // see which files a user is sharing
+    // TODO cache this!!
     getShareFileList(username, done) {
         this.getPeerByUsername(username, (err, peer) => {
             let onShareList;
@@ -478,6 +479,38 @@ class LiveLook extends EventEmitter {
 
             this.on('sharedFileList', onShareList);
             peer.send('getShareFileList');
+        });
+    }
+
+    // search a specific user's shares
+    searchUserShares(username, query, done) {
+        this.getPeerByUsername(username, (err, peer) => {
+            let onSearchResult;
+
+            if (err || !peer) {
+                return done(new Error(`unable to connect to ${username}`));
+            }
+
+            let token = makeToken();
+
+            let searchTimeout = setTimeout(() => {
+                this.removeListener('fileSearchResult', onSearchResult);
+                done(new Error('timed out searching share file list for ' +
+                    username));
+            }, 15000);
+
+            onSearchResult = res => {
+                // it's unlikely but we could've generated the same token
+                // twice
+                if (res.peer.username === username && res.token === token) {
+                    clearTimeout(searchTimeout);
+                    this.removeListener('fileSearchResult', onSearchResult);
+                    done(null, res);
+                }
+            };
+
+            this.on('fileSearchResult', onSearchResult);
+            peer.send('fileSearchRequest', token, query);
         });
     }
 }

@@ -12,9 +12,9 @@ port-forwarding
 * searching the network's files
 * downloading and uploading with automatically updating share list
 
+<div style="clear: both;">
 i mainly tested this against nicotine-plus, but it works with soulseekqt too.
-
-<div style="clear: both;">&nbsp;</div>
+</div>
 
 ## example
 ```javascript
@@ -115,6 +115,9 @@ requesting the server connect the peer to us.
 ### livelook.getShareFileList(username, done)
 get all the files a user is sharing. may take a while as some people share
 large amounts of files, and the message must be decompressed.
+
+### livelook.searchUserShares(username, query, done)
+search a user's shares for a query. nicotine users max out at 50 by default.
 
 ## see also
 
