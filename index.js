@@ -1,8 +1,8 @@
 const Client = require('./lib/client');
 const EventEmitter = require('events').EventEmitter;
+const Peer = require('./lib/peer');
 const PeerServer = require('./lib/peer-server');
 const ThrottleGroup = require('stream-throttle').ThrottleGroup;
-const async = require('async');
 const buildList = require('./lib/build-list');
 const makeToken = require('./lib/make-token');
 const path = require('path');
@@ -11,6 +11,9 @@ const tmp = require('tmp');
 const uploadSpeed = require('./lib/upload-speed');
 
 tmp.setGracefulCleanup();
+
+// TODO monitor the share directory for the file being deleted, then cancel
+// the current uploads with that file
 
 class LiveLook extends EventEmitter {
     constructor(args) {
@@ -44,12 +47,14 @@ class LiveLook extends EventEmitter {
         // the share list pojo
         this.shareList = {};
 
-        // all the users we've collected some information about
-        //this.knownUsers = {};
+        // these are only P type peers, not FileTransfer or Distributed
+        // { ip: { Peer } }
         this.peers = {};
 
-        // { ticket: }
-        // TODO rename these
+        // { username: ip }
+        this.userAddresses = {};
+
+        // { token: { file: { file, size, ... }, dir: String, peer: Peer } }
         this.uploads = {};
         this.downloads = {};
 
@@ -59,8 +64,9 @@ class LiveLook extends EventEmitter {
         // { room: [ { users }, ... ] }
         this.rooms = {};
 
-        // ticker messages!
-        // { room: { user: ticker } }
+        // ticker messages! these usually spam on the top of the chatroom you're
+        // in. an alternate implementation could use them as status messages
+        // { room: { username: tickerMessage } }
         this.tickers = {};
 
         // cache gzipped search results (?) and our shares
@@ -90,6 +96,8 @@ class LiveLook extends EventEmitter {
     }
 
     init(done) {
+        done = done || (() => {});
+
         this.refreshShareList(err => {
             if (err) {
                 return done(err);
@@ -126,6 +134,8 @@ class LiveLook extends EventEmitter {
         });
     }
 
+    // login (or connect first) to the soulseek server and send our initializing
+    // packets (upload speed, share count, joined rooms, etc.)
     login(done) {
         if (!this.client.connected) {
             this.init((err) => {
@@ -163,6 +173,7 @@ class LiveLook extends EventEmitter {
         this.client.send('login', this.username, this.password);
     }
 
+    // this is the port our peer server listens on
     setWaitPort(port) {
         if (port) {
             this.waitPort = port;
@@ -187,6 +198,7 @@ class LiveLook extends EventEmitter {
         this.client.send('messageUser', username, message);
     }
 
+    // accepts 2 for online, 1 for away, or the corresponding strings
     setStatus(status) {
         if (status) {
             if (!isNaN(+status)) {
@@ -199,6 +211,7 @@ class LiveLook extends EventEmitter {
         this.client.send('setStatus', this.status);
     }
 
+    // count the amount of files we're sharing and send them to the server
     refreshShareCount() {
         let dirs = Object.keys(this.shareList).length;
         let files = 0;
@@ -210,16 +223,19 @@ class LiveLook extends EventEmitter {
         this.client.send('sharedFoldersFiles', dirs, files);
     }
 
+    // fire off a search request to the soulseek server
     fileSearch(query) {
         let token = makeToken();
         this.client.send('fileSearch', token, query);
     }
 
+    // request to search a specific user's directory
     userSearch(username, query) {
         let token = makeToken();
         this.client.send('userSearch', username, token, query);
     }
 
+    // fetch the upload speed from speedtest.net's api
     refreshUploadSpeed(done) {
         done = done || (() => {});
 
@@ -252,6 +268,7 @@ class LiveLook extends EventEmitter {
         return transfer;
     }
 
+    // fetch one of our shared files (usually to send to another user)
     getSharedFile(filePath) {
         let file = filePath.replace(/\\/g, '/');
         let dir = path.dirname(file);
@@ -268,6 +285,7 @@ class LiveLook extends EventEmitter {
         return this.shareList[dir][filePos];
     }
 
+    // check if we're currently uploading to the peer
     isUploading(upload) {
         for (let token of Object.keys(this.uploads)) {
             let c = this.uploads[token];
@@ -282,6 +300,7 @@ class LiveLook extends EventEmitter {
         return false;
     }
 
+    // get the position of an upload for a peer
     getUploadQueuePos(upload) {
         for (let i = 0; i < this.uploadQueue.length; i += 1) {
             let toUpload = this.uploadQueue[i];
@@ -295,6 +314,128 @@ class LiveLook extends EventEmitter {
         }
 
         return -1;
+    }
+
+    // get the ip and address of a user from their username
+    getPeerAddress(username, done) {
+        this.client.send('getPeerAddress', username);
+
+        let addressTimeout = setTimeout(() => {
+            done(new Error(`timed out fetching ${username} address`));
+        }, 5000);
+
+        let onAddress = res => {
+            if (res.username === username) {
+                clearTimeout(addressTimeout);
+                this.removeListener('getPeerAddress', onAddress);
+
+                if (res.ip === '0.0.0.0' && res.port === 0) {
+                    // explicitly send null here
+                    done(null, null);
+                } else {
+                    done(null, res);
+                }
+            }
+        };
+
+        this.on('getPeerAddress', onAddress);
+    }
+
+    // connect to a peer from an IP address and port (and token if available)
+    connectToPeerAddress(address, done) {
+        let finished = false;
+
+        // try to connect to them directly...
+        let peer = new Peer(address);
+
+        peer.once('error', err => {
+            if (!finished) {
+                finished = true;
+                done(err);
+            }
+        });
+
+        peer.attachHandlers(this);
+        peer.init(() => {
+            if (!finished) {
+                finished = true;
+                peer.pierceFirewall();
+                done(null, peer);
+            }
+        });
+    }
+
+    // try to establish a connection to a peer with soulseek's server as an
+    // intermediate. this is usually done after we try to directly connect
+    // to them
+    connectToPeerUsername(username, done) {
+        var onCantConnect, onPeerConnect;
+
+        let token = makeToken();
+
+        let peerTimeout = setTimeout(() => {
+            this.removeListener('cantConnectToPeer', onCantConnect);
+            this.removeListener('peerConnect', onPeerConnect);
+            done(new Error('peer took longer than 5 seconds to connect to us'));
+        }, 5000);
+
+        // server let us know the peer couldn't connect to us
+        onCantConnect = res => {
+            if (res.token === token) {
+                clearTimeout(peerTimeout);
+                this.removeListener('cantConnectToPeer', onCantConnect);
+                this.removeListener('peerConnect', onPeerConnect);
+            }
+        };
+
+        onPeerConnect = peer => {
+            if (peer.token === token) {
+                this.removeListener('cantConnectToPeer', onCantConnect);
+                this.removeListener('peerConnect', onPeerConnect);
+                clearTimeout(peerTimeout);
+                done(null, peer);
+            }
+        };
+
+        this.on('cantConnectToPeer', onCantConnect);
+        this.on('peerConnect', onPeerConnect);
+        this.client.send('connectToPeer', token, username, 'P');
+    }
+
+    getPeerByUsername(username, done) {
+        // first check our already-connected peers
+        console.log('checking if ', username, 'is in our peer db...');
+
+        for (let ip of Object.keys(this.peers)) {
+            let peer = this.peers[ip];
+
+            if (peer.username === username) {
+                return done(null, peer);
+            }
+        }
+
+        console.log('nope hes not, grabbing his ip addr and testing direct');
+
+        this.getPeerAddress(username, (err, address) => {
+            if (err) {
+                return done(err);
+            }
+
+            console.log('got his ip/port, initting...');
+
+            this.connectToPeerAddress(address, (err, peer) => {
+                if (err) {
+                    console.log('failed. sending an init another way.');
+                    return done(err);
+                }
+
+                console.log('success! heres your peer sir: ', peer);
+            });
+        });
+    }
+
+    // see which files a user is sharing
+    getShareFileList(peer, done) {
     }
 }
 

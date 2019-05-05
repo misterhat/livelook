@@ -2,11 +2,18 @@
 <img align="left" width="128" height="128" src="./livelook.svg">
 
 a [soulseek](https://en.wikipedia.org/wiki/Soulseek)
-client written in javascript. supports
-[nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol),
-chat rooms, messages, browsing users, searching, downloading and uploading.
+client written in javascript. supports:
+* [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol)
+port-forwarding
+* chat rooms and private messages (including direct connections)
+* browsing user's files
+* searching the network's files
+* downloading and uploading with automatically updating share list
 
-<div style="clear: both;">&nbsp;</div><br><br>
+i mainly tested this with nicotine-plus, but it does also work with soulseekqt
+as well.
+
+<div style="clear: both;">&nbsp;</div>
 
 ## example
 ```javascript
@@ -63,9 +70,13 @@ create a new `livelook` instance.
 }
 ```
 
+### livelook.init([done])
+initialize our share list and connect to the soulseek server. you don't need to
+call this if you just use login below.
+
 ### livelook.login([username, password, done])
 login to the soulseek server, and initialize our peer server if it isn't
-already.
+already. username and password are optional if the instance has them.
 
 ### livelook.refreshShareList([done])
 re-scan `livelook.sharedFolder` and repopulate `livelook.shareList`. this is
@@ -90,6 +101,18 @@ set our online/away status.
 
 ### livelook.refreshUploadSpeed([done])
 re-calculate our upload speed from [speedtest.net](https://www.speedtest.net/).
+
+### livelook.getPeerAddress(username, done)
+get a peer's ip address and port based on their username. done returns null if
+no user is found, not an error.
+
+### livelook.connectToPeerUsername(username, done)
+get a peer connection based on their username. this relies on using soulseek
+server as an intermediate to tell them to connect to us when we're unable
+to connect to them.
+
+## donate
+[donate to keep the central server alive!](https://www.slsknet.org/donate.php)
 
 ## see also
 
