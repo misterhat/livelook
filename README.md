@@ -108,19 +108,19 @@ re-calculate our upload speed from [speedtest.net](https://www.speedtest.net/).
 get a peer's ip address and port based on their username. done returns null if
 no user is found, not an error.
 
-### livelook.connectToPeerUsername(username, done)
-get a peer connection based on their username. this relies on using soulseek
-server as an intermediate to tell them to connect to us when we're unable
-to connect to them.
-
-## donate
-[donate to keep the central server alive!](https://www.slsknet.org/donate.php)
+### livelook.getPeerByUsername(username, done)
+get a peer instance based on a username. this will first check our pre-existing
+peers, then it tries to make a direct connection to the peer until finally
+requesting the server connect the peer to us.
 
 ## see also
 
 * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
 * [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
 * [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
+
+## donate
+[donate to keep the central server alive!](https://www.slsknet.org/donate.php)
 
 ## license
 Copyright (C) 2019  Zorian Medwid

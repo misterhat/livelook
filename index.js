@@ -52,7 +52,7 @@ class LiveLook extends EventEmitter {
         this.peers = {};
 
         // { username: ip }
-        this.userAddresses = {};
+        this.peerAddresses = {};
 
         // { token: { file: { file, size, ... }, dir: String, peer: Peer } }
         this.uploads = {};
@@ -318,6 +318,10 @@ class LiveLook extends EventEmitter {
 
     // get the ip and address of a user from their username
     getPeerAddress(username, done) {
+        if (this.peerAddresses[username]) {
+            return done(null, this.peerAddresses[username]);
+        }
+
         this.client.send('getPeerAddress', username);
 
         let addressTimeout = setTimeout(() => {
@@ -367,7 +371,7 @@ class LiveLook extends EventEmitter {
 
     // try to establish a connection to a peer with soulseek's server as an
     // intermediate. this is usually done after we try to directly connect
-    // to them
+    // to them. don't use this directly
     connectToPeerUsername(username, done) {
         var onCantConnect, onPeerConnect;
 
@@ -404,8 +408,6 @@ class LiveLook extends EventEmitter {
 
     getPeerByUsername(username, done) {
         // first check our already-connected peers
-        console.log('checking if ', username, 'is in our peer db...');
-
         for (let ip of Object.keys(this.peers)) {
             let peer = this.peers[ip];
 
@@ -414,22 +416,23 @@ class LiveLook extends EventEmitter {
             }
         }
 
-        console.log('nope hes not, grabbing his ip addr and testing direct');
-
         this.getPeerAddress(username, (err, address) => {
             if (err) {
                 return done(err);
             }
 
-            console.log('got his ip/port, initting...');
+            // peer is offline, don't bother
+            if (!address) {
+                return done(null, null);
+            }
 
             this.connectToPeerAddress(address, (err, peer) => {
                 if (err) {
-                    console.log('failed. sending an init another way.');
-                    return done(err);
+                    this.connectToPeerUsername(username, done);
+                    return;
                 }
 
-                console.log('success! heres your peer sir: ', peer);
+                done(null, peer);
             });
         });
     }
