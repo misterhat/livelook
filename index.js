@@ -346,14 +346,22 @@ class LiveLook extends EventEmitter {
     }
 
     // connect to a peer from an IP address and port (and token if available)
+    // TODO a user's IP may change, so we should probably try again
     connectToPeerAddress(address, done) {
         let finished = false;
 
+        let connectTimeout = setTimeout(() => {
+            done(new Error('timed out connecting to address directly:' +
+                `${address.ip}:${address.port}`));
+        }, 5000);
+
         // try to connect to them directly...
         let peer = new Peer(address);
+        peer.token = makeToken();
 
         peer.once('error', err => {
             if (!finished) {
+                clearTimeout(connectTimeout);
                 finished = true;
                 done(err);
             }
@@ -362,8 +370,10 @@ class LiveLook extends EventEmitter {
         peer.attachHandlers(this);
         peer.init(() => {
             if (!finished) {
+                clearTimeout(connectTimeout);
                 finished = true;
-                peer.pierceFirewall();
+                //peer.pierceFirewall();
+                peer.send('peerInit', this.username, 'P', peer.token);
                 done(null, peer);
             }
         });
@@ -373,7 +383,9 @@ class LiveLook extends EventEmitter {
     // intermediate. this is usually done after we try to directly connect
     // to them. don't use this directly
     connectToPeerUsername(username, done) {
-        var onCantConnect, onPeerConnect;
+        // all the closures here need access to these to remove them when
+        // completed
+        let onCantConnect, onPeerConnect;
 
         let token = makeToken();
 
@@ -392,11 +404,13 @@ class LiveLook extends EventEmitter {
             }
         };
 
+        // we connected to a peer, but it may not have been the one we fired off
+        // here
         onPeerConnect = peer => {
             if (peer.token === token) {
+                clearTimeout(peerTimeout);
                 this.removeListener('cantConnectToPeer', onCantConnect);
                 this.removeListener('peerConnect', onPeerConnect);
-                clearTimeout(peerTimeout);
                 done(null, peer);
             }
         };
@@ -406,6 +420,7 @@ class LiveLook extends EventEmitter {
         this.client.send('connectToPeer', token, username, 'P');
     }
 
+    // get a Peer instance from a username string by any mean's necessary!
     getPeerByUsername(username, done) {
         // first check our already-connected peers
         for (let ip of Object.keys(this.peers)) {
@@ -428,6 +443,7 @@ class LiveLook extends EventEmitter {
 
             this.connectToPeerAddress(address, (err, peer) => {
                 if (err) {
+                    // TODO maybe send 1001 here?
                     this.connectToPeerUsername(username, done);
                     return;
                 }
@@ -438,7 +454,31 @@ class LiveLook extends EventEmitter {
     }
 
     // see which files a user is sharing
-    getShareFileList(peer, done) {
+    getShareFileList(username, done) {
+        this.getPeerByUsername(username, (err, peer) => {
+            let onShareList;
+
+            if (err || !peer) {
+                return done(new Error(`unable to connect to ${username}`));
+            }
+
+            let shareListTimeout = setTimeout(() => {
+                this.removeListener('sharedFileList', onShareList);
+                done(new Error('timed out getting share file list for ' +
+                    username));
+            }, 15000); // this is a pretty generous time
+
+            onShareList = res => {
+                if (res.peer.username === username) {
+                    clearTimeout(shareListTimeout);
+                    this.removeListener('sharedFileList', onShareList);
+                    done(null, res.shareList);
+                }
+            };
+
+            this.on('sharedFileList', onShareList);
+            peer.send('getShareFileList');
+        });
     }
 }
 

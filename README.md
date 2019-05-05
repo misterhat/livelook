@@ -1,8 +1,8 @@
-# livelook
+# livelook 👀
 <img align="right" width="176" height="176" src="./livelook.svg">
 
-a [soulseek](https://en.wikipedia.org/wiki/Soulseek)
-client written in javascript.
+a [soulseek](https://en.wikipedia.org/wiki/Soulseek) client written in
+javascript.
 
 features supported:
 * [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol)
@@ -12,8 +12,7 @@ port-forwarding
 * searching the network's files
 * downloading and uploading with automatically updating share list
 
-i mainly tested this with nicotine-plus, but it does also work with soulseekqt
-as well.
+i mainly tested this against nicotine-plus, but it works with soulseekqt too.
 
 <div style="clear: both;">&nbsp;</div>
 
@@ -112,6 +111,10 @@ no user is found, not an error.
 get a peer instance based on a username. this will first check our pre-existing
 peers, then it tries to make a direct connection to the peer until finally
 requesting the server connect the peer to us.
+
+### livelook.getShareFileList(username, done)
+get all the files a user is sharing. may take a while as some people share
+large amounts of files, and the message must be decompressed.
 
 ## see also
 
