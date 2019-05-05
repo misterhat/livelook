@@ -513,6 +513,65 @@ class LiveLook extends EventEmitter {
             peer.send('fileSearchRequest', token, query);
         });
     }
+
+    getUserInfo(username, done) {
+        this.getPeerByUsername(username, (err, peer) => {
+            let onInfoReply;
+
+            if (err || !peer) {
+                return done(new Error(`unable to connect to ${username}`));
+            }
+
+            let infoTimeout = setTimeout(() => {
+                this.removeListener('fileSearchResult', onSearchResult);
+                done(new Error('timed out fetchung user info for ' + username));
+            }, 5000);
+
+            onInfoReply = res => {
+                if (res.peer.username === username) {
+                    clearTimeout(infoTimeout);
+                    this.removeListener('userInfoReply', onInfoReply);
+                    done(null, res);
+                }
+            };
+
+            this.on('userInfoReply', onInfoReply);
+            peer.send('userInfoRequest');
+        });
+    }
+
+    // request the contents of a specific directory of a peer
+    getFolderContents(username, dir, done) {
+        dir = dir.replace(/\//g, '\\');
+
+        this.getPeerByUsername(username, (err, peer) => {
+            let onFolderResponse;
+
+            if (err || !peer) {
+                return done(new Error(`unable to connect to ${username}`));
+            }
+
+            let folderTimeout = setTimeout(() => {
+                this.removeListener('folderContentsResponse', onFolderResponse);
+                done(new Error('timed out getting folder response for ' +
+                    username));
+            }, 5000);
+
+            onFolderResponse = res => {
+                let resDir = Object.keys(res.requests)[0];
+
+                if (res.peer.username === username && resDir === dir) {
+                    clearTimeout(folderTimeout);
+                    this.removeListener('folderContentsResponse',
+                        onFolderResponse);
+                    done(null, res.requests[resDir]);
+                }
+            };
+
+            this.on('folderContentsResponse', onFolderResponse);
+            peer.send('folderContentsRequest', dir);
+        });
+    }
 }
 
 module.exports = LiveLook;
