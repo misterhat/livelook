@@ -1,8 +1,10 @@
 # livelook
-<img align="left" width="128" height="128" src="./livelook.svg">
+<img align="right" width="176" height="176" src="./livelook.svg">
 
 a [soulseek](https://en.wikipedia.org/wiki/Soulseek)
-client written in javascript. supports:
+client written in javascript.
+
+features supported:
 * [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol)
 port-forwarding
 * chat rooms and private messages (including direct connections)
