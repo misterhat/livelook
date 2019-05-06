@@ -134,7 +134,7 @@ interrupted downloads).
 
 ## how it works
 
-soulseek is partially peer-to-peer, but still relies on a central server for
+soulseek is largely peer-to-peer, but still relies on a central server for
 chat rooms, messaging, piercing firewalls and finding peers.
 
 first we set up a local server to accept peer connections (and port forward with

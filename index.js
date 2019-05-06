@@ -294,7 +294,7 @@ class LiveLook extends EventEmitter {
         for (let token of Object.keys(transfers)) {
             let c = transfers[token];
             let isSending = c.peer.ip === transfer.peer.ip &&
-                c.file.file === transfer.file.file && c.dir === upload.dir;
+                c.file.file === transfer.file.file && c.dir === transfer.dir;
 
             if (isSending) {
                 return true;
