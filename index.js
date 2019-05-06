@@ -46,21 +46,31 @@ class LiveLook extends EventEmitter {
         // our online status (1 away, 2 online)
         this.status = 2;
 
-        // the share list pojo
+        // the share list
+        // { dir: [ { file, size, ... } ]
         this.shareList = {};
 
-        // these are only P type peers, not FileTransfer or Distributed
+        // these are only P type peers, not F or D
         // { ip: { Peer } }
         this.peers = {};
 
         // { username: ip }
         this.peerAddresses = {};
 
+        // our *active* transfers
         // { token: { file: { file, size, ... }, dir: String, peer: Peer } }
         this.uploads = {};
         this.downloads = {};
 
+        // pending transfers
+        // [ ]
         this.uploadQueue = [];
+        this.downloadQueue = [];
+
+        // not exactly a queue - these are files we requested and others have
+        // queued
+        // { file: { file, size, ... } }
+        this.toDownload = {};
 
         // which rooms we're in
         // { room: [ { users }, ... ] }
@@ -97,6 +107,7 @@ class LiveLook extends EventEmitter {
         this.loggedIn = false;
     }
 
+    // populate our share list and connect to the soulseek server
     init(done) {
         done = done || (() => {});
 
@@ -225,18 +236,6 @@ class LiveLook extends EventEmitter {
         this.client.send('sharedFoldersFiles', dirs, files);
     }
 
-    // fire off a search request to the soulseek server
-    fileSearch(query) {
-        let token = makeToken();
-        this.client.send('fileSearch', token, query);
-    }
-
-    // request to search a specific user's directory
-    userSearch(username, query) {
-        let token = makeToken();
-        this.client.send('userSearch', username, token, query);
-    }
-
     // fetch the upload speed from speedtest.net's api
     refreshUploadSpeed(done) {
         done = done || (() => {});
@@ -251,23 +250,6 @@ class LiveLook extends EventEmitter {
             this.client.send('sendUploadSpeed', this.uploadSpeed);
             done(null, speed);
         });
-    }
-
-    // when a peer asks us for a transfer, check our toUpload and toDownload
-    // for it it
-    getTransfer(token) {
-        let uploadFile = this.uploads[token];
-        let downloadFile = this.downloads[token];
-        let transfer = uploadFile ? uploadFile : downloadFile;
-
-        if (!transfer) {
-            let err = new Error('attempted file transfer without request. ' +
-                `token: ${token}`);
-            this.emit('error', err);
-            return null;
-        }
-
-        return transfer;
     }
 
     // fetch one of our shared files (usually to send to another user)
@@ -578,14 +560,10 @@ class LiveLook extends EventEmitter {
     }
 
     // download a file from a user. the file should be the full path
-    downloadFile(username, file, fileStart) {
-        fileStart = fileStart || 0;
-
+    downloadFile(username, file, fileStart = 0) {
         let downloadStream = new stream.PassThrough();
 
         this.getPeerByUsername(username, (err, peer) => {
-            let onXferResponse, onFileData, onEndDownload;
-
             if (err || !peer) {
                 return done(new Error(`unable to connect to ${username}`));
             }
@@ -595,26 +573,54 @@ class LiveLook extends EventEmitter {
             let download = {
                 file: path.basename(file),
                 dir: path.dirname(file),
-                fileStart, peer
+                fileStart,
+                peer
             };
 
+            // TODO check download sslots
             this.downloads[token] = download;
 
-            onFileData = res => {
+            let onQueue = res => {
                 if (res.token === token) {
-                    downloadStream.write(res.data);
+                    this.removeListener('queueDownload', onQueue);
+                    downloadStream.emit('queue');
                 }
             };
 
-            onEndDownload = res => {
-                if (res.token === token) {
-                    downloadStream.end();
+            let onStart = res => {
+                this.removeListener('startDownload', onStart);
+                this.removeListener('queueDownload', onQueue);
+
+                console.log('a download is habbening');
+
+                if (res.download.file !== download.file ||
+                    res.download.dir !== download.dir) {
+                    return;
                 }
+
+                console.log('it\'s for our file');
+
+                let downloadToken = res.token;
+
+                let onData = res => {
+                    if (res.token === downloadToken) {
+                        downloadStream.write(res.data);
+                    }
+                };
+
+                let onEnd = res => {
+                    if (res.token === downloadToken) {
+                        this.removeListener('endDownload', onEnd);
+                        this.removeListener('fileData', onData);
+                        downloadStream.end();
+                    }
+                };
+
+                this.on('fileData', onData);
+                this.on('endDownload', onEnd);
             };
 
-            this.on('fileData', onFileData);
-            this.on('endDownload', onEndDownload);
-
+            this.on('startDownload', onStart);
             file = file.replace(/\//g, '\\');
             peer.send('transferRequest', 0, token, file);
         });
