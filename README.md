@@ -1,5 +1,5 @@
 # livelook 👀
-<img align="right" width="176" height="176" src="./livelook.svg">
+<img align="right" width="176" height="220" src="./livelook.svg">
 
 a [soulseek](https://en.wikipedia.org/wiki/Soulseek) client written in
 javascript.
@@ -129,8 +129,8 @@ get a list of all the files in the specified folder.
 ### livelook.downloadFile(username, file, [fileStart = 0])
 download a file from a user. this returns a `ReadableStream`, and will also
 emit a `queue` event with its position if we can't download it immediately. pass
-in `fileStart` to indicate where to begin downloading the file (to resume
-interrupted downloads).
+in `fileStart` to indicate where to begin downloading the file in bytes (to
+resume interrupted downloads).
 
 ## how it works
 
