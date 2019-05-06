@@ -119,6 +119,35 @@ large amounts of files, and the message must be decompressed.
 ### livelook.searchUserShares(username, query, done)
 search a user's shares for a query. nicotine users max out at 50 by default.
 
+### livelook.getUserInfo(username, done)
+get a user's description (biography), picture (avatar) as a buffer,
+upload slots, queue size and slots free.
+
+### livelook.getFolderContents(username, folder, done)
+get a list of all the files in the specified folder.
+
+### livelook.downloadFile(username, file, [fileStart = 0])
+download a file from a user. this returns a `ReadableStream`, and will also
+emit a `queue` event with its position if we can't download it immediately. pass
+in `fileStart` to indicate where to begin downloading the file (to resume
+interrupted downloads).
+
+## how it works
+
+soulseek is partially peer-to-peer, but still relies on a central server for
+chat rooms, messaging, piercing firewalls and finding peers.
+
+first we set up a local server to accept peer connections (and port forward with
+nat pmp or upnp if possible). then we connect to slsknet.org (or any other
+soulseek server) as a separate client and login. we can now begin to chat and
+browse.
+
+we can connect to peers by fetching their ip and port based on their username
+from the soulseek server, but if they aren't port-forwarded this will fail. the
+next step is to send a connection request via the soulseek server to tell them
+to connect to us. if this fails, there is no way for them to connect to us. this
+is why it's a good idea to enable nat pmp or port forward manually.
+
 ## see also
 
 * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe

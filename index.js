@@ -7,6 +7,7 @@ const buildList = require('./lib/build-list');
 const makeToken = require('./lib/make-token');
 const path = require('path');
 const pkg = require('./package');
+const stream = require('stream');
 const tmp = require('tmp');
 const uploadSpeed = require('./lib/upload-speed');
 
@@ -30,6 +31,7 @@ class LiveLook extends EventEmitter {
         this.autojoin = args.autojoin || [];
         this.maxPeers = args.maxPeers || 100;
         this.uploadSlots = args.uploadSlots || 2;
+        this.downloadSlots = args.downloadSlots || 2;
         this.uploadThrottle = args.uploadThrottle || 56 * 1024;
         this.downloadThrottle = args.downloadThrottle || 56 * 1024;
 
@@ -285,12 +287,14 @@ class LiveLook extends EventEmitter {
         return this.shareList[dir][filePos];
     }
 
-    // check if we're currently uploading to the peer
-    isUploading(upload) {
-        for (let token of Object.keys(this.uploads)) {
-            let c = this.uploads[token];
-            let isSending = c.peer.ip === upload.peer.ip &&
-                c.file.file === upload.file.file && c.dir === upload.dir;
+    // check if the transfer is already in progress
+    isTransferring(transfer, isUpload) {
+        let transfers = isUpload ? this.uploads : this.downloads;
+
+        for (let token of Object.keys(transfers)) {
+            let c = transfers[token];
+            let isSending = c.peer.ip === transfer.peer.ip &&
+                c.file.file === transfer.file.file && c.dir === upload.dir;
 
             if (isSending) {
                 return true;
@@ -571,6 +575,51 @@ class LiveLook extends EventEmitter {
             this.on('folderContentsResponse', onFolderResponse);
             peer.send('folderContentsRequest', dir);
         });
+    }
+
+    // download a file from a user. the file should be the full path
+    downloadFile(username, file, fileStart) {
+        fileStart = fileStart || 0;
+
+        let downloadStream = new stream.PassThrough();
+
+        this.getPeerByUsername(username, (err, peer) => {
+            let onXferResponse, onFileData, onEndDownload;
+
+            if (err || !peer) {
+                return done(new Error(`unable to connect to ${username}`));
+            }
+
+            let token = makeToken();
+
+            let download = {
+                file: path.basename(file),
+                dir: path.dirname(file),
+                fileStart, peer
+            };
+
+            this.downloads[token] = download;
+
+            onFileData = res => {
+                if (res.token === token) {
+                    downloadStream.write(res.data);
+                }
+            };
+
+            onEndDownload = res => {
+                if (res.token === token) {
+                    downloadStream.end();
+                }
+            };
+
+            this.on('fileData', onFileData);
+            this.on('endDownload', onEndDownload);
+
+            file = file.replace(/\//g, '\\');
+            peer.send('transferRequest', 0, token, file);
+        });
+
+        return downloadStream;
     }
 }
 
