@@ -2,7 +2,12 @@
 <img align="right" width="176" height="220" src="./livelook.svg">
 
 a [soulseek](https://en.wikipedia.org/wiki/Soulseek) client written in
-javascript.
+javascript. soulseek allows users from around the world to connect to each other
+directly and share music (and other stuff).
+
+>Soulseek is an ad-free, spyware free, just plain free file sharing network for Windows, Mac and Linux. Our rooms, search engine and search correlation system make it easy for you to find people with similar interests, and make new discoveries!
+
+>-- [About Soulseek | Soulseek](https://www.slsknet.org/news/node/680)
 
 features supported:
 * [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol)
@@ -104,8 +109,7 @@ set our online/away status.
 re-calculate our upload speed from [speedtest.net](https://www.speedtest.net/).
 
 ### livelook.getPeerAddress(username, done)
-get a peer's ip address and port based on their username. done returns null if
-no user is found, not an error.
+get a peer's ip address and port based on their username.
 
 ### livelook.getPeerByUsername(username, done)
 get a peer instance based on a username. this will first check our pre-existing

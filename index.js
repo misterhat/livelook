@@ -320,8 +320,7 @@ class LiveLook extends EventEmitter {
                 this.removeListener('getPeerAddress', onAddress);
 
                 if (res.ip === '0.0.0.0' && res.port === 0) {
-                    // explicitly send null here
-                    done(null, null);
+                    done(new Error(`${username} is offline.`));
                 } else {
                     done(null, res);
                 }
@@ -422,11 +421,6 @@ class LiveLook extends EventEmitter {
                 return done(err);
             }
 
-            // peer is offline, don't bother
-            if (!address) {
-                return done(null, null);
-            }
-
             this.connectToPeerAddress(address, (err, peer) => {
                 if (err) {
                     // TODO maybe send 1001 here?
@@ -445,8 +439,8 @@ class LiveLook extends EventEmitter {
         this.getPeerByUsername(username, (err, peer) => {
             let onShareList;
 
-            if (err || !peer) {
-                return done(new Error(`unable to connect to ${username}`));
+            if (err) {
+                return done(err);
             }
 
             let shareListTimeout = setTimeout(() => {
@@ -473,8 +467,8 @@ class LiveLook extends EventEmitter {
         this.getPeerByUsername(username, (err, peer) => {
             let onSearchResult;
 
-            if (err || !peer) {
-                return done(new Error(`unable to connect to ${username}`));
+            if (err) {
+                return done(err);
             }
 
             let token = makeToken();
@@ -504,8 +498,8 @@ class LiveLook extends EventEmitter {
         this.getPeerByUsername(username, (err, peer) => {
             let onInfoReply;
 
-            if (err || !peer) {
-                return done(new Error(`unable to connect to ${username}`));
+            if (err) {
+                return done(err);
             }
 
             let infoTimeout = setTimeout(() => {
@@ -533,8 +527,8 @@ class LiveLook extends EventEmitter {
         this.getPeerByUsername(username, (err, peer) => {
             let onFolderResponse;
 
-            if (err || !peer) {
-                return done(new Error(`unable to connect to ${username}`));
+            if (err) {
+                return done(err);
             }
 
             let folderTimeout = setTimeout(() => {
@@ -564,8 +558,8 @@ class LiveLook extends EventEmitter {
         let downloadStream = new stream.PassThrough();
 
         this.getPeerByUsername(username, (err, peer) => {
-            if (err || !peer) {
-                return done(new Error(`unable to connect to ${username}`));
+            if (err) {
+                return downloadStream.emit('error', err);
             }
 
             let token = makeToken();
@@ -588,18 +582,16 @@ class LiveLook extends EventEmitter {
             };
 
             let onStart = res => {
-                this.removeListener('startDownload', onStart);
-                this.removeListener('queueDownload', onQueue);
-
-                console.log('a download is habbening');
-
-                if (res.download.file !== download.file ||
-                    res.download.dir !== download.dir) {
+                if (!(res.download.file === download.file &&
+                    res.download.dir === download.dir)) {
                     return;
                 }
 
-                console.log('it\'s for our file');
+                this.removeListener('startDownload', onStart);
+                this.removeListener('queueDownload', onQueue);
 
+                // this could be the same token we generated, or a new one if
+                // they queued us and generated a new transfer request
                 let downloadToken = res.token;
 
                 let onData = res => {
@@ -609,6 +601,7 @@ class LiveLook extends EventEmitter {
                 };
 
                 let onEnd = res => {
+                    console.log('ending', res, downloadToken);
                     if (res.token === downloadToken) {
                         this.removeListener('endDownload', onEnd);
                         this.removeListener('fileData', onData);
