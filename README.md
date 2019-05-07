@@ -5,8 +5,11 @@ a [soulseek](https://en.wikipedia.org/wiki/Soulseek) client written in
 javascript. soulseek allows users from around the world to connect to each other
 directly and share music (and other stuff).
 
->Soulseek is an ad-free, spyware free, just plain free file sharing network for Windows, Mac and Linux. Our rooms, search engine and search correlation system make it easy for you to find people with similar interests, and make new discoveries!
-
+>Soulseek is an ad-free, spyware free, just plain free file sharing network for
+>Windows, Mac and Linux. Our rooms, search engine and search correlation system
+>make it easy for you to find people with similar interests, and make new
+>discoveries!
+>
 >-- [About Soulseek | Soulseek](https://www.slsknet.org/news/node/680)
 
 features supported:
@@ -54,7 +57,7 @@ livelook.login((err, res) => {
 	$ npm install --save livelook
 
 ## api
-### new LiveLook(args)
+### livelook = new LiveLook(args)
 create a new `livelook` instance.
 
 ```javascript
@@ -135,6 +138,17 @@ download a file from a user. this returns a `ReadableStream`, and will also
 emit a `queue` event with its position if we can't download it immediately. pass
 in `fileStart` to indicate where to begin downloading the file in bytes (to
 resume interrupted downloads).
+
+### livelook.searchFiles(query, [args = { timeout, max }, done])
+search other peers for files. this returns a `ReadableStream` in `objectMode`.
+on search results it will emit `data` events containing the following:
+
+```javascript
+{ username, file, size, bitrate, vbr, duration, slotsFree, speed, queueSize }
+```
+
+if `done` is provided, the terms will be concatted and passed in either after
+the timeout finishes or the max results are reached.
 
 ## how it works
 

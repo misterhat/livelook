@@ -105,6 +105,10 @@ class LiveLook extends EventEmitter {
 
         // are we sucessfully logged in?
         this.loggedIn = false;
+
+        // the last time we searched (i don't want to accidentally send too
+        // many, so adding this)
+        this.lastSearch = -1;
     }
 
     // populate our share list and connect to the soulseek server
@@ -601,7 +605,6 @@ class LiveLook extends EventEmitter {
                 };
 
                 let onEnd = res => {
-                    console.log('ending', res, downloadToken);
                     if (res.token === downloadToken) {
                         this.removeListener('endDownload', onEnd);
                         this.removeListener('fileData', onData);
@@ -619,6 +622,77 @@ class LiveLook extends EventEmitter {
         });
 
         return downloadStream;
+    }
+
+    // search other peers for files
+    searchFiles(query, args = {}, done) {
+        if (typeof args === 'function') {
+            done = args;
+            args = {};
+        }
+
+        if (!done) {
+            done = () => {};
+        }
+
+        args.timeout = args.timeout || 5000;
+        args.max = args.max || 500;
+
+        let searchSpew = new stream.PassThrough({ objectMode: true });
+
+        if ((Date.now() - this.lastSearched) < 1000) {
+            let err = new Error('last search was <1s ago!');
+            process.nextTick(() => searchSpew.emit('error', err));
+            done(err);
+            return searchSpew;
+        }
+
+        this.lastSearch = Date.now();
+
+        let token = makeToken();
+
+        let onResult;
+        let results = [];
+
+        let searchTimeout = setTimeout(() => {
+            this.removeListener('fileSearchResult', onResult);
+            searchSpew.end();
+            done(null, results);
+        }, args.timeout);
+
+        onResult = res => {
+            if (res.token === token) {
+                for (let file of res.fileList) {
+                    if (results.length >= args.max) {
+                        clearTimeout(searchTimeout);
+                        this.removeListener('fileSearchResult', onResult);
+                        searchSpew.end();
+                        done(null, results);
+                        return;
+                    }
+
+                    let result = {
+                        username: res.username,
+                        file: file.file,
+                        size: file.size,
+                        bitrate: file.bitrate,
+                        vbr: file.vbr,
+                        duration: file.duration,
+                        slotsFree: res.slotsFree,
+                        speed: res.speed,
+                        queueSize: res.queueSize
+                    };
+
+                    results.push(result);
+                    searchSpew.write(result);
+                }
+            }
+        };
+
+        this.on('fileSearchResult', onResult);
+        this.client.send('fileSearch', token, query);
+
+        return searchSpew;
     }
 }
 
