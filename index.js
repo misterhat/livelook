@@ -140,7 +140,7 @@ class LiveLook extends EventEmitter {
                 awaitWriteFinish: {
                     stabilityThreshold: 1000
                 },
-                cwd: this.shareList + '/../',
+                cwd: this.sharedFolder + '/../',
                 ignoreInitial: true
             });
 
@@ -162,7 +162,7 @@ class LiveLook extends EventEmitter {
                         return livelook.emit('error', err);
                     }
 
-                    metadata.file = file;
+                    metadata.file = path.basename(file);
                     metadata.extension = ext;
                     this.shareList[dir].push(metadata);
                     this.refreshShareCount();
@@ -177,7 +177,6 @@ class LiveLook extends EventEmitter {
             });
 
             this.shareWatcher.on('unlink', file => {
-                console.log('rm', file);
                 let dir = path.dirname(file);
 
                 if (!this.shareList.hasOwnProperty(dir)) {
@@ -211,7 +210,7 @@ class LiveLook extends EventEmitter {
                                 return livelook.emit('error', err);
                             }
 
-                            metadata.file = file;
+                            metadata.file = path.basename(file);
                             metadata.extension = ext;
                             this.shareList[dir][i] = metadata;
                             this.refreshShareCount();
@@ -771,6 +770,10 @@ class LiveLook extends EventEmitter {
         this.client.send('fileSearch', token, query);
 
         return searchSpew;
+    }
+
+    // respond to direct or distributed file search requests
+    respondToPeerSearch(username, token, query) {
     }
 }
 
