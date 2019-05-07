@@ -106,6 +106,7 @@ class LiveLook extends EventEmitter {
     init(done) {
         done = done || (() => {});
 
+        // TODO reverse these i think
         this.refreshShareList(err => {
             if (err) {
                 return done(err);
@@ -127,10 +128,7 @@ class LiveLook extends EventEmitter {
             }
 
             this.shareList = shareList;
-
-            if (this.loggedIn) {
-                this.refreshShareCount();
-            }
+            this.refreshShareCount();
 
             if (this.shareWatcher) {
                 return done(null, this.shareList);
@@ -167,13 +165,14 @@ class LiveLook extends EventEmitter {
                     metadata.file = file;
                     metadata.extension = ext;
                     this.shareList[dir].push(metadata);
-                    console.log(JSON.stringify(this.shareList));
+                    this.refreshShareCount();
                 });
             });
 
             this.shareWatcher.on('unlinkDir', dir => {
                 if (this.shareList.hasOwnProperty(dir)) {
                     delete this.shareList[dir];
+                    this.refreshShareCount();
                 }
             });
 
@@ -190,7 +189,7 @@ class LiveLook extends EventEmitter {
 
                     if (cFile.file === file) {
                         this.shareList[dir].splice(i, 1);
-                        console.log(JSON.stringify(this.shareList));
+                        this.refreshShareCount();
                         return;
                     }
                 }
@@ -215,7 +214,7 @@ class LiveLook extends EventEmitter {
                             metadata.file = file;
                             metadata.extension = ext;
                             this.shareList[dir][i] = metadata;
-                            console.log(JSON.stringify(this.shareList));
+                            this.refreshShareCount();
                         });
 
                         return;
@@ -306,6 +305,10 @@ class LiveLook extends EventEmitter {
 
     // count the amount of files we're sharing and send them to the server
     refreshShareCount() {
+        if (!this.loggedIn) {
+            return;
+        }
+
         let dirs = Object.keys(this.shareList).length;
         let files = 0;
 
@@ -411,7 +414,6 @@ class LiveLook extends EventEmitter {
     }
 
     // connect to a peer from an IP address and port (and token if available)
-    // TODO a user's IP may change, so we should probably try again
     connectToPeerAddress(address, done) {
         let finished = false;
 
