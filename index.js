@@ -4,17 +4,12 @@ const Peer = require('./lib/peer');
 const PeerServer = require('./lib/peer-server');
 const ThrottleGroup = require('stream-throttle').ThrottleGroup;
 const buildList = require('./lib/build-list');
+const chokidar = require('chokidar');
 const makeToken = require('./lib/make-token');
 const path = require('path');
 const pkg = require('./package');
 const stream = require('stream');
-const tmp = require('tmp');
 const uploadSpeed = require('./lib/upload-speed');
-
-tmp.setGracefulCleanup();
-
-// TODO monitor the share directory for the file being deleted, then cancel
-// the current uploads with that file
 
 class LiveLook extends EventEmitter {
     constructor(args) {
@@ -34,10 +29,6 @@ class LiveLook extends EventEmitter {
         this.downloadSlots = args.downloadSlots || 2;
         this.uploadThrottle = args.uploadThrottle || 56 * 1024;
         this.downloadThrottle = args.downloadThrottle || 56 * 1024;
-
-        if (!this.downloadFolder) {
-            this.downloadFolder = tmp.dirSync({ prefix: 'livelook-' }).name;
-        }
 
         if (!Array.isArray(this.autojoin)) {
             this.autojoin = [ this.autojoin ];
@@ -107,7 +98,7 @@ class LiveLook extends EventEmitter {
         this.loggedIn = false;
 
         // the last time we searched (i don't want to accidentally send too
-        // many, so adding this)
+        // many)
         this.lastSearch = -1;
     }
 
@@ -120,13 +111,7 @@ class LiveLook extends EventEmitter {
                 return done(err);
             }
 
-            this.client.init(err => {
-                if (err) {
-                    return done(err);
-                }
-
-                done();
-            });
+            this.client.init(done);
         });
     }
 
@@ -146,6 +131,97 @@ class LiveLook extends EventEmitter {
             if (this.loggedIn) {
                 this.refreshShareCount();
             }
+
+            if (this.shareWatcher) {
+                return done(null, this.shareList);
+            }
+
+            this.shareWatcher = chokidar.watch(this.sharedFolder, {
+                // without this, i was getting 'add' fires before it could
+                // read metadata.
+                awaitWriteFinish: {
+                    stabilityThreshold: 1000
+                },
+                cwd: this.shareList + '/../',
+                ignoreInitial: true
+            });
+
+            this.shareWatcher.on('add', file => {
+                let dir = path.dirname(file);
+                let ext = path.extname(file).slice(1);
+
+                // we could listen for addDir, but it fires a new request
+                // for each subdirectory and there might not be any files
+                // there. our structure requires the full directory path as
+                // the key.
+                if (!this.shareList.hasOwnProperty(dir)) {
+                    this.shareList[dir] = [];
+                }
+
+                // TODO maybe a setTimeout here for good measure
+                buildList.metaData(file, (err, metadata) => {
+                    if (err) {
+                        return livelook.emit('error', err);
+                    }
+
+                    metadata.file = file;
+                    metadata.extension = ext;
+                    this.shareList[dir].push(metadata);
+                    console.log(JSON.stringify(this.shareList));
+                });
+            });
+
+            this.shareWatcher.on('unlinkDir', dir => {
+                if (this.shareList.hasOwnProperty(dir)) {
+                    delete this.shareList[dir];
+                }
+            });
+
+            this.shareWatcher.on('unlink', file => {
+                console.log('rm', file);
+                let dir = path.dirname(file);
+
+                if (!this.shareList.hasOwnProperty(dir)) {
+                    return;
+                }
+
+                for (let i = 0; i < this.shareList[dir].length; i += 1) {
+                    let cFile = this.shareList[dir][i];
+
+                    if (cFile.file === file) {
+                        this.shareList[dir].splice(i, 1);
+                        console.log(JSON.stringify(this.shareList));
+                        return;
+                    }
+                }
+            });
+
+            this.shareWatcher.on('change', file => {
+                let dir = path.dirname(file);
+
+                if (!this.shareList.hasOwnProperty(dir)) {
+                    return;
+                }
+
+                for (let i = 0; i < this.shareList[dir].length; i += 1) {
+                    let cFile = this.shareList[dir][i];
+
+                    if (cFile.file === file) {
+                        buildList.metaData(file, (err, metadata) => {
+                            if (err) {
+                                return livelook.emit('error', err);
+                            }
+
+                            metadata.file = file;
+                            metadata.extension = ext;
+                            this.shareList[dir][i] = metadata;
+                            console.log(JSON.stringify(this.shareList));
+                        });
+
+                        return;
+                    }
+                }
+            });
 
             return done(null, shareList);
         });
