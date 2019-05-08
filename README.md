@@ -171,19 +171,16 @@ if `done` is provided, the terms will be concatted and passed in either after
 the timeout finishes or the max results are reached.
 
 ## how it works
-
 soulseek is largely peer-to-peer, but still relies on a central server for
 chat rooms, messaging, piercing firewalls and finding peers.
 
 ### initializing
-
 first we set up a local server to accept peer connections (and port forward with
 nat pmp or upnp if possible). then we connect to slsknet.org (or any other
 soulseek server) as a separate client and login. we can now begin to chat and
 browse.
 
 ### finding peers
-
 we can connect to peers by fetching their ip and port based on their username
 from the soulseek server, but if they aren't port-forwarded this will fail. the
 next step is to send a connection request via the soulseek server to tell them
@@ -191,7 +188,6 @@ to connect to us. if this fails, there is no way for them to connect to us. this
 is why it's a good idea to enable nat pmp or port forward manually.
 
 ### searching
-
 after logging in, we tell the server we're orphaned and have no parents. after
 an arbitrary amount of time (usually around 30 seconds), the server gives a list
 of potential parents. once we connect to one successfully, we can also become a
@@ -200,10 +196,9 @@ we can respond to them directly if we have the results, but also send the
 request to all of our children so they can do the same.
 
 ## see also
-
 * [Soulseek.NET](https://github.com/jpdillingham/Soulseek.NET) by @jpdillingham
 * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
-    * [protocol](https://htmlpreview.github.io/?http://github.com/misterhat/livelook/blob/master/doc/SoulseekProtocol%20%E2%80%93%20Museek%2B.html)
+    * [protocol docs](https://htmlpreview.github.io/?http://github.com/misterhat/livelook/blob/master/doc/SoulseekProtocol%20%E2%80%93%20Museek%2B.html)
 * [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
 * [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
 * [soleseek protocol docs](https://htmlpreview.github.io/?https://github.com/misterhat/livelook/blob/master/doc/soulseek_protocol.html)

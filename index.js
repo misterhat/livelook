@@ -48,7 +48,7 @@ class LiveLook extends EventEmitter {
         this.peers = {};
 
         // when we send off a connect to peer request to the server, we send
-        // type type (P, F, D) and a token. the peer will send us back the token
+        // the type (P, F, D) and a token. the peer will send us back the token
         // but not the type, so keep track of those.
         // { connectToken: cType }
         this.pendingPeers = {};
@@ -59,19 +59,19 @@ class LiveLook extends EventEmitter {
         // peers that could be our parent. sent from netinfo after we say we're
         // orphaned
         this.potentialParents = [];
-        /*this.potentialParents = [ { username: 'smkglass', ip: '86.181.111.22', port: 60792 },
-          { username: 'essstopas', ip: '148.243.123.226', port: 56720 },
-            { username: 'sharayou', ip: '162.207.206.153', port: 53340 },
-              { username: 'blurp76', ip: '79.41.158.186', port: 52932 },
-                { username: 'rpimonitrbtch', ip: '71.113.187.235', port: 52905 },
-                  { username: 'BasWitte', ip: '37.143.38.236', port: 53593 },
-                    { username: 'chirak', ip: '176.158.54.112', port: 55869 },
-                      { username: 'TingyServer', ip: '86.179.192.6', port: 61766 },
-                        { username: 'ymtw', ip: '71.185.184.179', port: 61619 },
-                          { username: 'sonikrock', ip: '45.18.39.120', port: 58864 } ];*/
 
         // child peers to send search results to from our parent peer
-        this.childPeers = [];
+        this.childPeers = {};
+
+        // how far we are down the family tree (how many parents our parent has)
+        this.branchLevel = 0;
+
+        // who our parent is
+        this.branchRoot = '';
+
+        // how many children we should accept at max. i'm hardcoding 10 for now
+        // but it should be a ratio packet they send divided by our speed. TODO.
+        this.maxChildren = 10;
 
         // { username: { ip, port } }
         this.peerAddresses = {};
@@ -129,8 +129,11 @@ class LiveLook extends EventEmitter {
         // many)
         this.lastSearch = -1;
 
-        // the time we were last searched
+        // the time we sent a successful search
         this.lastSelfSearch = -1;
+
+        // the last time we broadcasted a search to our children
+        this.lastBroadcastSearch = -1;
     }
 
     // populate our share list and connect to the soulseek server
@@ -292,10 +295,7 @@ class LiveLook extends EventEmitter {
             });
 
             setTimeout(() => {
-                this.client.send('haveNoParent', true);
-                this.client.send('branchLevel', 0);
-                this.client.send('branchRoot', 0);
-                this.client.send('childDepth', 0);
+                this.refreshParentInfo();
                 this.connectToNextParent();
             }, 1000);
         });
@@ -840,7 +840,14 @@ class LiveLook extends EventEmitter {
     }
 
     // respond to direct or distributed file search requests
-    respondToPeerSearch(username, token, query) {
+    respondToPeerSearch(username, token, query, something) {
+        if ((Date.now() - this.lastBroadcastSearch) > 5000) {
+            this.sendToChildren('search', {
+                username, token, query, something
+            });
+            this.lastBroadcastSearch = Date.now();
+        }
+
         if (username !== 'fourfish') {
             if ((Date.now() - this.lastSelfSearch) < 10000) {
                 //console.log('too frequent searching bro');
@@ -848,36 +855,55 @@ class LiveLook extends EventEmitter {
             }
         }
 
-
         let files = searchShareList.search(this.shareList, query);
 
-        if (!files.length) {
-            return;
-        }
+        if (files.length) {
+            console.log('found', files.length, ' for ', query);
 
-        console.log('found', files.length, ' for ', query);
+            this.getPeerByUsername(username, (err, peer) => {
+                if (err) {
+                    return this.emit('error', err);
+                }
 
-        this.getPeerByUsername(username, (err, peer) => {
-            if (err) {
-                return this.emit('error', err);
-            }
+                this.lastSelfSearch = Date.now();
 
-            this.lastSelfSearch = Date.now();
-
-            peer.send('fileSearchResult', {
-                username: this.username,
-                token,
-                fileList: files,
-                slotsFree: !Object.keys(this.uploads).length,
-                speed: this.uploadSpeed,
-                queueSize: 0 // TODO put our real queue size here
+                peer.send('fileSearchResult', {
+                    username: this.username,
+                    token,
+                    fileList: files,
+                    slotsFree: !Object.keys(this.uploads).length,
+                    speed: this.uploadSpeed,
+                    queueSize: 0 // TODO put our real queue size here
+                });
             });
+        }
+    }
+
+    // tell the server about our parent and child information
+    refreshParentInfo() {
+        this.client.send('haveNoParent', !this.parentPeer);
+        this.client.send('parentIp', this.parentPeer ? this.parentPeer.ip : '');
+        this.client.send('branchLevel', this.branchLevel);
+        this.client.send('branchRoot', this.branchRoot);
+        this.client.send('childDepth', Object.keys(this.childPeers).length);
+        let atCapacity = Object.keys(this.childPeers).length;
+        atCapacity = atCapacity >= this.maxChildren;
+        this.client.send('acceptChildren', (this.parentPeer && !atCapacity));
+        this.sendToChildren('branchLevel', this.branchLevel);
+        this.sendToChildren('branchRoot', this.branchRoot);
+    }
+
+    sendToChildren(type, ...args) {
+        Object.keys(this.childPeers).forEach(ip => {
+            let child = this.childPeers[ip];
+            child.send(type, ...args);
         });
     }
 
     connectToNextParent() {
         if (!this.potentialParents.length) {
             this.client.send('haveNoParent', true);
+            this.client.send('acceptChildren', false);
             return;
         }
 
