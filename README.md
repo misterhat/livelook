@@ -13,11 +13,11 @@ directly and share music (and other stuff).
 >-- [About Soulseek | Soulseek](https://www.slsknet.org/news/node/680)
 
 features supported:
-* [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol)
-port-forwarding
+* [nat pmp](https://en.wikipedia.org/wiki/NAT_Port_Mapping_Protocol) and
+[upnp](https://en.wikipedia.org/wiki/Universal_Plug_and_Play) port-forwarding
 * chat rooms and private messages (including direct connections)
-* browsing user's files
-* searching the network's files
+* browsing user's share lists and vice versa
+* searching the network's files and responding to distributed searches
 * downloading and uploading with automatically updating share list
 
 <div style="clear: both;">
@@ -27,6 +27,7 @@ i mainly tested this against nicotine-plus, but it works with soulseekqt too.
 ## example
 ```javascript
 const LiveLook = require('./');
+const fs = require('fs');
 
 let livelook = new LiveLook({
     username: 'toadtripler',
@@ -48,7 +49,26 @@ livelook.login((err, res) => {
 
     livelook.on('messageUser', msg => {
         console.log(`<${msg.username}> ${msg.message}`);
-        livelook.messageUser(msg.username, 'hey i\'m a bot!');
+    });
+
+    livelook.search('hot dad web love', (err, res) => {
+        if (err) {
+            return console.error(err);
+        }
+
+        res = res.filter(item => item.slotsFree);
+
+        if (!res) {
+            console.log('no files found :(');
+            return;
+        }
+
+        let downloaded = fs.createWriteStream('hot-dad-web-love.mp3');
+        res = res.sort((a, b) => a.speed > b.speed ? -1: 0)[0];
+        livelook.downloadFile(res.username, res.file).pipe(downloaded);
+        downloaded.on('end', () => {
+            livelook.messageUser(res.username, `hey thanks for ${res.file}!`);
+        });
     });
 });
 ```
@@ -155,10 +175,14 @@ the timeout finishes or the max results are reached.
 soulseek is largely peer-to-peer, but still relies on a central server for
 chat rooms, messaging, piercing firewalls and finding peers.
 
+### initializing
+
 first we set up a local server to accept peer connections (and port forward with
 nat pmp or upnp if possible). then we connect to slsknet.org (or any other
 soulseek server) as a separate client and login. we can now begin to chat and
 browse.
+
+### finding peers
 
 we can connect to peers by fetching their ip and port based on their username
 from the soulseek server, but if they aren't port-forwarded this will fail. the
@@ -166,11 +190,26 @@ next step is to send a connection request via the soulseek server to tell them
 to connect to us. if this fails, there is no way for them to connect to us. this
 is why it's a good idea to enable nat pmp or port forward manually.
 
+### searching
+
+after logging in, we tell the server we're orphaned and have no parents. after
+an arbitrary amount of time (usually around 30 seconds), the server gives a list
+of potential parents. once we connect to one successfully, we can also become a
+parent. our parent will contionously send us search requests from other peers.
+we can respond to them directly if we have the results, but also send the
+request to all of our children so they can do the same.
+
 ## see also
 
+* [Soulseek.NET](https://github.com/jpdillingham/Soulseek.NET) by @jpdillingham
 * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
 * [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
 * [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
+
+* [museek-plus protocol docs](
+https://htmlpreview.github.io/?http://github.com/misterhat/livelook/blob/master/doc/ SoulseekProtocol%20%E2%80%93%20Museek%2B.html)
+* [soleseek protocol docs](
+https://htmlpreview.github.io/?https://github.com/misterhat/livelook/blob/master/doc/soulseek_protocol.html)
 
 ## donate
 [donate to keep the central server alive!](https://www.slsknet.org/donate.php)

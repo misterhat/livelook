@@ -431,11 +431,14 @@ class LiveLook extends EventEmitter {
 
         this.client.send('getPeerAddress', username);
 
+        let onAddress;
+
         let addressTimeout = setTimeout(() => {
+            this.removeListener('getPeerAddress', onAddress);
             done(new Error(`timed out fetching ${username} address`));
         }, 5000);
 
-        let onAddress = res => {
+        onAddress = res => {
             if (res.username === username) {
                 clearTimeout(addressTimeout);
                 this.removeListener('getPeerAddress', onAddress);
@@ -845,9 +848,6 @@ class LiveLook extends EventEmitter {
             }
         }
 
-        if (query.length < 3) {
-            return;
-        }
 
         let files = searchShareList.search(this.shareList, query);
 
