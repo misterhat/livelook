@@ -203,13 +203,10 @@ request to all of our children so they can do the same.
 
 * [Soulseek.NET](https://github.com/jpdillingham/Soulseek.NET) by @jpdillingham
 * [museek-plus](https://github.com/eLvErDe/museek-plus) by @eLvErDe
+    * [protocol](https://htmlpreview.github.io/?http://github.com/misterhat/livelook/blob/master/doc/SoulseekProtocol%20%E2%80%93%20Museek%2B.html)
 * [nicotine-plus](https://github.com/Nicotine-Plus/nicotine-plus)
 * [slsk-client](https://github.com/f-hj/slsk-client) by @f-hj.
-
-* [museek-plus protocol docs](
-https://htmlpreview.github.io/?http://github.com/misterhat/livelook/blob/master/doc/ SoulseekProtocol%20%E2%80%93%20Museek%2B.html)
-* [soleseek protocol docs](
-https://htmlpreview.github.io/?https://github.com/misterhat/livelook/blob/master/doc/soulseek_protocol.html)
+* [soleseek protocol docs](https://htmlpreview.github.io/?https://github.com/misterhat/livelook/blob/master/doc/soulseek_protocol.html)
 
 ## donate
 [donate to keep the central server alive!](https://www.slsknet.org/donate.php)
