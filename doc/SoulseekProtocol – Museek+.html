@@ -128,7 +128,7 @@
       </div>
     <div id="content" class="wiki">
       <div class="wikipage searchable">
-        
+
           <div id="wikipage" class="trac-content"><h1 id="TheSoulseekProtocol">The Soulseek Protocol</h1>
 <p>
 Return to <a href="http://www.museek-plus.org/wiki/DevelopingMuseekPlus">Developing Museek Plus</a> or to <a class="ext-link" href="http://www.nicotine-plus.org/wiki/DevelopingNicotinePlus"><span class="icon">​</span>Developing Nicotine Plus</a>
@@ -138,29 +138,29 @@ Return to <a href="http://www.museek-plus.org/wiki/DevelopingMuseekPlus">Develop
 String
 </p>
 <table class="wiki">
-<tbody><tr><td> Length of String </td><td> String 
-</td></tr><tr><td> 4 Byte </td><td> String 
+<tbody><tr><td> Length of String </td><td> String
+</td></tr><tr><td> 4 Byte </td><td> String
 </td></tr></tbody></table>
 <p>
 Integer (unsigned)
 </p>
 <table class="wiki">
-<tbody><tr><td> Number 
-</td></tr><tr><td> 4 Byte 
+<tbody><tr><td> Number
+</td></tr><tr><td> 4 Byte
 </td></tr></tbody></table>
 <p>
 Large Integer (64bits for file sizes)
 </p>
 <table class="wiki">
-<tbody><tr><td> Number 
-</td></tr><tr><td> 8 Byte 
+<tbody><tr><td> Number
+</td></tr><tr><td> 8 Byte
 </td></tr></tbody></table>
 <p>
 Bool
 </p>
 <table class="wiki">
-<tbody><tr><td> Character 
-</td></tr><tr><td> 1 Byte 
+<tbody><tr><td> Character
+</td></tr><tr><td> 1 Byte
 </td></tr></tbody></table>
 <h1 id="ServerMessages">Server Messages</h1>
 <p>
@@ -170,15 +170,15 @@ Bool
 <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
 </p>
 <table class="wiki">
-<tbody><tr><td> Send </td><td> Send to Server 
-</td></tr><tr><td> Receive </td><td> Receive from Server 
+<tbody><tr><td> Send </td><td> Send to Server
+</td></tr><tr><td> Receive </td><td> Receive from Server
 </td></tr></tbody></table>
 <p>
-These messages are used by clients to interface with the server. 
-Internal Server messages are spooky and not understood, since the OSS 
-crowd doesn't have access to it's source code. If you want a Soulseek 
+These messages are used by clients to interface with the server.
+Internal Server messages are spooky and not understood, since the OSS
+crowd doesn't have access to it's source code. If you want a Soulseek
 server, check out <a class="ext-link" href="http://seeschloss.org/soulfind.html"><span class="icon">​</span>Soulfind</a>.
- Soulfind is obviously not the exact same the official Soulseek server, 
+ Soulfind is obviously not the exact same the official Soulseek server,
 but it handles the protocol well enough (and can be modified).
 </p>
 <p>
@@ -190,99 +190,99 @@ In Nicotine, these messages are matched to their message number in slskproto.py 
 </p>
 <h4 id="TheServerMessageformat">The Server Message format</h4>
 <table class="wiki">
-<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
-</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ... 
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents
+</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ...
 </td></tr></tbody></table>
 <h4 id="MessageIndex">Message Index</h4>
 <table class="wiki">
 <tbody><tr><td>Code</td><td>Message
-</td></tr><tr><td> 1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1">Login</a> 
-</td></tr><tr><td> 2 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode2">Set Listen Port</a> 
+</td></tr><tr><td> 1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1">Login</a>
+</td></tr><tr><td> 2 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode2">Set Listen Port</a>
 </td></tr><tr><td> 3 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode3">Get Peer Address</a>
-</td></tr><tr><td> 5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode5">Add User</a> 
-</td></tr><tr><td> 6 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode6">Unknown</a> 
-</td></tr><tr><td> 7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode7">Get Status</a> 
-</td></tr><tr><td> 13 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode13">Say in Chat Room</a> 
-</td></tr><tr><td> 14 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode14">Join Room</a> 
-</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode15">Leave Room</a> 
-</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode16">User Joined Room</a> 
-</td></tr><tr><td> 17 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode17">User Left Room</a> 
-</td></tr><tr><td> 18 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode18">Connect To Peer</a> 
-</td></tr><tr><td> 22 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode22">Private Messages</a> 
-</td></tr><tr><td> 23 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode23">Acknowledge Private Message</a> 
-</td></tr><tr><td> 26 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode26">File Search</a> 
-</td></tr><tr><td> 28 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode28">Set Online Status</a> 
-</td></tr><tr><td> 32 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode32">Ping</a> 
-</td></tr><tr><td> 34 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode34">Send Speed</a> 
-</td></tr><tr><td> 35 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode35">Shared Folders &amp; Files</a> 
-</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode36">Get User Stats</a> 
-</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode40">Queued Downloads</a> 
-</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode41">Kicked from Server</a> 
-</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode42">User Search</a> 
-</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode51">Interest Add</a> 
-</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode52">Interest Remove</a> 
-</td></tr><tr><td> 54 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode54">Get Recommendations</a> 
-</td></tr><tr><td> 56 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode56">Get Global Recommendations</a> 
-</td></tr><tr><td> 57 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode57">Get User Interests</a> 
-</td></tr><tr><td> 64 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode64">Room List</a> 
-</td></tr><tr><td> 65 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode65">Exact File Search</a> 
-</td></tr><tr><td> 66 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode66">Global/Admin Message</a> 
-</td></tr><tr><td> 69 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode69">Privileged Users</a> 
-</td></tr><tr><td> 71 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode71">Have No Parents</a> 
-</td></tr><tr><td> 73 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode73">Parent's IP</a> 
-</td></tr><tr><td> 83 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode83">ParentMinSpeed</a> 
-</td></tr><tr><td> 84 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode84">ParentSpeedRatio</a> 
-</td></tr><tr><td> 86 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode86">Parent Inactivity Timeout</a> 
-</td></tr><tr><td> 87 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode87">Search Inactivity Timeout</a> 
-</td></tr><tr><td> 88 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode88">Minimum Parents In Cache</a> 
-</td></tr><tr><td> 90 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode90">Distributed Alive Interval</a> 
-</td></tr><tr><td> 91 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode91">Add Privileged User</a> 
-</td></tr><tr><td> 92 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode92">Check Privileges</a> 
-</td></tr><tr><td> 93 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode93">Search Request</a> 
-</td></tr><tr><td> 100 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode100">Accept Children</a> 
-</td></tr><tr><td> 102 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode102">Net Info</a> 
-</td></tr><tr><td> 103 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode103">Wishlist Search</a> 
-</td></tr><tr><td> 104 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode104">Wishlist Interval</a> 
-</td></tr><tr><td> 110 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode110">Get Similar Users</a> 
-</td></tr><tr><td> 111 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode111">Get Item Recommendations</a> 
-</td></tr><tr><td> 112 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode112">Get Item Similar Users</a> 
-</td></tr><tr><td> 113 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode113">Room Tickers</a> 
-</td></tr><tr><td> 114 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode114">Room Ticker Add</a> 
-</td></tr><tr><td> 115 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode115">Room Ticker Remove</a> 
-</td></tr><tr><td> 116 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode116">Set Room Ticker</a> 
-</td></tr><tr><td> 117 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode117">Hated Interest Add</a> 
-</td></tr><tr><td> 118 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode118">Hated Interest Remove</a> 
-</td></tr><tr><td> 120 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode120">Room Search</a> 
-</td></tr><tr><td> 121 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode121">Send Upload Speed</a> 
-</td></tr><tr><td> 122 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode122">User Privileges</a> 
-</td></tr><tr><td> 123 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode123">Give Privileges</a> 
-</td></tr><tr><td> 124 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode124">Notify Privileges</a> 
-</td></tr><tr><td> 125 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode125">Acknowledge Notify Privileges</a> 
-</td></tr><tr><td> 126 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode126">Branch Level</a> 
-</td></tr><tr><td> 127 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode127">Branch Root</a> 
-</td></tr><tr><td> 129 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode129">Child Depth</a> 
-</td></tr><tr><td> 133 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode133">Private Room Users</a> 
-</td></tr><tr><td> 134 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode134">Private Room Add User</a> 
-</td></tr><tr><td> 135 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode135">Private Room Remove User</a> 
-</td></tr><tr><td> 136 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode136">Private Room Drop Membership</a> 
-</td></tr><tr><td> 137 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode137">Private Room Drop Ownership</a> 
-</td></tr><tr><td> 138 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode138">Private Room Unknown</a> 
-</td></tr><tr><td> 139 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode139">Private Room Added</a> 
-</td></tr><tr><td> 140 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode140">Private Room Removed</a> 
-</td></tr><tr><td> 141 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode141">Private Room Toggle</a> 
-</td></tr><tr><td> 142 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode142">New Password</a> 
-</td></tr><tr><td> 143 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode143">Private Room Add Operator</a> 
-</td></tr><tr><td> 144 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode144">Private Room Remove Operator</a> 
-</td></tr><tr><td> 145 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode145">Private Room Operator Added</a> 
-</td></tr><tr><td> 146 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode146">Private Room Operator Removed</a> 
-</td></tr><tr><td> 148 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode148">Private Room Owned</a> 
-</td></tr><tr><td> 149 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode149">Message Users</a> 
-</td></tr><tr><td> 150 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode150">Ask Public Chat</a> 
-</td></tr><tr><td> 151 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode151">Stop Public Chat</a> 
-</td></tr><tr><td> 152 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode152">Public Chat</a> 
+</td></tr><tr><td> 5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode5">Add User</a>
+</td></tr><tr><td> 6 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode6">Unknown</a>
+</td></tr><tr><td> 7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode7">Get Status</a>
+</td></tr><tr><td> 13 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode13">Say in Chat Room</a>
+</td></tr><tr><td> 14 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode14">Join Room</a>
+</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode15">Leave Room</a>
+</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode16">User Joined Room</a>
+</td></tr><tr><td> 17 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode17">User Left Room</a>
+</td></tr><tr><td> 18 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode18">Connect To Peer</a>
+</td></tr><tr><td> 22 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode22">Private Messages</a>
+</td></tr><tr><td> 23 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode23">Acknowledge Private Message</a>
+</td></tr><tr><td> 26 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode26">File Search</a>
+</td></tr><tr><td> 28 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode28">Set Online Status</a>
+</td></tr><tr><td> 32 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode32">Ping</a>
+</td></tr><tr><td> 34 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode34">Send Speed</a>
+</td></tr><tr><td> 35 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode35">Shared Folders &amp; Files</a>
+</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode36">Get User Stats</a>
+</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode40">Queued Downloads</a>
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode41">Kicked from Server</a>
+</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode42">User Search</a>
+</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode51">Interest Add</a>
+</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode52">Interest Remove</a>
+</td></tr><tr><td> 54 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode54">Get Recommendations</a>
+</td></tr><tr><td> 56 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode56">Get Global Recommendations</a>
+</td></tr><tr><td> 57 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode57">Get User Interests</a>
+</td></tr><tr><td> 64 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode64">Room List</a>
+</td></tr><tr><td> 65 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode65">Exact File Search</a>
+</td></tr><tr><td> 66 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode66">Global/Admin Message</a>
+</td></tr><tr><td> 69 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode69">Privileged Users</a>
+</td></tr><tr><td> 71 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode71">Have No Parents</a>
+</td></tr><tr><td> 73 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode73">Parent's IP</a>
+</td></tr><tr><td> 83 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode83">ParentMinSpeed</a>
+</td></tr><tr><td> 84 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode84">ParentSpeedRatio</a>
+</td></tr><tr><td> 86 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode86">Parent Inactivity Timeout</a>
+</td></tr><tr><td> 87 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode87">Search Inactivity Timeout</a>
+</td></tr><tr><td> 88 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode88">Minimum Parents In Cache</a>
+</td></tr><tr><td> 90 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode90">Distributed Alive Interval</a>
+</td></tr><tr><td> 91 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode91">Add Privileged User</a>
+</td></tr><tr><td> 92 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode92">Check Privileges</a>
+</td></tr><tr><td> 93 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode93">Search Request</a>
+</td></tr><tr><td> 100 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode100">Accept Children</a>
+</td></tr><tr><td> 102 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode102">Net Info</a>
+</td></tr><tr><td> 103 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode103">Wishlist Search</a>
+</td></tr><tr><td> 104 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode104">Wishlist Interval</a>
+</td></tr><tr><td> 110 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode110">Get Similar Users</a>
+</td></tr><tr><td> 111 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode111">Get Item Recommendations</a>
+</td></tr><tr><td> 112 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode112">Get Item Similar Users</a>
+</td></tr><tr><td> 113 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode113">Room Tickers</a>
+</td></tr><tr><td> 114 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode114">Room Ticker Add</a>
+</td></tr><tr><td> 115 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode115">Room Ticker Remove</a>
+</td></tr><tr><td> 116 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode116">Set Room Ticker</a>
+</td></tr><tr><td> 117 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode117">Hated Interest Add</a>
+</td></tr><tr><td> 118 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode118">Hated Interest Remove</a>
+</td></tr><tr><td> 120 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode120">Room Search</a>
+</td></tr><tr><td> 121 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode121">Send Upload Speed</a>
+</td></tr><tr><td> 122 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode122">User Privileges</a>
+</td></tr><tr><td> 123 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode123">Give Privileges</a>
+</td></tr><tr><td> 124 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode124">Notify Privileges</a>
+</td></tr><tr><td> 125 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode125">Acknowledge Notify Privileges</a>
+</td></tr><tr><td> 126 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode126">Branch Level</a>
+</td></tr><tr><td> 127 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode127">Branch Root</a>
+</td></tr><tr><td> 129 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode129">Child Depth</a>
+</td></tr><tr><td> 133 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode133">Private Room Users</a>
+</td></tr><tr><td> 134 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode134">Private Room Add User</a>
+</td></tr><tr><td> 135 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode135">Private Room Remove User</a>
+</td></tr><tr><td> 136 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode136">Private Room Drop Membership</a>
+</td></tr><tr><td> 137 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode137">Private Room Drop Ownership</a>
+</td></tr><tr><td> 138 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode138">Private Room Unknown</a>
+</td></tr><tr><td> 139 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode139">Private Room Added</a>
+</td></tr><tr><td> 140 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode140">Private Room Removed</a>
+</td></tr><tr><td> 141 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode141">Private Room Toggle</a>
+</td></tr><tr><td> 142 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode142">New Password</a>
+</td></tr><tr><td> 143 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode143">Private Room Add Operator</a>
+</td></tr><tr><td> 144 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode144">Private Room Remove Operator</a>
+</td></tr><tr><td> 145 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode145">Private Room Operator Added</a>
+</td></tr><tr><td> 146 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode146">Private Room Operator Removed</a>
+</td></tr><tr><td> 148 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode148">Private Room Owned</a>
+</td></tr><tr><td> 149 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode149">Message Users</a>
+</td></tr><tr><td> 150 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode150">Ask Public Chat</a>
+</td></tr><tr><td> 151 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode151">Stop Public Chat</a>
+</td></tr><tr><td> 152 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode152">Public Chat</a>
 </td></tr></tbody></table>
 <table class="wiki">
-<tbody><tr><td> 1001 </td><td style="text-align: left"><a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1001">Cannot Connect</a> 
+<tbody><tr><td> 1001 </td><td style="text-align: left"><a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#ServerCode1001">Cannot Connect</a>
 </td></tr></tbody></table>
 <h3 id="ServerCode1">Server Code 1</h3>
 <p>
@@ -299,23 +299,23 @@ Send your username, password, and client version.
 </p>
 <h5 id="SendingLoginExample">Sending Login Example</h5>
 <table class="wiki">
-<tbody><tr><td> Description </td><td> Message Length </td><td> Message Code </td><td> Username Length </td><td> Username </td><td> Password Length </td><td> Password 
-</td></tr><tr><td> Human </td><td> 72 </td><td> 1 </td><td> 8 </td><td> username </td><td> 8 </td><td> password 
-</td></tr><tr><td> Hex </td><td> 48 00 00 00 </td><td> 01 00 00 00 </td><td> 08 00 00 00 </td><td> 75 73 65 72 6e 61 6d 65 </td><td> 08 00 00 00 </td><td> 70 61 73 73 77 6f 72 64 
+<tbody><tr><td> Description </td><td> Message Length </td><td> Message Code </td><td> Username Length </td><td> Username </td><td> Password Length </td><td> Password
+</td></tr><tr><td> Human </td><td> 72 </td><td> 1 </td><td> 8 </td><td> username </td><td> 8 </td><td> password
+</td></tr><tr><td> Hex </td><td> 48 00 00 00 </td><td> 01 00 00 00 </td><td> 08 00 00 00 </td><td> 75 73 65 72 6e 61 6d 65 </td><td> 08 00 00 00 </td><td> 70 61 73 73 77 6f 72 64
 </td></tr></tbody></table>
 <p>
 <em>Message, continued</em>
 </p>
 <table class="wiki">
-<tbody><tr><td> Description </td><td> Version </td><td> Length </td><td> Hash </td><td> Number 
-</td></tr><tr><td> Human </td><td> 181 </td><td> 32 </td><td> d51c9a7e9353746a6020f9602d452929 </td><td> 1 
-</td></tr><tr><td> Hex </td><td> b5 00 00 00 </td><td> 20 00 00 00 </td><td> 64 35 31 63 39 61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32 39 32 39 </td><td> 01 00 00 00 
+<tbody><tr><td> Description </td><td> Version </td><td> Length </td><td> Hash </td><td> Number
+</td></tr><tr><td> Human </td><td> 181 </td><td> 32 </td><td> d51c9a7e9353746a6020f9602d452929 </td><td> 1
+</td></tr><tr><td> Hex </td><td> b5 00 00 00 </td><td> 20 00 00 00 </td><td> 64 35 31 63 39 61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32 39 32 39 </td><td> 01 00 00 00
 </td></tr></tbody></table>
 <p>
 <em>Message as a Hex Stream</em>
-<strong>48 00 00 00 01 00 00 00 08 00 00 00 75 73 65 72 6e 61 6d 65 08 
-00 00 00 70 61 73 73 77 6f 72 64 b5 00 00 00 20 00 00 00 64 35 31 63 39 
-61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32 
+<strong>48 00 00 00 01 00 00 00 08 00 00 00 75 73 65 72 6e 61 6d 65 08
+00 00 00 70 61 73 73 77 6f 72 64 b5 00 00 00 20 00 00 00 64 35 31 63 39
+61 37 65 39 33 35 33 37 34 36 61 36 30 32 30 66 39 36 30 32 64 34 35 32
 39 32 39 01 00 00 00</strong>
 </p>
 <h4 id="DataOrder">Data Order</h4>
@@ -744,7 +744,7 @@ Museekd: SKicked
 </p>
 <h4 id="Description20">Description</h4>
 <p>
-You were disconnected (probably by another user with your name 
+You were disconnected (probably by another user with your name
 connecting to the Server) so don't try to reconnect automatically.
 </p>
 <h4 id="DataOrder21">Data Order</h4>
@@ -887,7 +887,7 @@ Museekd: SRoomList
 </p>
 <h4 id="Description27">Description</h4>
 <p>
-List of rooms and the number of users in them. Soulseek has a room size 
+List of rooms and the number of users in them. Soulseek has a room size
 requirement of about 50 users when first connecting. Refreshing the list
  will download all rooms.
 </p>
@@ -1906,8 +1906,8 @@ See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol
 <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
 </p>
 <table class="wiki">
-<tbody><tr><td> Send </td><td> Send to Peer 
-</td></tr><tr><td> Receive </td><td> Receive from Peer 
+<tbody><tr><td> Send </td><td> Send to Peer
+</td></tr><tr><td> Receive </td><td> Receive from Peer
 </td></tr></tbody></table>
 <p>
 In museekd 0.1.13, these messages are sent and received in <a class="missing wiki">Museek/PeerConnection?</a>.cc and defined in <a class="missing wiki">Museek/PeerMessages?</a>.hh.
@@ -1915,14 +1915,14 @@ Since museekd 0.2, they are defined in museekd/peermessages.h.
 </p>
 <h4 id="ThePeerInitMessageformat">The Peer Init Message format</h4>
 <table class="wiki">
-<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
-</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ... 
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents
+</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ...
 </td></tr></tbody></table>
 <h4 id="PeerInitMessageIndex">Peer Init Message Index</h4>
 <table class="wiki">
-<tbody><tr><td> Code </td><td> Message 
-</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode0">Pierce Firewall</a> 
-</td></tr><tr><td>  1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode1">Peer Init</a> 
+<tbody><tr><td> Code </td><td> Message
+</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode0">Pierce Firewall</a>
+</td></tr><tr><td>  1 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode1">Peer Init</a>
 </td></tr></tbody></table>
 <h3 id="PeerConnectionMessageOrder">Peer Connection Message Order</h3>
 <ol><li>User A sends a <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode1">Peer Init</a> to User B (Fails: socket cannot connect)
@@ -1965,31 +1965,31 @@ See also: <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol
 </li><li><strong>uint32</strong> <span class="underline">token</span> <em>Unique Number</em>
 </li></ul></li></ul><h4 id="TheMessageformat">The Message format</h4>
 <table class="wiki">
-<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
-</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ... 
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents
+</td></tr><tr><td> 4 Bytes </td><td> 4 Bytes </td><td> ...
 </td></tr></tbody></table>
 <h4 id="MessageIndex1">Message Index</h4>
 <table class="wiki">
-<tbody><tr><td> Code </td><td> Message 
-</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode4">Shares Request</a> 
-</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode5">Shares Reply</a> 
-</td></tr><tr><td>  8 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode8">Search Request</a> 
-</td></tr><tr><td>  9 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode9">Search Reply</a> 
-</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode15">Info Request </a> 
-</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode16">Info Reply </a> 
-</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode36">Folder Contents Request</a> 
-</td></tr><tr><td> 37 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode37">Folder Contents Reply </a> 
-</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode40">Transfer Request </a> 
-</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41a">Upload Reply </a> 
-</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41b">Download Reply </a> 
-</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41c">Transfer Reply </a> 
-</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode42">Upload Placehold</a> 
-</td></tr><tr><td> 43 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode43">Queue Download </a> 
-</td></tr><tr><td> 44 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode44">Upload Queue Notification </a> 
-</td></tr><tr><td> 46 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode46">Upload Failed </a> 
-</td></tr><tr><td> 50 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode50">Queue Failed </a> 
-</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode51">Place In Queue Request </a> 
-</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode52">Upload Queue Notification </a> 
+<tbody><tr><td> Code </td><td> Message
+</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode4">Shares Request</a>
+</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode5">Shares Reply</a>
+</td></tr><tr><td>  8 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode8">Search Request</a>
+</td></tr><tr><td>  9 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode9">Search Reply</a>
+</td></tr><tr><td> 15 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode15">Info Request </a>
+</td></tr><tr><td> 16 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode16">Info Reply </a>
+</td></tr><tr><td> 36 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode36">Folder Contents Request</a>
+</td></tr><tr><td> 37 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode37">Folder Contents Reply </a>
+</td></tr><tr><td> 40 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode40">Transfer Request </a>
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41a">Upload Reply </a>
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41b">Download Reply </a>
+</td></tr><tr><td> 41 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode41c">Transfer Reply </a>
+</td></tr><tr><td> 42 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode42">Upload Placehold</a>
+</td></tr><tr><td> 43 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode43">Queue Download </a>
+</td></tr><tr><td> 44 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode44">Upload Queue Notification </a>
+</td></tr><tr><td> 46 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode46">Upload Failed </a>
+</td></tr><tr><td> 50 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode50">Queue Failed </a>
+</td></tr><tr><td> 51 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode51">Place In Queue Request </a>
+</td></tr><tr><td> 52 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#PeerCode52">Upload Queue Notification </a>
 </td></tr></tbody></table>
 <h3 id="PeerCode4">Peer Code 4</h3>
 <p>
@@ -2392,8 +2392,8 @@ Museekd: PUploadQueueNotification
 <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#MuseekDataTypes">Museek Data Types</a>
 </p>
 <table class="wiki">
-<tbody><tr><td> Send </td><td> Send to Node 
-</td></tr><tr><td> Receive </td><td> Receive from Node 
+<tbody><tr><td> Send </td><td> Send to Node
+</td></tr><tr><td> Receive </td><td> Receive from Node
 </td></tr></tbody></table>
 <p>
 In museekd 0.1.13, these messages are sent and received in <a class="missing wiki">Museek/DistribConnection?</a>.cc and defined in <a class="missing wiki">Museek/DistribMessages?</a>.hh.
@@ -2401,17 +2401,17 @@ Since museekd 0.2, they are defined in museekd/distributedmessages.h.
 </p>
 <h4 id="TheMessageformat1">The Message format</h4>
 <table class="wiki">
-<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents 
-</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ... 
+<tbody><tr><td> Message Length </td><td> Code </td><td> Message Contents
+</td></tr><tr><td> 4 Bytes </td><td> 1 Byte </td><td> ...
 </td></tr></tbody></table>
 <h4 id="MessageIndex2">Message Index</h4>
 <table class="wiki">
-<tbody><tr><td> Code </td><td> Message 
-</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode0">Ping</a> 
-</td></tr><tr><td>  3 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode3">Search Request</a> 
-</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode4">Branch Level</a> 
-</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode5">Branch Root</a> 
-</td></tr><tr><td>  7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode7">Child Depth</a> 
+<tbody><tr><td> Code </td><td> Message
+</td></tr><tr><td>  0 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode0">Ping</a>
+</td></tr><tr><td>  3 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode3">Search Request</a>
+</td></tr><tr><td>  4 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode4">Branch Level</a>
+</td></tr><tr><td>  5 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode5">Branch Root</a>
+</td></tr><tr><td>  7 </td><td> <a class="wiki" href="http://www.museek-plus.org/wiki/SoulseekProtocol#DistributedCode7">Child Depth</a>
 </td></tr></tbody></table>
 <h3 id="DistributedCode0">Distributed Code 0</h3>
 <p>
@@ -2437,8 +2437,8 @@ Museekd: <strong>DPing</strong>
 </p>
 <h4 id="Description110">Description</h4>
 <p>
-Transmit the search requests to our children. (Search requests are sent 
-to us by the server using SSearchRequest if we're a branch root, or by 
+Transmit the search requests to our children. (Search requests are sent
+to us by the server using SSearchRequest if we're a branch root, or by
 our parent using DSearchRequest)
 </p>
 <h4 id="FunctionNames101">Function Names</h4>
@@ -2552,15 +2552,15 @@ Museekd: <strong>DChildDepth</strong>
 </li></ul><h3 id="off_t">off_t</h3>
 <ul><li>Packed as a 64bit Integer
 </li></ul></div>
-          
+
           <div class="trac-modifiedby">
             <span><a href="http://www.museek-plus.org/wiki/SoulseekProtocol?action=diff&amp;version=59" title="Version 59 by lbponey">Last modified</a> <a class="timeline" href="http://www.museek-plus.org/timeline?from=2010-01-13T19%3A12%3A13%2B01%3A00&amp;precision=second" title="See timeline at 01/13/10 19:12:13">9 years ago</a></span>
             <span class="trac-print">Last modified on 01/13/10 19:12:13</span>
           </div>
-        
-        
+
+
       </div>
-      
+
 
     </div>
     <div id="altlinks">
@@ -2604,5 +2604,3 @@ pageTracker._trackPageview();
 </script>
 <!-- End Piwik Code -->
     </div>
-  
-<iframe src="SoulseekProtocol%20%E2%80%93%20Museek+_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe></body></html>
