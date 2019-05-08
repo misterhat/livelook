@@ -1,4 +1,5 @@
 const Client = require('./lib/client');
+const DistribPeer = require('./lib/distrib-peer');
 const EventEmitter = require('events').EventEmitter;
 const Peer = require('./lib/peer');
 const PeerServer = require('./lib/peer-server');
@@ -8,6 +9,7 @@ const chokidar = require('chokidar');
 const makeToken = require('./lib/make-token');
 const path = require('path');
 const pkg = require('./package');
+const searchShareList = require('./lib/search-share-list');
 const stream = require('stream');
 const uploadSpeed = require('./lib/upload-speed');
 
@@ -45,7 +47,33 @@ class LiveLook extends EventEmitter {
         // { ip: { Peer } }
         this.peers = {};
 
-        // { username: ip }
+        // when we send off a connect to peer request to the server, we send
+        // type type (P, F, D) and a token. the peer will send us back the token
+        // but not the type, so keep track of those.
+        // { connectToken: cType }
+        this.pendingPeers = {};
+
+        // our parent D peer
+        this.parentPeer = null;
+
+        // peers that could be our parent. sent from netinfo after we say we're
+        // orphaned
+        this.potentialParents = [];
+        /*this.potentialParents = [ { username: 'smkglass', ip: '86.181.111.22', port: 60792 },
+          { username: 'essstopas', ip: '148.243.123.226', port: 56720 },
+            { username: 'sharayou', ip: '162.207.206.153', port: 53340 },
+              { username: 'blurp76', ip: '79.41.158.186', port: 52932 },
+                { username: 'rpimonitrbtch', ip: '71.113.187.235', port: 52905 },
+                  { username: 'BasWitte', ip: '37.143.38.236', port: 53593 },
+                    { username: 'chirak', ip: '176.158.54.112', port: 55869 },
+                      { username: 'TingyServer', ip: '86.179.192.6', port: 61766 },
+                        { username: 'ymtw', ip: '71.185.184.179', port: 61619 },
+                          { username: 'sonikrock', ip: '45.18.39.120', port: 58864 } ];*/
+
+        // child peers to send search results to from our parent peer
+        this.childPeers = [];
+
+        // { username: { ip, port } }
         this.peerAddresses = {};
 
         // our *active* transfers
@@ -100,6 +128,9 @@ class LiveLook extends EventEmitter {
         // the last time we searched (i don't want to accidentally send too
         // many)
         this.lastSearch = -1;
+
+        // the time we were last searched
+        this.lastSelfSearch = -1;
     }
 
     // populate our share list and connect to the soulseek server
@@ -159,7 +190,7 @@ class LiveLook extends EventEmitter {
                 // TODO maybe a setTimeout here for good measure
                 buildList.metaData(file, (err, metadata) => {
                     if (err) {
-                        return livelook.emit('error', err);
+                        return this.emit('error', err);
                     }
 
                     metadata.file = path.basename(file);
@@ -207,7 +238,7 @@ class LiveLook extends EventEmitter {
                     if (cFile.file === file) {
                         buildList.metaData(file, (err, metadata) => {
                             if (err) {
-                                return livelook.emit('error', err);
+                                return this.emit('error', err);
                             }
 
                             metadata.file = path.basename(file);
@@ -259,6 +290,14 @@ class LiveLook extends EventEmitter {
 
                 done(null, res);
             });
+
+            setTimeout(() => {
+                this.client.send('haveNoParent', true);
+                this.client.send('branchLevel', 0);
+                this.client.send('branchRoot', 0);
+                this.client.send('childDepth', 0);
+                this.connectToNextParent();
+            }, 1000);
         });
 
         this.client.send('login', this.username, this.password);
@@ -413,7 +452,12 @@ class LiveLook extends EventEmitter {
     }
 
     // connect to a peer from an IP address and port (and token if available)
-    connectToPeerAddress(address, done) {
+    connectToPeerAddress(address, cType, done) {
+        if (!done) {
+            done = cType;
+            cType = 'P';
+        }
+
         let finished = false;
 
         let connectTimeout = setTimeout(() => {
@@ -422,7 +466,13 @@ class LiveLook extends EventEmitter {
         }, 5000);
 
         // try to connect to them directly...
-        let peer = new Peer(address);
+        let peer;
+        if (cType === 'P') {
+            peer = new Peer(address);
+        } else if (cType === 'D') {
+            peer = new DistribPeer(address);
+        }
+
         peer.token = makeToken();
 
         peer.once('error', err => {
@@ -439,7 +489,7 @@ class LiveLook extends EventEmitter {
                 clearTimeout(connectTimeout);
                 finished = true;
                 //peer.pierceFirewall();
-                peer.send('peerInit', this.username, 'P', peer.token);
+                peer.send('peerInit', this.username, cType, peer.token);
                 done(null, peer);
             }
         });
@@ -448,12 +498,18 @@ class LiveLook extends EventEmitter {
     // try to establish a connection to a peer with soulseek's server as an
     // intermediate. this is usually done after we try to directly connect
     // to them. don't use this directly
-    connectToPeerUsername(username, done) {
+    connectToPeerUsername(username, cType, done) {
+        if (!done) {
+            done = type;
+            cType = 'P';
+        }
+
         // all the closures here need access to these to remove them when
         // completed
         let onCantConnect, onPeerConnect;
 
         let token = makeToken();
+        this.pendingPeers[token] = cType;
 
         let peerTimeout = setTimeout(() => {
             this.removeListener('cantConnectToPeer', onCantConnect);
@@ -467,6 +523,7 @@ class LiveLook extends EventEmitter {
                 clearTimeout(peerTimeout);
                 this.removeListener('cantConnectToPeer', onCantConnect);
                 this.removeListener('peerConnect', onPeerConnect);
+                done(new Error(`peer ${username} can't connect to us at all`));
             }
         };
 
@@ -483,17 +540,24 @@ class LiveLook extends EventEmitter {
 
         this.on('cantConnectToPeer', onCantConnect);
         this.on('peerConnect', onPeerConnect);
-        this.client.send('connectToPeer', token, username, 'P');
+        this.client.send('connectToPeer', token, username, cType);
     }
 
     // get a Peer instance from a username string by any mean's necessary!
-    getPeerByUsername(username, done) {
-        // first check our already-connected peers
-        for (let ip of Object.keys(this.peers)) {
-            let peer = this.peers[ip];
+    getPeerByUsername(username, cType, done) {
+        if (!done) {
+            done = cType;
+            cType = 'P';
+        }
 
-            if (peer.username === username) {
-                return done(null, peer);
+        // first check our already-connected peers
+        if (cType === 'P') {
+            for (let ip of Object.keys(this.peers)) {
+                let peer = this.peers[ip];
+
+                if (peer.username === username) {
+                    return done(null, peer);
+                }
             }
         }
 
@@ -502,10 +566,10 @@ class LiveLook extends EventEmitter {
                 return done(err);
             }
 
-            this.connectToPeerAddress(address, (err, peer) => {
+            this.connectToPeerAddress(address, cType, (err, peer) => {
                 if (err) {
                     // TODO maybe send 1001 here?
-                    this.connectToPeerUsername(username, done);
+                    this.connectToPeerUsername(username, cType, done);
                     return;
                 }
 
@@ -774,6 +838,63 @@ class LiveLook extends EventEmitter {
 
     // respond to direct or distributed file search requests
     respondToPeerSearch(username, token, query) {
+        if (username !== 'fourfish') {
+            if ((Date.now() - this.lastSelfSearch) < 5000) {
+                console.log('too frequent searching bro');
+                return;
+            }
+        }
+
+        this.getPeerByUsername(username, (err, peer) => {
+            if (err) {
+                return this.emit('error', err);
+            }
+
+            let files = searchShareList.search(this.shareList, query);
+
+            if (!files.length) {
+                return;
+            }
+
+            this.lastSelfSearch = Date.now();
+            console.log('found', files.length, ' for ', query);
+
+            peer.send('fileSearchResult', {
+                username: this.username,
+                token,
+                fileList: files,
+                slotsFree: !Object.keys(this.uploads).length,
+                speed: this.uploadSpeed,
+                queueSize: 0 // TODO put our real queue size here
+            });
+        });
+    }
+
+    connectToNextParent() {
+        if (!this.potentialParents.length) {
+            console.log('no more parents left...');
+            this.client.send('haveNoParent', true);
+            return;
+        }
+
+        let nextParent = this.potentialParents.shift();
+
+        console.log('trying to connect to parent', nextParent);
+
+        this.peerAddresses[nextParent.username] = {
+            ip: nextParent.ip,
+            port: nextParent.port
+        };
+
+        this.getPeerByUsername(nextParent.username, 'D', (err, peer) => {
+            if (err) {
+                this.emit('error', err);
+                this.connectToNextParent();
+                return;
+            }
+
+            console.log('successfully connected to parent!');
+        });
     }
 }
 
