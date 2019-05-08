@@ -839,25 +839,30 @@ class LiveLook extends EventEmitter {
     // respond to direct or distributed file search requests
     respondToPeerSearch(username, token, query) {
         if (username !== 'fourfish') {
-            if ((Date.now() - this.lastSelfSearch) < 5000) {
-                console.log('too frequent searching bro');
+            if ((Date.now() - this.lastSelfSearch) < 10000) {
+                //console.log('too frequent searching bro');
                 return;
             }
         }
+
+        if (query.length < 3) {
+            return;
+        }
+
+        let files = searchShareList.search(this.shareList, query);
+
+        if (!files.length) {
+            return;
+        }
+
+        console.log('found', files.length, ' for ', query);
 
         this.getPeerByUsername(username, (err, peer) => {
             if (err) {
                 return this.emit('error', err);
             }
 
-            let files = searchShareList.search(this.shareList, query);
-
-            if (!files.length) {
-                return;
-            }
-
             this.lastSelfSearch = Date.now();
-            console.log('found', files.length, ' for ', query);
 
             peer.send('fileSearchResult', {
                 username: this.username,
@@ -872,7 +877,6 @@ class LiveLook extends EventEmitter {
 
     connectToNextParent() {
         if (!this.potentialParents.length) {
-            console.log('no more parents left...');
             this.client.send('haveNoParent', true);
             return;
         }
